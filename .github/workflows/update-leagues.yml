@@ -36,3 +36,8 @@ jobs:
           git add data/LeagueIDs_AllYears.csv data/Rosters_AllYears.csv
           git commit -m "Auto-update League + Roster CSVs" || echo "No changes to commit"
           git push
+
+
+      - name: List CSVs
+        run: ls -l data/
+          
