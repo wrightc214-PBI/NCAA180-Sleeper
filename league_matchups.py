@@ -35,18 +35,12 @@ for idx, row in league_df.iterrows():
             print(f"  Warning: missing data for week {week}")
             weekly_matchups = []
 
-        # Collect points to calculate max points for later
-        weekly_points = []
-
         for matchup in weekly_matchups:
             for r_id in matchup['rosters']:
                 opponent_r_id = [x for x in matchup['rosters'] if x != r_id][0]
 
                 points_for = matchup['points'].get(str(r_id), 0)
                 points_against = matchup['points'].get(str(opponent_r_id), 0)
-
-                # Add to weekly points for max calculation
-                weekly_points.append(points_for)
 
                 all_matchups.append({
                     "Year": year,
@@ -64,11 +58,6 @@ for idx, row in league_df.iterrows():
                     "StarterPoints": matchup.get("starters_points", {}).get(str(r_id), None),
                     "BenchPoints": matchup.get("bench_points", {}).get(str(r_id), None),
                 })
-
-        # After all matchups for this week, set max points
-        max_points = max(weekly_points) if weekly_points else None
-        for m in all_matchups[-len(weekly_points):]:
-            m['MaxPointsForWeek'] = max_points
 
         # Polite pause to avoid API rate limits
         time.sleep(0.5)
