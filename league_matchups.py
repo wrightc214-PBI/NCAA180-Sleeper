@@ -24,23 +24,32 @@ for idx, row in league_df.iterrows():
         print(f"  ERROR fetching rosters/users for {league_id}: {e}")
         continue
 
-    user_map = {u['user_id']: u['display_name'] for u in users}
+    # Only include users that have a roster
     roster_map = {r['roster_id']: r.get('owner_id') for r in rosters}
+    user_map = {u['user_id']: u['display_name'] for u in users if u['user_id'] in roster_map.values()}
 
-    # Pull all weeks
+    # Pull all weeks (1–18)
     for week in range(1, 19):
         try:
             weekly_matchups = league_api.get_matchups(week)
-        except Exception:
-            print(f"  Warning: missing data for week {week}")
+        except Exception as e:
+            print(f"  Warning: missing data for week {week} - {e}")
             weekly_matchups = []
 
         for matchup in weekly_matchups:
-            for r_id in matchup['rosters']:
-                opponent_r_id = [x for x in matchup['rosters'] if x != r_id][0]
+            rosters_in_matchup = matchup.get('rosters', [])
+            if len(rosters_in_matchup) < 2:
+                continue  # Skip incomplete or invalid matchups
 
-                points_for = matchup['points'].get(str(r_id), 0)
-                points_against = matchup['points'].get(str(opponent_r_id), 0)
+            for r_id in rosters_in_matchup:
+                # Skip if roster id is not recognized
+                if r_id not in roster_map:
+                    continue
+
+                opponent_r_id = [x for x in rosters_in_matchup if x != r_id][0]
+
+                points_for = matchup.get('points', {}).get(str(r_id), 0)
+                points_against = matchup.get('points', {}).get(str(opponent_r_id), 0)
 
                 all_matchups.append({
                     "Year": year,
