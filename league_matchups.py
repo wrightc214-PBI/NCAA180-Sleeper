@@ -7,6 +7,9 @@ league_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
 
 all_matchups = []
 
+# Define observer or unassigned user IDs
+OBSERVER_IDS = [731808894699028480]
+
 for idx, row in league_df.iterrows():
     league_id = row['LeagueID']
     year = row['Year']
@@ -16,7 +19,6 @@ for idx, row in league_df.iterrows():
 
     league_api = League(league_id)
 
-    # Pull rosters and users for mapping
     try:
         rosters = league_api.get_rosters()
         users = league_api.get_users()
@@ -24,11 +26,13 @@ for idx, row in league_df.iterrows():
         print(f"  ERROR fetching rosters/users for {league_id}: {e}")
         continue
 
-    # Only include users that have a roster
+    # Map roster_id -> owner_id
     roster_map = {r['roster_id']: r.get('owner_id') for r in rosters}
+
+    # Map user_id -> display name (only users assigned to a roster)
     user_map = {u['user_id']: u['display_name'] for u in users if u['user_id'] in roster_map.values()}
 
-    # Pull all weeks (1–18)
+    # Fetch all weeks 1-18
     for week in range(1, 19):
         try:
             weekly_matchups = league_api.get_matchups(week)
@@ -36,20 +40,40 @@ for idx, row in league_df.iterrows():
             print(f"  Warning: missing data for week {week} - {e}")
             weekly_matchups = []
 
+        if not weekly_matchups:
+            continue
+
         for matchup in weekly_matchups:
             rosters_in_matchup = matchup.get('rosters', [])
-            if len(rosters_in_matchup) < 2:
-                continue  # Skip incomplete or invalid matchups
+            if not rosters_in_matchup:
+                print(f"  Skipping empty matchup: {matchup}")
+                continue
 
             for r_id in rosters_in_matchup:
-                # Skip if roster id is not recognized
-                if r_id not in roster_map:
-                    continue
+                owner_id = roster_map.get(r_id)
+                # Replace observer or unassigned users with Vacant
+                if owner_id is None or owner_id in OBSERVER_IDS:
+                    owner_id = 0
+                    owner_name = "Vacant"
+                else:
+                    owner_name = user_map.get(owner_id, "Unknown")
 
-                opponent_r_id = [x for x in rosters_in_matchup if x != r_id][0]
+                # Get opponent roster
+                opponents = [x for x in rosters_in_matchup if x != r_id]
+                if not opponents:
+                    opponent_r_id = None
+                    opponent_name = "Vacant"
+                    points_against = 0
+                else:
+                    opponent_r_id = opponents[0]
+                    opp_owner_id = roster_map.get(opponent_r_id)
+                    if opp_owner_id is None or opp_owner_id in OBSERVER_IDS:
+                        opponent_name = "Vacant"
+                    else:
+                        opponent_name = user_map.get(opp_owner_id, "Unknown")
+                    points_against = matchup.get('points', {}).get(str(opponent_r_id), 0)
 
                 points_for = matchup.get('points', {}).get(str(r_id), 0)
-                points_against = matchup.get('points', {}).get(str(opponent_r_id), 0)
 
                 all_matchups.append({
                     "Year": year,
@@ -57,15 +81,16 @@ for idx, row in league_df.iterrows():
                     "LeagueName": league_name,
                     "Week": week,
                     "RosterID": r_id,
-                    "OwnerName": user_map.get(roster_map.get(r_id), "Unknown"),
+                    "OwnerID": owner_id,
+                    "OwnerName": owner_name,
                     "OpponentRosterID": opponent_r_id,
-                    "OpponentName": user_map.get(roster_map.get(opponent_r_id), "Unknown"),
+                    "OpponentName": opponent_name,
                     "PointsFor": points_for,
                     "PointsAgainst": points_against,
                     "Outcome": "Win" if points_for > points_against else ("Loss" if points_for < points_against else "Tie"),
                     "IsRegularSeason": week <= 11,
                     "StarterPoints": matchup.get("starters_points", {}).get(str(r_id), None),
-                    "BenchPoints": matchup.get("bench_points", {}).get(str(r_id), None),
+                    "BenchPoints": matchup.get("bench_points", {}).get(str(r_id), None)
                 })
 
         # Polite pause to avoid API rate limits
