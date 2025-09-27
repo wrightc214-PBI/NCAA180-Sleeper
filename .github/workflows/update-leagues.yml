@@ -1,9 +1,12 @@
 name: Python application
 
 on:
-  schedule:
-    - cron: "0 12 * * 2"   # every Tuesday 12:00 UTC
   workflow_dispatch:
+    inputs:
+      script_to_run:
+        description: 'Specify which Python script to run (league_ids, rosters, matchups, transactions, all)'
+        required: true
+        default: 'all'
 
 jobs:
   build:
@@ -21,27 +24,31 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run league ID fetcher
-        run: python league_ids.py
+      - name: Run selected script
+        run: |
+          echo "Selected script: ${{ github.event.inputs.script_to_run }}"
+          if [ "${{ github.event.inputs.script_to_run }}" = "league_ids" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+              python league_ids.py
+          fi
+          if [ "${{ github.event.inputs.script_to_run }}" = "rosters" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+              python rosters.py
+          fi
+          if [ "${{ github.event.inputs.script_to_run }}" = "matchups" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+              python league_matchups.py
+          fi
+          if [ "${{ github.event.inputs.script_to_run }}" = "transactions" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+              python league_transactions.py
+          fi
 
-      - name: Run roster fetcher
-        run: python rosters.py
-
-      - name: Run matchup fetcher
-        run: python league_matchups.py
-
-      - name: Commit and push all CSVs
+      - name: Commit and push CSVs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/LeagueIDs_AllYears.csv data/Rosters_AllYears.csv data/Matchups_AllYears.csv
-          git commit -m "Auto-update League, Roster, Matchups CSVs" || echo "No changes to commit"
+          git add data/*.csv
+          git commit -m "Auto-update CSVs" || echo "No changes to commit"
           git push
-
-
 
       - name: List CSVs
         run: ls -l data/
-          
