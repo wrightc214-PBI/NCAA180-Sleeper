@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenvs / env
+venv/
+.venv/
+.env
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Keep data/ in repo (we want the CSV accessible for Power BI), so do NOT ignore data/
+# If you later want to avoid pushing data files, add `data/` here.
