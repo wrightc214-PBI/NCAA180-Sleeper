@@ -1,90 +1,68 @@
-# league_drafts.py
+import pandas as pd
+from sleeper_wrapper import League
 
-import sqlite3
-from typing import List, Dict, Any, Optional
+# Load league IDs
+league_ids_df = pd.read_csv("data/League_IDs.csv")
 
-DB_FILE = "ff_app.db"
+all_drafts = []
 
+for _, row in league_ids_df.iterrows():
+    league_id = row["LeagueID"]
+    league_name = row["LeagueName"]
+    year = row["Year"]
 
-def create_table() -> None:
-    """Create the league_drafts table if it does not exist."""
-    with sqlite3.connect(DB_FILE) as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS league_drafts (
-                draft_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                league_id INTEGER NOT NULL,
-                round INTEGER NOT NULL,
-                pick_number INTEGER NOT NULL,
-                member_id INTEGER NOT NULL,
-                player_name TEXT NOT NULL,
-                position TEXT,
-                team TEXT,
-                UNIQUE (league_id, round, pick_number),
-                FOREIGN KEY (league_id) REFERENCES leagues(league_id),
-                FOREIGN KEY (member_id) REFERENCES members(member_id)
-            )
-        """)
-        conn.commit()
+    print(f"Processing drafts for {league_name} ({year})")
 
+    try:
+        league = League(str(league_id))
 
-def add_draft_pick(
-    league_id: int,
-    round: int,
-    pick_number: int,
-    member_id: int,
-    player_name: str,
-    position: Optional[str] = None,
-    team: Optional[str] = None
-) -> int:
-    """Insert or replace a draft pick for a given league, round, and pick number."""
-    with sqlite3.connect(DB_FILE) as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-            INSERT OR REPLACE INTO league_drafts 
-                (league_id, round, pick_number, member_id, player_name, position, team)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (league_id, round, pick_number, member_id, player_name, position, team))
-        conn.commit()
-        return cursor.lastrowid
+        # Fetch draft(s) for this league
+        drafts = league.get_all_drafts()
+        if not drafts:
+            print(f"  No drafts found for {league_name} ({year})")
+            continue
 
+        for draft in drafts:
+            draft_id = draft.get("draft_id")
+            draft_year = draft.get("season")
+            draft_type = draft.get("type")
+            status = draft.get("status")
 
-def get_draft_by_league(league_id: int) -> List[Dict[str, Any]]:
-    """Fetch all draft picks for a league ordered by round and pick number."""
-    with sqlite3.connect(DB_FILE) as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT draft_id, league_id, round, pick_number, member_id, player_name, position, team
-            FROM league_drafts
-            WHERE league_id = ?
-            ORDER BY round ASC, pick_number ASC
-        """, (league_id,))
-        rows = cursor.fetchall()
+            # Fetch draft picks
+            picks = league.get_draft(draft_id)
+            if not picks:
+                print(f"  No picks found for draft {draft_id}")
+                continue
 
-    return [
-        {
-            "draft_id": row[0],
-            "league_id": row[1],
-            "round": row[2],
-            "pick_number": row[3],
-            "member_id": row[4],
-            "player_name": row[5],
-            "position": row[6],
-            "team": row[7],
-        }
-        for row in rows
-    ]
+            for pick in picks:
+                all_drafts.append({
+                    "LeagueID": league_id,
+                    "LeagueName": league_name,
+                    "Year": year,
+                    "DraftID": draft_id,
+                    "DraftYear": draft_year,
+                    "DraftType": draft_type,
+                    "DraftStatus": status,
+                    "PickNo": pick.get("pick_no"),
+                    "Round": pick.get("round"),
+                    "RosterID": pick.get("roster_id"),
+                    "PlayerID": pick.get("player_id"),
+                    "PickedBy": pick.get("picked_by"),
+                    "IsKeeper": pick.get("is_keeper")
+                })
 
+    except Exception as e:
+        print(f"  ERROR fetching draft data for {league_name} ({year}): {e}")
+        continue
 
-def delete_draft_pick(draft_id: int) -> None:
-    """Delete a specific draft pick by draft_id."""
-    with sqlite3.connect(DB_FILE) as conn:
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM league_drafts WHERE draft_id = ?", (draft_id,))
-        conn.commit()
+# Convert to DataFrame
+all_drafts_df = pd.DataFrame(all_drafts)
 
+# Save to CSV
+output_file = "data/League_Drafts.csv"
+if not all_drafts_df.empty:
+    all_drafts_df.to_csv(output_file, index=False)
+    print(f"✅ Saved {len(all_drafts_df)} draft picks to {output_file}")
+else:
+    print("⚠️ No draft data found across all leagues.")
 
-if __name__ == "__main__":
-    # Run this file directly to set up the table
-    create_table()
-    print("✅ league_drafts table created successfully.")
