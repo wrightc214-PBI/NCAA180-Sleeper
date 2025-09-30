@@ -1,5 +1,5 @@
 import pandas as pd
-from sleeper_wrapper import League, Drafts
+from sleeper_wrapper import Drafts
 import time
 
 # Load league IDs
@@ -18,10 +18,8 @@ for idx, row in league_df.iterrows():
 
     print(f"Processing drafts for {league_name} ({year})")
 
-    league_api = League(league_id)
-
     try:
-        drafts_list = league_api.get_drafts()  # fetch all draft metadata for the league
+        drafts_list = Drafts(league_id).get()  # fetch all drafts for the league
     except Exception as e:
         print(f"  ERROR fetching drafts for {league_name} ({year}): {e}")
         continue
@@ -34,8 +32,7 @@ for idx, row in league_df.iterrows():
         draft_id = draft_meta['draft_id']
 
         try:
-            draft_api = Drafts(draft_id)
-            picks = draft_api.get_picks()
+            picks = Drafts(draft_id).get_picks()
         except Exception as e:
             print(f"  ERROR fetching picks for draft {draft_id}: {e}")
             continue
@@ -63,7 +60,6 @@ for idx, row in league_df.iterrows():
                 "Position": pick.get('position', None)
             })
 
-        # Polite pause to avoid rate limits
         time.sleep(0.5)
 
 # Save CSV
