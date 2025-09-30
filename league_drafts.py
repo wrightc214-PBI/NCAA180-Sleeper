@@ -2,7 +2,7 @@ import pandas as pd
 from sleeper_wrapper import League
 
 # Load league IDs
-league_ids_df = pd.read_csv("data/League_IDs.csv")
+league_ids_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
 
 all_drafts = []
 
