@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       script_to_run:
-        description: 'Specify which Python script to run (league_ids, rosters, matchups, transactions, drafts, all)'
+        description: 'Specify which Python script to run (league_ids, rosters, matchups, transactions, drafts, Results_RegularSeason, all)'
         required: true
         default: 'all'
 
@@ -42,6 +42,8 @@ jobs:
           if [ "${{ github.event.inputs.script_to_run }}" = "drafts" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
               python league_drafts.py
           fi
+          if [ "${{ github.event.inputs.script_to_run }}" = "Results_RegularSeason" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+              python Results_RegularSeason.py
 
       - name: Commit and push CSVs
         env:
