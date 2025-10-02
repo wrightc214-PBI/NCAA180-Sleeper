@@ -6,7 +6,7 @@ on:
       script_to_run:
         description: 'Specify which Python script to run (league_ids, rosters, matchups, transactions, drafts, Results_RegularSeason, all)'
         required: true
-        default: 'all'
+        default: 'Results_RegularSeason'
 
 jobs:
   build:
