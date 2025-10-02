@@ -1,11 +1,11 @@
 import pandas as pd
-from sleeper_wrapper import League
+from sleeper_wrapper import League, Drafts
 import os
 
 # Load league IDs file
 league_ids_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
 
-all_drafts = []
+all_draft_picks = []
 
 for _, row in league_ids_df.iterrows():
     league_id = row['LeagueID']
@@ -15,13 +15,26 @@ for _, row in league_ids_df.iterrows():
 
     try:
         league = League(league_id)
-        league_drafts = league.get_all_drafts()  # ✅ correct method
+        league_drafts = league.get_all_drafts()
 
         if league_drafts:
             for d in league_drafts:
-                d["LeagueID"] = league_id
-                d["LeagueName"] = league_name
-            all_drafts.extend(league_drafts)
+                draft_id = d["draft_id"]
+
+                try:
+                    draft = Drafts(draft_id)
+                    picks = draft.get_all_picks()  # ✅ picks for this draft
+
+                    if picks:
+                        for p in picks:
+                            p["LeagueID"] = league_id
+                            p["LeagueName"] = league_name
+                            p["DraftID"] = draft_id
+                        all_draft_picks.extend(picks)
+
+                except Exception as e:
+                    print(f"  ERROR fetching picks for draft {draft_id}: {e}")
+
         else:
             print(f"  No drafts found for {league_name}")
 
@@ -29,10 +42,10 @@ for _, row in league_ids_df.iterrows():
         print(f"  ERROR fetching drafts for {league_name}: {e}")
 
 # Save results
-if all_drafts:
-    drafts_df = pd.DataFrame(all_drafts)
+if all_draft_picks:
+    picks_df = pd.DataFrame(all_draft_picks)
     os.makedirs("data", exist_ok=True)
-    drafts_df.to_csv("data/Drafts_AllYears.csv", index=False)
-    print(f"Saved {len(drafts_df)} draft rows to data/Drafts_AllYears.csv")
+    picks_df.to_csv("data/DraftPicks_AllYears.csv", index=False)
+    print(f"Saved {len(picks_df)} draft pick rows to data/DraftPicks_AllYears.csv")
 else:
-    print("No draft data collected.")
+    print("No draft picks collected.")
