@@ -14,9 +14,8 @@ for _, row in league_ids_df.iterrows():
     print(f"Processing drafts for {league_name} (LeagueID: {league_id})")
 
     try:
-        # Use the Drafts API wrapper
-        drafts_api = Drafts(league_id)
-        league_drafts = drafts_api.get_league_drafts(league_id)
+        drafts_api = Drafts()
+        league_drafts = drafts_api.get_all_drafts(league_id)
 
         if league_drafts:
             for d in league_drafts:
