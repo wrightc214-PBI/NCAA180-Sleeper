@@ -44,6 +44,7 @@ jobs:
           fi
           if [ "${{ github.event.inputs.script_to_run }}" = "Results_RegularSeason" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
               python Results_RegularSeason.py
+          fi
 
       - name: Commit and push CSVs
         env:
