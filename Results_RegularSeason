@@ -1,0 +1,39 @@
+import pandas as pd
+
+# Load CSV
+matchups = pd.read_csv('Matchups_AllYears.CSV')
+
+# Keep only regular season games (Weeks 1-11)
+regular_season = matchups[(matchups['IsRegularSeason'] == True) & (matchups['Week'].between(1,11))]
+
+# Exclude unplayed games (both points zero)
+regular_season = regular_season[~((regular_season['PointsFor'] == 0) & (regular_season['PointsAgainst'] == 0))]
+
+# Calculate outcomes (ensure ties only count if points scored > 0)
+regular_season['Win'] = regular_season['PointsFor'] > regular_season['PointsAgainst']
+regular_season['Loss'] = regular_season['PointsFor'] < regular_season['PointsAgainst']
+regular_season['Tie'] = (regular_season['PointsFor'] == regular_season['PointsAgainst']) & (regular_season['PointsFor'] > 0)
+
+# Aggregate team-level metrics
+team_metrics = regular_season.groupby(['Year','LeagueID','LeagueName','OwnerID','OwnerName']).agg(
+    Wins=('Win','sum'),
+    Losses=('Loss','sum'),
+    Ties=('Tie','sum'),
+    PointsFor=('PointsFor','sum'),
+    PointsAgainst=('PointsAgainst','sum')
+).reset_index()
+
+# Additional calculations
+team_metrics['GamesPlayed'] = team_metrics['Wins'] + team_metrics['Losses'] + team_metrics['Ties']
+team_metrics['WinPct'] = team_metrics['Wins'] / team_metrics['GamesPlayed']
+team_metrics['PointDiff'] = team_metrics['PointsFor'] - team_metrics['PointsAgainst']
+team_metrics['AvgPointsFor'] = team_metrics['PointsFor'] / team_metrics['GamesPlayed']
+team_metrics['AvgPointsAgainst'] = team_metrics['PointsAgainst'] / team_metrics['GamesPlayed']
+
+# Optional: sort by League, Year, WinPct, PointDiff
+team_metrics = team_metrics.sort_values(['Year','LeagueName','WinPct','PointDiff'], ascending=[True, True, False, False])
+
+# Save to CSV for Power BI
+team_metrics.to_csv('TeamMetrics_RegularSeason.csv', index=False)
+
+print("Regular season metrics calculated and saved to TeamMetrics_RegularSeason.csv")
