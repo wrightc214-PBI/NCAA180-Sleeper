@@ -1,5 +1,6 @@
 import pandas as pd
-from sleeper_wrapper import Leagues, Drafts
+from sleeper_wrapper.league import League
+from sleeper_wrapper.drafts import Drafts
 
 # Load league IDs
 league_ids_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
@@ -15,13 +16,12 @@ for _, row in league_ids_df.iterrows():
     print(f"Fetching draft info for league {league_name} ({league_id})...")
 
     # Get drafts for this league
-    drafts = Leagues(league_id).get_all_drafts()
+    drafts = League(league_id).get_all_drafts()
 
     if drafts:
         for draft in drafts:
             draft_id = draft.get("draft_id")
             rounds = draft.get("settings", {}).get("rounds", 0)
-            slots = draft.get("settings", {}).get("slots", 0)
             num_teams = draft.get("settings", {}).get("teams", 0)
 
             # Store draft metadata
@@ -37,7 +37,7 @@ for _, row in league_ids_df.iterrows():
             })
 
             # Get picks for this draft
-            picks = Drafts().get_draft_picks(draft_id)
+            picks = Drafts(draft_id).get_all_picks()
 
             for p in picks:
                 meta = p.get("metadata", {})
