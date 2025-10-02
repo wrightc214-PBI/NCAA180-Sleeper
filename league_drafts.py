@@ -1,5 +1,5 @@
 import pandas as pd
-from sleeper_wrapper import Drafts
+from sleeper_wrapper import League
 import os
 
 # Load league IDs file
@@ -14,8 +14,8 @@ for _, row in league_ids_df.iterrows():
     print(f"Processing drafts for {league_name} (LeagueID: {league_id})")
 
     try:
-        drafts_api = Drafts()
-        league_drafts = drafts_api.get_all_drafts(league_id)
+        league = League(league_id)
+        league_drafts = league.get_all_drafts()  # ✅ correct method
 
         if league_drafts:
             for d in league_drafts:
