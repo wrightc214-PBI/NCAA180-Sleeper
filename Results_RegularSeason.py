@@ -1,7 +1,12 @@
 import pandas as pd
+import os
 
-# Load CSV
-matchups = pd.read_csv('data/Matchups_AllYears.CSV')
+# Make path relative to the script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_dir, 'data', 'Matchups_AllYears.CSV')
+
+matchups = pd.read_csv(csv_path)
+
 
 # Filter regular season (weeks 1-11)
 regular_season = matchups[(matchups['IsRegularSeason'] == True) & (matchups['Week'].between(1, 11))]
