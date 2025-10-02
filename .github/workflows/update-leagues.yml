@@ -1,3 +1,8 @@
+- name: List repo files
+  run: |
+    pwd
+    ls -R
+
 name: Python application
 
 on:
