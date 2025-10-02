@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load CSV
-matchups = pd.read_csv('Matchups_AllYears.CSV')
+matchups = pd.read_csv('data/Matchups_AllYears.CSV')
 
 # Filter regular season (weeks 1-11)
 regular_season = matchups[(matchups['IsRegularSeason'] == True) & (matchups['Week'].between(1, 11))]
@@ -40,6 +40,6 @@ weekly_metrics['PlayoffRank'] = weekly_metrics.groupby(['Year','LeagueID','Week'
 weekly_metrics = weekly_metrics.sort_values(['Year','LeagueName','Week','PlayoffRank'])
 
 # Save for Power BI
-weekly_metrics.to_csv('WeeklyMetrics_RegularSeason.csv', index=False)
+results.to_csv('data/Results_RegularSeason.csv', index=False)
 
 print("Weekly metrics with Playoff rank calculated and saved to WeeklyMetrics_RegularSeason.csv")
