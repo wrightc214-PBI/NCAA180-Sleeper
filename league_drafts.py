@@ -1,48 +1,39 @@
 import pandas as pd
-from sleeper_wrapper import League, Drafts
+from sleeper_wrapper import Drafts
+import os
 
-# Load your leagues data
+# Load league IDs file
 league_ids_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
 
-all_draft_rows = []
+all_drafts = []
 
-# Loop through each league and year
 for _, row in league_ids_df.iterrows():
-    league_name = row['League']
-    league_id = row['League_ID']
-    year = row['Year']
+    league_id = row['LeagueID']
+    league_name = row['LeagueName']
 
-    print(f"Processing drafts for {league_name} ({year})")
+    print(f"Processing drafts for {league_name} (LeagueID: {league_id})")
 
     try:
-        league = League(league_id)             # Initialize League
-        draft_ids = league.draft_ids           # Get all draft IDs in that league
+        # Use the Drafts API wrapper
+        drafts_api = Drafts(league_id)
+        league_drafts = drafts_api.get_league_drafts(league_id)
 
-        if not draft_ids:
-            print(f"  ⚠️ No draft IDs found for {league_name} ({year})")
-            continue
-
-        for draft_id in draft_ids:
-            draft = Drafts(draft_id)          # Initialize Drafts with a draft ID
-            picks = draft.picks                # Get the picks list
-
-            for pick in picks:
-                pick_row = {
-                    "League": league_name,
-                    "Year": year,
-                    "Draft_ID": draft_id,
-                    "Pick": pick.get("pick_no"),
-                    "Roster_ID": pick.get("roster_id"),
-                    "Player_ID": pick.get("player_id"),
-                    "Position": pick.get("metadata", {}).get("position"),
-                    "Team": pick.get("metadata", {}).get("team")
-                }
-                all_draft_rows.append(pick_row)
+        if league_drafts:
+            for d in league_drafts:
+                d["LeagueID"] = league_id
+                d["LeagueName"] = league_name
+            all_drafts.extend(league_drafts)
+        else:
+            print(f"  No drafts found for {league_name}")
 
     except Exception as e:
-        print(f"  ERROR fetching drafts for {league_name} ({year}): {e}")
+        print(f"  ERROR fetching drafts for {league_name}: {e}")
 
-# Save all draft picks to CSV
-drafts_df = pd.DataFrame(all_draft_rows)
-drafts_df.to_csv("data/Drafts_AllYears.csv", index=False)
-print(f"Saved {len(all_draft_rows)} draft rows to data/Drafts_AllYears.csv")
+# Save results
+if all_drafts:
+    drafts_df = pd.DataFrame(all_drafts)
+    os.makedirs("data", exist_ok=True)
+    drafts_df.to_csv("data/Drafts_AllYears.csv", index=False)
+    print(f"Saved {len(drafts_df)} draft rows to data/Drafts_AllYears.csv")
+else:
+    print("No draft data collected.")
