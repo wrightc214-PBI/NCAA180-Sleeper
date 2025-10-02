@@ -3,7 +3,7 @@ import os
 
 # Make path relative to the script location
 script_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(script_dir, 'data', 'Matchups_AllYears.CSV')
+csv_path = os.path.join(script_dir, 'data', 'Matchups_AllYears.csv')
 
 matchups = pd.read_csv(csv_path)
 
@@ -45,6 +45,6 @@ weekly_metrics['PlayoffRank'] = weekly_metrics.groupby(['Year','LeagueID','Week'
 weekly_metrics = weekly_metrics.sort_values(['Year','LeagueName','Week','PlayoffRank'])
 
 # Save for Power BI
-results.to_csv('data/Results_RegularSeason.csv', index=False)
+weekly_metrics.to_csv('data/Results_RegularSeason.csv', index=False)
 
 print("Weekly metrics with Playoff rank calculated and saved to WeeklyMetrics_RegularSeason.csv")
