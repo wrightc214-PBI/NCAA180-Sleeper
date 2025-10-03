@@ -34,7 +34,7 @@ if response.status_code == 200:
             filtered_players.append(player_entry)
 
     # Always overwrite the same file in the repo
-    with open("data/players.csv", "w", newline="", encoding="utf-8") as csv_file:
+    with open("data/Players.csv", "w", newline="", encoding="utf-8") as csv_file:
         csv_writer = csv.DictWriter(
             csv_file,
             fieldnames=['player_id', 'first_name', 'last_name', 'position', 'status', 'team']
