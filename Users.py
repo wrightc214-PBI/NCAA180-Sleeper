@@ -62,6 +62,6 @@ for year in years:
 df = pd.DataFrame(all_rosters)
 
 # Save CSV
-out_file = "data/Rosters_AllYears.csv"
+out_file = "data/Users_AllYears.csv"
 df.to_csv(out_file, index=False)
 print(f"Saved {len(df)} roster rows to {out_file}")
