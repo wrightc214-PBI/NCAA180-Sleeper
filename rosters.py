@@ -28,15 +28,26 @@ for year in years:
         user_map = {u["user_id"]: u["display_name"] for u in users}
 
         for r in rosters:
+            # Get division number ("1" or "2")
+            division_num = r.get("metadata", {}).get("division")
+
+            # Map to actual division name
+            if division_num == "1":
+                division_name = division1
+            elif division_num == "2":
+                division_name = division2
+            else:
+                division_name = None
+
             all_rosters.append({
                 "Year": year,
                 "LeagueID": league_id,
                 "LeagueName": league_name,
-                "Division1": division1,
-                "Division2": division2,
                 "RosterID": r["roster_id"],
                 "OwnerID": r.get("owner_id"),
                 "OwnerName": user_map.get(r.get("owner_id"), "Unknown"),
+                "Division": division_num,             # "1" or "2"
+                "DivisionName": division_name,        # actual name
                 "Wins": r.get("settings", {}).get("wins", 0),
                 "Losses": r.get("settings", {}).get("losses", 0),
                 "PointsFor": r.get("settings", {}).get("fpts", 0),
