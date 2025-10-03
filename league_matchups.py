@@ -8,7 +8,7 @@ league_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
 
 all_matchups = []
 
-OBSERVER_IDS = [731808894699028480]
+OBSERVER_IDS = [731808894699028480]  # Optional: exclude observer accounts
 
 for idx, row in league_df.iterrows():
     league_id = row['LeagueID']
@@ -71,6 +71,12 @@ for idx, row in league_df.iterrows():
                 points_for = t.get('points', 0)
                 points_against = opp.get('points', 0)
 
+                # Outcome logic: blank for 0-0 games
+                if points_for == 0 and points_against == 0:
+                    outcome = ""
+                else:
+                    outcome = "Win" if points_for > points_against else ("Loss" if points_for < points_against else "Tie")
+
                 all_matchups.append({
                     "Year": year,
                     "LeagueID": league_id,
@@ -83,13 +89,13 @@ for idx, row in league_df.iterrows():
                     "OpponentName": opp_name,
                     "PointsFor": points_for,
                     "PointsAgainst": points_against,
-                    "Outcome": "Win" if points_for > points_against else ("Loss" if points_for < points_against else "Tie"),
+                    "Outcome": outcome,
                     "IsRegularSeason": week <= 11,
                     "StarterPoints": sum(t.get('starters_points', [])) if t.get('starters_points') else None,
                     "BenchPoints": points_for - sum(t.get('starters_points', [])) if t.get('starters_points') else None
                 })
 
-        time.sleep(0.5)
+        time.sleep(0.5)  # be polite with API requests
 
 # Save CSV
 out_file = "data/Matchups_AllYears.csv"
