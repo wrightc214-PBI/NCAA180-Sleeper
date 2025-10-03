@@ -1,11 +1,15 @@
 import pandas as pd
 from sleeper_wrapper import League, User
+import datetime
 
 # NCAA Ranks user ID
 user_id = 731808894699028480
 
-# Years you want to include
-years = list(range(2020, 2025))  # update as new seasons happen
+# Automatically include all years from 2020 through the current year
+start_year = 2020
+current_year = datetime.datetime.now().year
+years = list(range(start_year, current_year + 1))
+
 
 all_rosters = []
 
