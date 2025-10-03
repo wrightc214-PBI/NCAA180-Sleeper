@@ -37,7 +37,7 @@ jobs:
               python users.py
           fi
           if [ "${{ github.event.inputs.script_to_run }}" = "players" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
-              python users.py
+              python players.py
           fi          
           if [ "${{ github.event.inputs.script_to_run }}" = "rosterhistory" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
               python rosterhistory.py
