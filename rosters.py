@@ -12,7 +12,7 @@ current_year = datetime.now().year
 current_leagues = league_df[league_df['Year'] == current_year]
 
 # --- Load player data for enrichment ---
-players_df = pd.read_csv("data/players.csv")
+players_df = pd.read_csv("data/Players.csv")
 
 # Create lookup dictionary for quick reference
 player_lookup = {
