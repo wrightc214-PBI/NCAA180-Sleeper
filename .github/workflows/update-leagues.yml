@@ -7,6 +7,8 @@ on:
         description: 'Specify which Python script to run (league_ids, rosters, users, rosterhistory, matchups, players, transactions, drafts, Results_RegularSeason, all)'
         required: true
         default: 'all'
+  schedule:
+    - cron: '0 7 * * *'  # Runs daily at 07:00 UTC (3 AM ET during DST)
 
 jobs:
   build:
