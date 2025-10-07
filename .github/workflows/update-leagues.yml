@@ -27,8 +27,13 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run selected script
-        run: |
-          echo "Selected script: ${{ github.event.inputs.script_to_run }}"
+          # Default to 'all' if no manual input was provided
+          SCRIPT_TO_RUN="${{ github.event.inputs.script_to_run }}"
+          if [ -z "$SCRIPT_TO_RUN" ]; then
+              SCRIPT_TO_RUN="all"
+          fi
+
+          echo "Selected script: $SCRIPT_TO_RUN"
           if [ "${{ github.event.inputs.script_to_run }}" = "league_ids" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
               python league_ids.py
           fi
