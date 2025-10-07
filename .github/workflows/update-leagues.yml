@@ -74,3 +74,7 @@ jobs:
 
       - name: List CSVs
         run: ls -l data/
+
+          # Finally, update the timestamp tracker
+          python update_tracker.py
+
