@@ -8,11 +8,12 @@ on:
         required: true
         default: 'all'
   schedule:
-    - cron: '0 6 * * *'  # Runs daily at 06:00 UTC (2 AM ET during DST)
+    - cron: '0 7 * * *'  # Runs daily at 07:00 UTC (3 AM ET)
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -26,7 +27,8 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run selected script
+      - name: Run selected script(s)
+        run: |
           # Default to 'all' if no manual input was provided
           SCRIPT_TO_RUN="${{ github.event.inputs.script_to_run }}"
           if [ -z "$SCRIPT_TO_RUN" ]; then
@@ -34,33 +36,37 @@ jobs:
           fi
 
           echo "Selected script: $SCRIPT_TO_RUN"
-          if [ "${{ github.event.inputs.script_to_run }}" = "league_ids" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+
+          if [ "$SCRIPT_TO_RUN" = "league_ids" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python league_ids.py
           fi
-          if [ "${{ github.event.inputs.script_to_run }}" = "rosters" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          if [ "$SCRIPT_TO_RUN" = "rosters" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python rosters.py
           fi
-          if [ "${{ github.event.inputs.script_to_run }}" = "users" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          if [ "$SCRIPT_TO_RUN" = "users" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python users.py
           fi
-          if [ "${{ github.event.inputs.script_to_run }}" = "players" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          if [ "$SCRIPT_TO_RUN" = "players" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python players.py
-          fi          
-          if [ "${{ github.event.inputs.script_to_run }}" = "rosterhistory" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          fi
+          if [ "$SCRIPT_TO_RUN" = "rosterhistory" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python rosterhistory.py
-          fi          
-          if [ "${{ github.event.inputs.script_to_run }}" = "matchups" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          fi
+          if [ "$SCRIPT_TO_RUN" = "matchups" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python league_matchups.py
           fi
-          if [ "${{ github.event.inputs.script_to_run }}" = "transactions" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          if [ "$SCRIPT_TO_RUN" = "transactions" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python league_transactions.py
           fi
-          if [ "${{ github.event.inputs.script_to_run }}" = "drafts" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          if [ "$SCRIPT_TO_RUN" = "drafts" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python league_drafts.py
           fi
-          if [ "${{ github.event.inputs.script_to_run }}" = "Results_RegularSeason" ] || [ "${{ github.event.inputs.script_to_run }}" = "all" ]; then
+          if [ "$SCRIPT_TO_RUN" = "Results_RegularSeason" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python Results_RegularSeason.py
           fi
+
+          # Finally, update the timestamp tracker
+          python update_tracker.py
 
       - name: Commit and push CSVs
         env:
@@ -74,7 +80,3 @@ jobs:
 
       - name: List CSVs
         run: ls -l data/
-
-          # Finally, update the timestamp tracker
-          python update_tracker.py
-
