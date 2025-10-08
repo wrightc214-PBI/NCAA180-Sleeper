@@ -7,7 +7,7 @@ import os
 # CONFIG
 # -------------------------
 CURRENT_YEAR = datetime.datetime.now().year
-CSV_PATH = "data/scores.csv"
+CSV_PATH = "data/Scores.csv"
 LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
