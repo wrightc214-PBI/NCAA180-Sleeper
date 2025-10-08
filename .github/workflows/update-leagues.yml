@@ -65,8 +65,12 @@ jobs:
               python Results_RegularSeason.py
           fi
 
+          pwd
+          ls -R
+
+
           # Finally, update the timestamp tracker
-          python update_tracker.py
+          python $GITHUB_WORKSPACE/update_tracker.py
 
       - name: Commit and push CSVs
         env:
