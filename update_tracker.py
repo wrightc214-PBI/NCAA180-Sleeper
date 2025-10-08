@@ -17,7 +17,8 @@ rows = []
 for csv_file in csv_files:
     full_path = os.path.join(data_folder, csv_file)
     last_mod_time = datetime.fromtimestamp(os.path.getmtime(full_path), ZoneInfo("America/New_York"))
-    last_mod_str = last_mod_time.strftime("%Y-%m-%d %H:%M:%S %Z")
+    # Use ISO 8601 format with numeric offset for Power BI
+    last_mod_str = last_mod_time.isoformat()
     rows.append([csv_file, last_mod_str])
 
 # Write CSV
