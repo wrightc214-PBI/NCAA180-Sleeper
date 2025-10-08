@@ -6,7 +6,7 @@ import os
 data_folder = "data"
 
 # Output CSV that tracks timestamps
-out_file = os.path.join(data_folder, "update_tracker.csv")
+out_file = os.path.join(data_folder, "LastUpdate.csv")
 
 # Get current UTC time
 utc_now = datetime.now(timezone.utc)
