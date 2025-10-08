@@ -4,7 +4,7 @@ player_id,first_name,last_name,position,status,team
 9487,Parker,Washington,WR,Active,JAX
 6918,Salvon,Ahmed,RB,Inactive,IND
 6786,CeeDee,Lamb,WR,Active,DAL
-11584,Bucky,Irving,RB,Inactive,TB
+11584,Bucky,Irving,RB,Active,TB
 11649,Kendall,Milton,RB,Active,CIN
 6783,Jerry,Jeudy,WR,Active,CLE
 11616,Jacob,Cowing,WR,Inactive,SF
@@ -597,7 +597,7 @@ MIA,Miami,Dolphins,DEF,,MIA
 8924,Thomas,Odukoya,TE,Active,TEN
 11615,Ainias,Smith,WR,Active,CAR
 11306,Xavier,Gipson,WR,Active,PHI
-5927,Terry,McLaurin,WR,Inactive,WAS
+5927,Terry,McLaurin,WR,Active,WAS
 4199,Aaron,Jones,RB,Inactive,MIN
 4950,Christian,Kirk,WR,Active,HOU
 12472,Raheim,Sanders,RB,Active,CLE
@@ -759,7 +759,7 @@ CHI,Chicago,Bears,DEF,,CHI
 CIN,Cincinnati,Bengals,DEF,,CIN
 12711,Tyler,Loop,K,Active,BAL
 8255,Raheem,Blackshear,RB,Active,PIT
-9482,Michael,Mayer,TE,Inactive,LV
+9482,Michael,Mayer,TE,Active,LV
 138,Ben,Roethlisberger,QB,Active,PIT
 2020,Cairo,Santos,K,Active,CHI
 7042,Tyler,Bass,K,Inactive,BUF
@@ -844,7 +844,7 @@ DEN,Denver,Broncos,DEF,,DEN
 4314,Johnny,Mundt,TE,Active,JAX
 7527,Mac,Jones,QB,Active,SF
 9505,Deuce,Vaughn,RB,Active,DEN
-11604,Brock,Bowers,TE,Inactive,LV
+11604,Brock,Bowers,TE,Active,LV
 12826,Ulysses,Bentley,RB,Active,IND
 11566,Jayden,Daniels,QB,Active,WAS
 6588,Tom,Kennedy,WR,Active,DET
