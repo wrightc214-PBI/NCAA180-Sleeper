@@ -1,4 +1,5 @@
-from datetime import datetime, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import csv
 import os
 
@@ -8,9 +9,9 @@ data_folder = "data"
 # Output CSV that tracks timestamps
 out_file = os.path.join(data_folder, "LastUpdate.csv")
 
-# Get current UTC time
-utc_now = datetime.now(timezone.utc)
-timestamp_str = utc_now.strftime("%Y-%m-%d %H:%M:%S %Z")
+# Get current time in Eastern Time (automatically handles DST)
+et_now = datetime.now(ZoneInfo("America/New_York"))
+timestamp_str = et_now.strftime("%Y-%m-%d %H:%M:%S %Z")  # e.g., "2025-10-07 03:00:05 EDT"
 
 # Collect all CSV files in the folder
 csv_files = [f for f in os.listdir(data_folder) if f.lower().endswith(".csv")]
@@ -18,7 +19,7 @@ csv_files = [f for f in os.listdir(data_folder) if f.lower().endswith(".csv")]
 # Write the tracker CSV
 with open(out_file, "w", newline="") as f:
     writer = csv.writer(f)
-    writer.writerow(["Filename", "TimestampUTC"])
+    writer.writerow(["Filename", "TimestampET"])
     for csv_file in csv_files:
         writer.writerow([csv_file, timestamp_str])
 
