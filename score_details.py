@@ -6,7 +6,6 @@ import os
 # -------------------------
 # CONFIG
 # -------------------------
-CURRENT_YEAR = 2023 # datetime.datetime.now().year
 CSV_PATH = "data/Scores.csv"
 LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
@@ -37,12 +36,6 @@ if not os.path.exists(LEAGUE_FILE):
     raise FileNotFoundError(f"Missing LeagueID file: {LEAGUE_FILE}")
 
 league_df = pd.read_csv(LEAGUE_FILE, dtype=str)
-current_year_league_ids = league_df.loc[league_df["Year"].astype(int) == CURRENT_YEAR, "LeagueID"].tolist()
-
-if not current_year_league_ids:
-    raise ValueError(f"No LeagueIDs found for current year {CURRENT_YEAR}")
-
-print(f"Found {len(current_year_league_ids)} leagues for {CURRENT_YEAR}")
 
 # -------------------------
 # LOAD EXISTING CSV (handle empty)
@@ -59,7 +52,7 @@ else:
 # -------------------------
 # FUNCTION TO FETCH SCORES
 # -------------------------
-def get_weekly_scores(league_id):
+def get_weekly_scores(league_id, league_year):
     results = []
     for week in range(1, 19):  # weeks 1–18
         url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week}"
@@ -92,7 +85,7 @@ def get_weekly_scores(league_id):
                 points = starters_points[i] if i < len(starters_points) else ""
 
                 results.append({
-                    "LeagueYear": CURRENT_YEAR,
+                    "LeagueYear": league_year,
                     "league_id": league_id,
                     "weekNum": week,
                     "roster_id": roster_id,
@@ -105,40 +98,45 @@ def get_weekly_scores(league_id):
     return results
 
 # -------------------------
-# FETCH AND COMBINE DATA
+# FETCH AND COMBINE DATA FOR ALL YEARS
 # -------------------------
-new_data = []
-for league_id in current_year_league_ids:
-    print(f"Fetching scores for {league_id} ({CURRENT_YEAR})")
-    league_scores = get_weekly_scores(league_id)
-    print(f"  -> {len(league_scores)} rows fetched for this league")
-    new_data.extend(league_scores)
+all_years = sorted(league_df["Year"].astype(int).unique())
+all_data = []
 
-print(f"Total rows collected for all leagues: {len(new_data)}")
+for year in all_years:
+    league_ids = league_df.loc[league_df["Year"].astype(int) == year, "LeagueID"].tolist()
+    print(f"Found {len(league_ids)} leagues for {year}")
 
-if new_data:
-    new_df = pd.DataFrame(new_data)
+    for league_id in league_ids:
+        print(f"Fetching scores for {league_id} ({year})")
+        league_scores = get_weekly_scores(league_id, league_year=year)
+        print(f"  -> {len(league_scores)} rows fetched for this league")
+        all_data.extend(league_scores)
 
-    # Keep past-year data
+print(f"Total rows collected for all leagues/years: {len(all_data)}")
+
+if all_data:
+    new_df = pd.DataFrame(all_data)
+
+    # Keep previous CSV data if exists
     if not existing_df.empty:
-        old_df = existing_df[existing_df["LeagueYear"].astype(int) < CURRENT_YEAR]
+        combined_df = pd.concat([existing_df, new_df], ignore_index=True)
     else:
-        old_df = pd.DataFrame()
+        combined_df = new_df
 
-    combined_df = pd.concat([old_df, new_df], ignore_index=True)
-
-    # Convert columns to proper types for Power BI
+    # Convert types for Power BI
     combined_df['starter'] = combined_df['starter'].astype(str)
     combined_df['starter_points'] = combined_df['starter_points'].astype(str)
     combined_df['array_index'] = combined_df['array_index'].astype(int)
     combined_df['label'] = combined_df['label'].astype(str)
 
-    # Optional: sort for Power BI
-    combined_df = combined_df.sort_values(by=["league_id", "roster_id", "weekNum", "array_index"])
+    # Optional sort
+    combined_df = combined_df.sort_values(
+        by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]
+    )
 
-    # Save CSV
     combined_df.to_csv(CSV_PATH, index=False)
-    print(f"✅ Saved {CSV_PATH} — replaced {CURRENT_YEAR} data, kept prior years.")
+    print(f"✅ Saved {CSV_PATH} — historical + current year data included.")
     print(f"Total rows now: {len(combined_df)}")
 else:
-    print("⚠️ No new data fetched — scores.csv not updated.")
+    print("⚠️ No data fetched — scores.csv not updated.")
