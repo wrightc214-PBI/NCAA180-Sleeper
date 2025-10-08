@@ -6,6 +6,7 @@ import os
 # -------------------------
 # CONFIG
 # -------------------------
+CURRENT_YEAR = datetime.datetime.now().year
 CSV_PATH = "data/Scores.csv"
 LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
@@ -78,7 +79,6 @@ def get_weekly_scores(league_id, league_year):
             starters_points = matchup.get("starters_points", []) or []
             lookup_id = f"{league_id}{week}{roster_id}"
 
-            # Ensure all starters are captured safely
             length = max(len(starters), len(starters_points))
             for i in range(length):
                 player_id = str(starters[i]) if i < len(starters) else ""
@@ -98,31 +98,36 @@ def get_weekly_scores(league_id, league_year):
     return results
 
 # -------------------------
-# FETCH AND COMBINE DATA FOR ALL YEARS
+# FETCH AND COMBINE DATA
 # -------------------------
-all_years = sorted(league_df["Year"].astype(int).unique())
-all_data = []
+# Only fetch leagues for current year
+current_year_league_ids = league_df.loc[league_df["Year"].astype(int) == CURRENT_YEAR, "LeagueID"].tolist()
 
-for year in all_years:
-    league_ids = league_df.loc[league_df["Year"].astype(int) == year, "LeagueID"].tolist()
-    print(f"Found {len(league_ids)} leagues for {year}")
+if not current_year_league_ids:
+    raise ValueError(f"No LeagueIDs found for current year {CURRENT_YEAR}")
 
-    for league_id in league_ids:
-        print(f"Fetching scores for {league_id} ({year})")
-        league_scores = get_weekly_scores(league_id, league_year=year)
-        print(f"  -> {len(league_scores)} rows fetched for this league")
-        all_data.extend(league_scores)
+print(f"Found {len(current_year_league_ids)} leagues for {CURRENT_YEAR}")
 
-print(f"Total rows collected for all leagues/years: {len(all_data)}")
+new_data = []
+for league_id in current_year_league_ids:
+    print(f"Fetching scores for {league_id} ({CURRENT_YEAR})")
+    league_scores = get_weekly_scores(league_id, league_year=CURRENT_YEAR)
+    print(f"  -> {len(league_scores)} rows fetched for this league")
+    new_data.extend(league_scores)
 
-if all_data:
-    new_df = pd.DataFrame(all_data)
+print(f"Total rows collected for current year: {len(new_data)}")
 
-    # Keep previous CSV data if exists
+if new_data:
+    new_df = pd.DataFrame(new_data)
+
+    # Keep historical data untouched
     if not existing_df.empty:
-        combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+        historical_df = existing_df[existing_df["LeagueYear"].astype(int) < CURRENT_YEAR]
     else:
-        combined_df = new_df
+        historical_df = pd.DataFrame()
+
+    # Combine historical + new current-year data
+    combined_df = pd.concat([historical_df, new_df], ignore_index=True)
 
     # Convert types for Power BI
     combined_df['starter'] = combined_df['starter'].astype(str)
@@ -130,13 +135,14 @@ if all_data:
     combined_df['array_index'] = combined_df['array_index'].astype(int)
     combined_df['label'] = combined_df['label'].astype(str)
 
-    # Optional sort
+    # Sort for Power BI
     combined_df = combined_df.sort_values(
         by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]
     )
 
+    # Save CSV
     combined_df.to_csv(CSV_PATH, index=False)
-    print(f"✅ Saved {CSV_PATH} — historical + current year data included.")
+    print(f"✅ Saved {CSV_PATH} — historical data kept, current year replaced.")
     print(f"Total rows now: {len(combined_df)}")
 else:
-    print("⚠️ No data fetched — scores.csv not updated.")
+    print("⚠️ No new data fetched — scores.csv not updated.")
