@@ -45,10 +45,14 @@ if not current_year_league_ids:
 print(f"Found {len(current_year_league_ids)} leagues for {CURRENT_YEAR}")
 
 # -------------------------
-# LOAD EXISTING CSV
+# LOAD EXISTING CSV (handle empty)
 # -------------------------
 if os.path.exists(CSV_PATH):
-    existing_df = pd.read_csv(CSV_PATH, dtype=str)
+    try:
+        existing_df = pd.read_csv(CSV_PATH, dtype=str)
+    except pd.errors.EmptyDataError:
+        print(f"⚠️ {CSV_PATH} exists but is empty. Starting with empty DataFrame.")
+        existing_df = pd.DataFrame()
 else:
     existing_df = pd.DataFrame()
 
@@ -129,6 +133,10 @@ if new_data:
     combined_df['array_index'] = combined_df['array_index'].astype(int)
     combined_df['label'] = combined_df['label'].astype(str)
 
+    # Optional: sort for Power BI
+    combined_df = combined_df.sort_values(by=["league_id", "roster_id", "weekNum", "array_index"])
+
+    # Save CSV
     combined_df.to_csv(CSV_PATH, index=False)
     print(f"✅ Saved {CSV_PATH} — replaced {CURRENT_YEAR} data, kept prior years.")
     print(f"Total rows now: {len(combined_df)}")
