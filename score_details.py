@@ -7,7 +7,7 @@ import os
 # CONFIG
 # -------------------------
 CURRENT_YEAR = datetime.datetime.now().year
-CSV_PATH = "data/Scores.csv"
+CSV_PATH = "data/scores.csv"
 LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
@@ -56,16 +56,22 @@ else:
 # FUNCTION TO FETCH SCORES
 # -------------------------
 def get_weekly_scores(league_id):
-    """Fetch matchup data from Sleeper API for all weeks in a league."""
     results = []
-    for week in range(1, 19):  # typical fantasy season weeks 1–18
+    for week in range(1, 19):  # weeks 1–18
         url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week}"
-        resp = requests.get(url)
+        try:
+            resp = requests.get(url, timeout=10)
+        except Exception as e:
+            print(f"⚠️ Error fetching league {league_id}, week {week}: {e}")
+            continue
+
         if resp.status_code != 200:
-            print(f"⚠️ Skipping week {week} for league {league_id} — {resp.status_code}")
+            print(f"⚠️ Skipping week {week} for league {league_id} — HTTP {resp.status_code}")
             continue
 
         matchups = resp.json()
+        print(f"Week {week}, league {league_id}, matchups returned: {len(matchups)}")
+
         if not matchups:
             continue
 
@@ -75,7 +81,7 @@ def get_weekly_scores(league_id):
             starters_points = matchup.get("starters_points", []) or []
             lookup_id = f"{league_id}{week}{roster_id}"
 
-            # Determine max length to handle mismatched arrays safely
+            # Ensure all starters are captured safely
             length = max(len(starters), len(starters_points))
             for i in range(length):
                 player_id = str(starters[i]) if i < len(starters) else ""
@@ -100,21 +106,31 @@ def get_weekly_scores(league_id):
 new_data = []
 for league_id in current_year_league_ids:
     print(f"Fetching scores for {league_id} ({CURRENT_YEAR})")
-    new_data.extend(get_weekly_scores(league_id))
+    league_scores = get_weekly_scores(league_id)
+    print(f"  -> {len(league_scores)} rows fetched for this league")
+    new_data.extend(league_scores)
 
-new_df = pd.DataFrame(new_data)
+print(f"Total rows collected for all leagues: {len(new_data)}")
 
-# Keep past-year data and replace current-year data
-if not existing_df.empty:
-    old_df = existing_df[existing_df["LeagueYear"].astype(int) < CURRENT_YEAR]
+if new_data:
+    new_df = pd.DataFrame(new_data)
+
+    # Keep past-year data
+    if not existing_df.empty:
+        old_df = existing_df[existing_df["LeagueYear"].astype(int) < CURRENT_YEAR]
+    else:
+        old_df = pd.DataFrame()
+
+    combined_df = pd.concat([old_df, new_df], ignore_index=True)
+
+    # Convert columns to proper types for Power BI
+    combined_df['starter'] = combined_df['starter'].astype(str)
+    combined_df['starter_points'] = combined_df['starter_points'].astype(str)
+    combined_df['array_index'] = combined_df['array_index'].astype(int)
+    combined_df['label'] = combined_df['label'].astype(str)
+
+    combined_df.to_csv(CSV_PATH, index=False)
+    print(f"✅ Saved {CSV_PATH} — replaced {CURRENT_YEAR} data, kept prior years.")
+    print(f"Total rows now: {len(combined_df)}")
 else:
-    old_df = pd.DataFrame()
-
-combined_df = pd.concat([old_df, new_df], ignore_index=True)
-
-# -------------------------
-# SAVE CLEAN CSV
-# -------------------------
-combined_df.to_csv(CSV_PATH, index=False)
-print(f"✅ Saved {CSV_PATH} — replaced {CURRENT_YEAR} data, kept prior years.")
-print(f"Total rows now: {len(combined_df)}")
+    print("⚠️ No new data fetched — scores.csv not updated.")
