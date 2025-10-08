@@ -69,10 +69,6 @@ jobs:
               python Results_RegularSeason.py
           fi
 
-          pwd
-          ls -R
-
-
           # Finally, update the timestamp tracker
           python $GITHUB_WORKSPACE/update_tracker.py
 
