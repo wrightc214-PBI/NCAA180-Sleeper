@@ -1,23 +1,12 @@
-import os
-import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone
+import csv
 
-# Folder that holds all your CSVs
-DATA_DIR = "data"
+utc_now = datetime.now(timezone.utc)
+timestamp_str = utc_now.strftime("%Y-%m-%d %H:%M:%S %Z")
 
-# Build a list of CSV files and timestamps
-rows = []
-for fname in os.listdir(DATA_DIR):
-    if fname.endswith(".csv"):
-        path = os.path.join(DATA_DIR, fname)
-        mod_time = datetime.fromtimestamp(os.path.getmtime(path))
-        rows.append({"FileName": fname, "LastUpdatedUTC": mod_time.strftime("%Y-%m-%d %H:%M:%S")})
+with open("data/update_tracker.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Filename", "TimestampUTC"])
+    writer.writerow(["Results_RegularSeason.csv", timestamp_str])
 
-# Create DataFrame
-df = pd.DataFrame(rows).sort_values("FileName")
-
-# Write to a new CSV
-out_path = os.path.join(DATA_DIR, "LastUpdate.csv")
-df.to_csv(out_path, index=False)
-
-print(f"✅ Created {out_path} with {len(df)} file entries.")
+print("UTC timestamp recorded:", timestamp_str)
