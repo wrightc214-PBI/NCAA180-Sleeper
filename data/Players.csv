@@ -295,6 +295,7 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 8107,Nikola,Kalinic,TE,Active,CHI
 12489,RJ,Harvey,RB,Active,DEN
 8157,Bailey,Zappe,QB,Active,CLE
+8223,Velus,Jones,WR,Active,NO
 7535,Hunter,Long,TE,Active,JAX
 12482,Savion,Williams,WR,Active,GB
 8088,Kalif,Jackson,TE,Active,MIA
@@ -488,6 +489,7 @@ GB,Green Bay,Packers,DEF,,GB
 2306,Jameis,Winston,QB,Active,NYG
 4924,Zach,Terrell,QB,Active,BAL
 1479,Keenan,Allen,WR,Active,LAC
+3258,Nick,Vannett,TE,Active,MIN
 4381,Taysom,Hill,TE,Active,NO
 12477,Kurtis,Rourke,QB,Active,SF
 7204,Reggie,Gilliam,RB,Active,BUF
@@ -783,7 +785,6 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 503,Graham,Gano,K,Inactive,NYG
 5113,Cedrick,Wilson,WR,Active,MIA
 11783,Ryan,Flournoy,WR,Active,DAL
-3362,Jeff,Driskel,QB,Active,LV
 4683,Aaron,Bailey,QB,Active,BAL
 10871,Luke,Schoonmaker,TE,Active,DAL
 11435,Emanuel,Wilson,RB,Active,GB
