@@ -129,20 +129,18 @@ new_df = pd.DataFrame(all_data)
 # DEDUPLICATE NEW DATA
 # -------------------------
 new_df = new_df.drop_duplicates(
-    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
+    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
     keep="last"
 )
 
 # -------------------------
-# COMBINE WITH EXISTING DATA (replace current year)
+# COMBINE WITH EXISTING DATA (replace matching rows, append new)
 # -------------------------
 if not existing_df.empty:
-    existing_df["LeagueYear"] = existing_df["LeagueYear"].astype(int)
-    existing_df = existing_df[existing_df["LeagueYear"] != CURRENT_YEAR]  # remove old current year
-
-    combined_df = pd.concat([existing_df, new_df], ignore_index=True)
-    combined_df = combined_df.drop_duplicates(
-        subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
+    # Remove any existing rows from the same year + same league/week/roster/array_index
+    merged = pd.concat([existing_df, new_df], ignore_index=True)
+    combined_df = merged.drop_duplicates(
+        subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
         keep="last"
     )
 else:
