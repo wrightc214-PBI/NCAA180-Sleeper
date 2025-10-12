@@ -11,6 +11,17 @@ LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
 # -------------------------
+# DETERMINE CURRENT NFL YEAR (adjust for Jan/Feb rollover)
+# -------------------------
+today = datetime.date.today()
+if today.month < 3:  # Jan or Feb -> still previous NFL season
+    CURRENT_YEAR = today.year - 1
+else:
+    CURRENT_YEAR = today.year
+
+print(f"🏈 Current NFL Year: {CURRENT_YEAR}")
+
+# -------------------------
 # LOAD PLAYERS DATA
 # -------------------------
 if not os.path.exists(PLAYERS_FILE):
@@ -70,16 +81,12 @@ def get_weekly_scores(league_id, league_year):
         matchups = resp.json()
         print(f"  Week {week}: {len(matchups)} matchups")
 
-        if not matchups:
-            continue
-
-        for matchup in matchups:
+        for matchup in matchups or []:
             roster_id = matchup.get("roster_id", "")
             starters = matchup.get("starters", []) or []
             starters_points = matchup.get("starters_points", []) or []
             lookup_id = f"{league_id}&{roster_id}"
 
-            # Ensure all starters are captured safely
             length = max(len(starters), len(starters_points))
             for i in range(length):
                 player_id = str(starters[i]) if i < len(starters) else ""
@@ -93,36 +100,33 @@ def get_weekly_scores(league_id, league_year):
                     "lookupID": lookup_id,
                     "starter": player_id,
                     "starter_points": points,
-                    "array_index": i + 1,  # 1-based
+                    "array_index": i + 1,
                     "label": player_label_map.get(player_id, "")
                 })
     return results
 
 # -------------------------
-# FETCH AND COMBINE DATA (ALL YEARS)
+# FETCH AND COMBINE DATA (CURRENT YEAR ONLY)
 # -------------------------
-print("🔎 Rebuilding historical data for all years listed in LeagueIDs_AllYears.csv...")
+current_leagues = league_df.loc[league_df["Year"].astype(int) == CURRENT_YEAR, "LeagueID"].tolist()
+if not current_leagues:
+    raise ValueError(f"No leagues found for {CURRENT_YEAR} in {LEAGUE_FILE}")
 
 all_data = []
-
-for _, row in league_df.iterrows():
-    league_id = row["LeagueID"]
-    league_year = int(row["Year"])
-
-    print(f"➡️ Fetching scores for league {league_id} ({league_year})")
-    league_scores = get_weekly_scores(league_id, league_year=league_year)
+for league_id in current_leagues:
+    print(f"➡️ Fetching scores for league {league_id}")
+    league_scores = get_weekly_scores(league_id, league_year=CURRENT_YEAR)
     print(f"   -> {len(league_scores)} rows fetched")
-
     all_data.extend(league_scores)
 
 if not all_data:
-    print("⚠️ No data fetched. Exiting without changes.")
+    print("⚠️ No new data fetched. Exiting without changes.")
     exit()
 
 new_df = pd.DataFrame(all_data)
 
 # -------------------------
-# DEDUPLICATE BASED ON KEY COLUMNS
+# DEDUPLICATE NEW DATA
 # -------------------------
 new_df = new_df.drop_duplicates(
     subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
@@ -130,12 +134,13 @@ new_df = new_df.drop_duplicates(
 )
 
 # -------------------------
-# COMBINE WITH EXISTING DATA (if any)
+# COMBINE WITH EXISTING DATA (replace current year)
 # -------------------------
 if not existing_df.empty:
-    print("🔁 Combining with existing Scores.csv data...")
-    combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+    existing_df["LeagueYear"] = existing_df["LeagueYear"].astype(int)
+    existing_df = existing_df[existing_df["LeagueYear"] != CURRENT_YEAR]  # remove old current year
 
+    combined_df = pd.concat([existing_df, new_df], ignore_index=True)
     combined_df = combined_df.drop_duplicates(
         subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
         keep="last"
@@ -144,7 +149,7 @@ else:
     combined_df = new_df
 
 # -------------------------
-# FINAL SORT & SAVE
+# SORT & SAVE
 # -------------------------
 combined_df["array_index"] = combined_df["array_index"].astype(int)
 combined_df = combined_df.sort_values(
@@ -153,5 +158,5 @@ combined_df = combined_df.sort_values(
 
 combined_df.to_csv(CSV_PATH, index=False)
 
-print(f"\n✅ Historical rebuild complete — saved to {CSV_PATH}")
-print(f"📊 Total rows after rebuild: {len(combined_df)}")
+print(f"\n✅ Scores.csv updated for {CURRENT_YEAR}")
+print(f"📊 Total rows after update: {len(combined_df)}")
