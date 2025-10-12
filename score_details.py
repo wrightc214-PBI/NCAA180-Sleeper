@@ -14,11 +14,7 @@ PLAYERS_FILE = "data/Players.csv"
 # DETERMINE CURRENT NFL YEAR (adjust for Jan/Feb rollover)
 # -------------------------
 today = datetime.date.today()
-if today.month < 3:  # Jan or Feb -> still previous NFL season
-    CURRENT_YEAR = today.year - 1
-else:
-    CURRENT_YEAR = today.year
-
+CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
 print(f"🏈 Current NFL Year: {CURRENT_YEAR}")
 
 # -------------------------
@@ -29,7 +25,7 @@ if not os.path.exists(PLAYERS_FILE):
 
 players_df = pd.read_csv(PLAYERS_FILE, dtype=str)
 
-# Create 'label' column: first_name last_name, position (team)
+# Create readable player labels
 players_df["label"] = (
     players_df["first_name"].fillna("") + " " +
     players_df["last_name"].fillna("") + ", " +
@@ -37,7 +33,7 @@ players_df["label"] = (
     players_df["team"].fillna("") + ")"
 )
 
-# Build lookup dictionary for fast access
+# Build player ID → label lookup
 player_label_map = pd.Series(players_df.label.values, index=players_df.player_id).to_dict()
 
 # -------------------------
@@ -49,7 +45,7 @@ if not os.path.exists(LEAGUE_FILE):
 league_df = pd.read_csv(LEAGUE_FILE, dtype=str)
 
 # -------------------------
-# LOAD EXISTING CSV (handle empty)
+# LOAD EXISTING SCORES
 # -------------------------
 if os.path.exists(CSV_PATH):
     try:
@@ -62,51 +58,46 @@ else:
     existing_df = pd.DataFrame()
 
 # -------------------------
-# FUNCTION TO FETCH SCORES
+# FUNCTION TO FETCH WEEKLY SCORES
 # -------------------------
 def get_weekly_scores(league_id, league_year):
     results = []
-    for week in range(1, 19):  # weeks 1–18
+    for week in range(1, 19):  # NFL weeks 1–18
         url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week}"
         try:
             resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
         except Exception as e:
             print(f"⚠️ Error fetching league {league_id}, week {week}: {e}")
             continue
 
-        if resp.status_code != 200:
-            print(f"⚠️ Skipping week {week} for league {league_id} — HTTP {resp.status_code}")
-            continue
-
-        matchups = resp.json()
+        matchups = resp.json() or []
         print(f"  Week {week}: {len(matchups)} matchups")
 
-        for matchup in matchups or []:
+        for matchup in matchups:
             roster_id = matchup.get("roster_id", "")
             starters = matchup.get("starters", []) or []
             starters_points = matchup.get("starters_points", []) or []
             lookup_id = f"{league_id}{roster_id}"
 
-            length = max(len(starters), len(starters_points))
-            for i in range(length):
-                player_id = str(starters[i]) if i < len(starters) else ""
+            for i, player_id in enumerate(starters):
                 points = starters_points[i] if i < len(starters_points) else ""
-
                 results.append({
                     "LeagueYear": league_year,
                     "league_id": league_id,
                     "weekNum": week,
                     "roster_id": roster_id,
                     "lookupID": lookup_id,
-                    "starter": player_id,
+                    "starter": str(player_id),
                     "starter_points": points,
                     "array_index": i + 1,
-                    "label": player_label_map.get(player_id, "")
+                    "label": player_label_map.get(str(player_id), "")
                 })
+
     return results
 
 # -------------------------
-# FETCH AND COMBINE DATA (CURRENT YEAR ONLY)
+# FETCH DATA FOR CURRENT YEAR ONLY
 # -------------------------
 current_leagues = league_df.loc[league_df["Year"].astype(int) == CURRENT_YEAR, "LeagueID"].tolist()
 if not current_leagues:
@@ -127,34 +118,4 @@ new_df = pd.DataFrame(all_data)
 
 # -------------------------
 # DEDUPLICATE NEW DATA
-# -------------------------
-new_df = new_df.drop_duplicates(
-    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
-    keep="last"
-)
-
-# -------------------------
-# COMBINE WITH EXISTING DATA (replace matching rows, append new)
-# -------------------------
-if not existing_df.empty:
-    # Remove any existing rows from the same year + same league/week/roster/array_index
-    merged = pd.concat([existing_df, new_df], ignore_index=True)
-    combined_df = merged.drop_duplicates(
-        subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
-        keep="last"
-    )
-else:
-    combined_df = new_df
-
-# -------------------------
-# SORT & SAVE
-# -------------------------
-combined_df["array_index"] = combined_df["array_index"].astype(int)
-combined_df = combined_df.sort_values(
-    by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]
-)
-
-combined_df.to_csv(CSV_PATH, index=False)
-
-print(f"\n✅ Scores.csv updated for {CURRENT_YEAR}")
-print(f"📊 Total rows after update: {len(combined_df)}")
+# -----
