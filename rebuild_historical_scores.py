@@ -77,7 +77,7 @@ def get_weekly_scores(league_id, league_year):
             roster_id = matchup.get("roster_id", "")
             starters = matchup.get("starters", []) or []
             starters_points = matchup.get("starters_points", []) or []
-            lookup_id = f"{league_id}&{roster_id}"
+            lookup_id = f"{league_id}{roster_id}"
 
             # Ensure all starters are captured safely
             length = max(len(starters), len(starters_points))
