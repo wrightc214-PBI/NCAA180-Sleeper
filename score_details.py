@@ -11,17 +11,6 @@ LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
 # -------------------------
-# DETERMINE CURRENT NFL YEAR
-# -------------------------
-today = datetime.date.today()
-if today.month < 3:  # Jan or Feb -> still previous NFL season
-    CURRENT_YEAR = today.year - 1
-else:
-    CURRENT_YEAR = today.year
-
-print(f"🏈 Current NFL Year: {CURRENT_YEAR}")
-
-# -------------------------
 # LOAD PLAYERS DATA
 # -------------------------
 if not os.path.exists(PLAYERS_FILE):
@@ -88,7 +77,7 @@ def get_weekly_scores(league_id, league_year):
             roster_id = matchup.get("roster_id", "")
             starters = matchup.get("starters", []) or []
             starters_points = matchup.get("starters_points", []) or []
-            lookup_id = f"{league_id}.{roster_id}"
+            lookup_id = f"{league_id}&{roster_id}"
 
             # Ensure all starters are captured safely
             length = max(len(starters), len(starters_points))
@@ -110,57 +99,59 @@ def get_weekly_scores(league_id, league_year):
     return results
 
 # -------------------------
-# FETCH AND COMBINE DATA
+# FETCH AND COMBINE DATA (ALL YEARS)
 # -------------------------
-print(f"🔎 Fetching data for current year only ({CURRENT_YEAR})...")
-current_leagues = league_df.loc[league_df["Year"].astype(int) == CURRENT_YEAR, "LeagueID"].tolist()
-
-if not current_leagues:
-    raise ValueError(f"No leagues found for {CURRENT_YEAR} in {LEAGUE_FILE}")
+print("🔎 Rebuilding historical data for all years listed in LeagueIDs_AllYears.csv...")
 
 all_data = []
-for league_id in current_leagues:
-    print(f"➡️ Fetching scores for league {league_id}")
-    league_scores = get_weekly_scores(league_id, league_year=CURRENT_YEAR)
+
+for _, row in league_df.iterrows():
+    league_id = row["LeagueID"]
+    league_year = int(row["Year"])
+
+    print(f"➡️ Fetching scores for league {league_id} ({league_year})")
+    league_scores = get_weekly_scores(league_id, league_year=league_year)
     print(f"   -> {len(league_scores)} rows fetched")
+
     all_data.extend(league_scores)
 
 if not all_data:
-    print("⚠️ No new data fetched. Exiting without changes.")
+    print("⚠️ No data fetched. Exiting without changes.")
     exit()
 
 new_df = pd.DataFrame(all_data)
 
-# Deduplicate new data in case API sends duplicates
+# -------------------------
+# DEDUPLICATE BASED ON KEY COLUMNS
+# -------------------------
 new_df = new_df.drop_duplicates(
-    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
+    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
     keep="last"
 )
 
 # -------------------------
-# COMBINE WITH EXISTING DATA
+# COMBINE WITH EXISTING DATA (if any)
 # -------------------------
 if not existing_df.empty:
-    existing_df["LeagueYear"] = existing_df["LeagueYear"].astype(int)
-    # Remove current year to replace it
-    existing_df = existing_df[existing_df["LeagueYear"] != CURRENT_YEAR]
-
+    print("🔁 Combining with existing Scores.csv data...")
     combined_df = pd.concat([existing_df, new_df], ignore_index=True)
 
-    # Final deduplication safeguard
     combined_df = combined_df.drop_duplicates(
-        subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
+        subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
         keep="last"
     )
 else:
     combined_df = new_df
 
-# Convert and sort for Power BI
+# -------------------------
+# FINAL SORT & SAVE
+# -------------------------
 combined_df["array_index"] = combined_df["array_index"].astype(int)
 combined_df = combined_df.sort_values(
     by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]
 )
 
 combined_df.to_csv(CSV_PATH, index=False)
-print(f"✅ Saved {CSV_PATH}")
-print(f"📊 Total rows after update: {len(combined_df)}")
+
+print(f"\n✅ Historical rebuild complete — saved to {CSV_PATH}")
+print(f"📊 Total rows after rebuild: {len(combined_df)}")
