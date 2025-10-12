@@ -15,11 +15,7 @@ PLAYERS_FILE = "data/Players.csv"
 # DETERMINE CURRENT NFL YEAR (adjust for Jan/Feb rollover)
 # -------------------------
 today = datetime.date.today()
-if today.month < 3:  # Jan or Feb -> still previous NFL season
-    CURRENT_YEAR = today.year - 1
-else:
-    CURRENT_YEAR = today.year
-
+CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
 print(f"🏈 Running full rebuild — includes all years up to {CURRENT_YEAR}")
 
 # -------------------------
@@ -30,7 +26,7 @@ if not os.path.exists(PLAYERS_FILE):
 
 players_df = pd.read_csv(PLAYERS_FILE, dtype=str)
 
-# Create 'label' column: first_name last_name, position (team)
+# Create readable player labels
 players_df["label"] = (
     players_df["first_name"].fillna("") + " " +
     players_df["last_name"].fillna("") + ", " +
@@ -38,7 +34,7 @@ players_df["label"] = (
     players_df["team"].fillna("") + ")"
 )
 
-# Build lookup dictionary for fast access
+# Build player ID → label lookup
 player_label_map = pd.Series(players_df.label.values, index=players_df.player_id).to_dict()
 
 # -------------------------
@@ -64,46 +60,51 @@ else:
     existing_df = pd.DataFrame()
 
 # -------------------------
+# HELPER: Normalize Key Columns
+# -------------------------
+def normalize_keys(df):
+    if df.empty:
+        return df
+    for col in ["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.strip().str.replace(r"\.0$", "", regex=True)
+    return df
+
+# -------------------------
 # FUNCTION TO FETCH SCORES
 # -------------------------
 def get_weekly_scores(league_id, league_year):
     results = []
-    for week in range(1, 19):  # weeks 1–18
+    for week in range(1, 19):  # NFL weeks 1–18
         url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week}"
         try:
             resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
         except Exception as e:
             print(f"⚠️ Error fetching league {league_id}, week {week}: {e}")
             continue
 
-        if resp.status_code != 200:
-            print(f"⚠️ Skipping week {week} for league {league_id} — HTTP {resp.status_code}")
-            continue
-
-        matchups = resp.json()
+        matchups = resp.json() or []
         print(f"  Week {week}: {len(matchups)} matchups")
 
-        for matchup in matchups or []:
+        for matchup in matchups:
             roster_id = matchup.get("roster_id", "")
             starters = matchup.get("starters", []) or []
             starters_points = matchup.get("starters_points", []) or []
             lookup_id = f"{league_id}{roster_id}"
 
-            length = max(len(starters), len(starters_points))
-            for i in range(length):
-                player_id = str(starters[i]) if i < len(starters) else ""
+            for i, player_id in enumerate(starters):
                 points = starters_points[i] if i < len(starters_points) else ""
-
                 results.append({
                     "LeagueYear": league_year,
                     "league_id": league_id,
                     "weekNum": week,
                     "roster_id": roster_id,
                     "lookupID": lookup_id,
-                    "starter": player_id,
+                    "starter": str(player_id),
                     "starter_points": points,
                     "array_index": i + 1,
-                    "label": player_label_map.get(player_id, "")
+                    "label": player_label_map.get(str(player_id), "")
                 })
     return results
 
@@ -132,30 +133,29 @@ if not all_data:
 new_df = pd.DataFrame(all_data)
 
 # -------------------------
-# DEDUPLICATE — overwrite duplicates based on key combo
+# NORMALIZE BEFORE MERGE
 # -------------------------
-new_df = new_df.drop_duplicates(
-    subset=["league_id", "weekNum", "roster_id", "array_index"],
-    keep="last"
+new_df = normalize_keys(new_df)
+if not existing_df.empty:
+    existing_df = normalize_keys(existing_df)
+
+# -------------------------
+# MERGE & DEDUPLICATE BY KEY
+# -------------------------
+merged_df = pd.concat([existing_df, new_df], ignore_index=True)
+merged_df.drop_duplicates(
+    subset=["league_id", "roster_id", "weekNum", "array_index"],
+    keep="last",
+    inplace=True
 )
 
 # -------------------------
-# COMBINE WITH EXISTING DATA (replace duplicates, append new)
+# FINAL CLEANUP — remove exact full-row duplicates
 # -------------------------
-if not existing_df.empty:
-    existing_df = existing_df.drop_duplicates(
-        subset=["league_id", "weekNum", "roster_id", "array_index"],
-        keep="last"
-    )
-
-    # Drop old duplicates and replace with latest
-    merged_df = pd.concat([existing_df, new_df], ignore_index=True)
-    merged_df = merged_df.drop_duplicates(
-        subset=["league_id", "weekNum", "roster_id", "array_index"],
-        keep="last"
-    )
-else:
-    merged_df = new_df
+before = len(merged_df)
+merged_df = merged_df.drop_duplicates(keep="last").reset_index(drop=True)
+after = len(merged_df)
+print(f"🧹 Final cleanup removed {before - after:,} exact duplicates")
 
 # -------------------------
 # SORT & SAVE

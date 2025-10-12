@@ -63,10 +63,9 @@ else:
 def normalize_keys(df):
     if df.empty:
         return df
-    df["league_id"] = df["league_id"].astype(str).str.strip()
-    df["roster_id"] = df["roster_id"].astype(str).str.strip()
-    df["weekNum"] = df["weekNum"].astype(str).str.strip().astype(int)
-    df["array_index"] = df["array_index"].astype(str).str.strip().astype(int)
+    for col in ["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.strip().str.replace(r"\.0$", "", regex=True)
     return df
 
 # -------------------------
@@ -105,7 +104,6 @@ def get_weekly_scores(league_id, league_year):
                     "array_index": i + 1,
                     "label": player_label_map.get(str(player_id), "")
                 })
-
     return results
 
 # -------------------------
@@ -136,7 +134,7 @@ if not existing_df.empty:
     existing_df = normalize_keys(existing_df)
 
 # -------------------------
-# MERGE & DEDUPLICATE
+# MERGE & DEDUPLICATE BY KEY
 # -------------------------
 combined_df = pd.concat([existing_df, new_df], ignore_index=True)
 combined_df.drop_duplicates(
@@ -146,8 +144,17 @@ combined_df.drop_duplicates(
 )
 
 # -------------------------
+# FINAL CLEANUP — remove exact full-row duplicates
+# -------------------------
+before = len(combined_df)
+combined_df = combined_df.drop_duplicates(keep="last").reset_index(drop=True)
+after = len(combined_df)
+print(f"🧹 Final cleanup removed {before - after:,} exact duplicates")
+
+# -------------------------
 # SORT & SAVE
 # -------------------------
+combined_df["array_index"] = combined_df["array_index"].astype(int)
 combined_df.sort_values(
     by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"],
     inplace=True
