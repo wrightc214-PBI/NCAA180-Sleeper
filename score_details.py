@@ -58,6 +58,18 @@ else:
     existing_df = pd.DataFrame()
 
 # -------------------------
+# HELPER: Normalize Key Columns
+# -------------------------
+def normalize_keys(df):
+    if df.empty:
+        return df
+    df["league_id"] = df["league_id"].astype(str).str.strip()
+    df["roster_id"] = df["roster_id"].astype(str).str.strip()
+    df["weekNum"] = df["weekNum"].astype(str).str.strip().astype(int)
+    df["array_index"] = df["array_index"].astype(str).str.strip().astype(int)
+    return df
+
+# -------------------------
 # FUNCTION TO FETCH WEEKLY SCORES
 # -------------------------
 def get_weekly_scores(league_id, league_year):
@@ -117,5 +129,31 @@ if not all_data:
 new_df = pd.DataFrame(all_data)
 
 # -------------------------
-# DEDUPLICATE NEW DATA
-# -----
+# NORMALIZE BEFORE MERGE
+# -------------------------
+new_df = normalize_keys(new_df)
+if not existing_df.empty:
+    existing_df = normalize_keys(existing_df)
+
+# -------------------------
+# MERGE & DEDUPLICATE
+# -------------------------
+combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+combined_df.drop_duplicates(
+    subset=["league_id", "roster_id", "weekNum", "array_index"],
+    keep="last",
+    inplace=True
+)
+
+# -------------------------
+# SORT & SAVE
+# -------------------------
+combined_df.sort_values(
+    by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"],
+    inplace=True
+)
+
+combined_df.to_csv(CSV_PATH, index=False)
+
+print(f"\n✅ Scores.csv updated for {CURRENT_YEAR}")
+print(f"📊 Total rows after update: {len(combined_df)}")
