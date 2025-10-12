@@ -2,7 +2,6 @@ import pandas as pd
 import requests
 import datetime
 import os
-import shutil
 
 # -------------------------
 # CONFIG
@@ -12,17 +11,6 @@ LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
 # -------------------------
-# BACKUP EXISTING FILE
-# -------------------------
-if os.path.exists(CSV_PATH):
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    backup_path = f"{CSV_PATH.replace('.csv', f'_backup_{timestamp}.csv')}"
-    shutil.copy(CSV_PATH, backup_path)
-    print(f"💾 Backup created: {backup_path}")
-else:
-    print("⚠️ No existing Scores.csv found — building fresh.")
-
-# -------------------------
 # LOAD PLAYERS DATA
 # -------------------------
 if not os.path.exists(PLAYERS_FILE):
@@ -30,13 +18,15 @@ if not os.path.exists(PLAYERS_FILE):
 
 players_df = pd.read_csv(PLAYERS_FILE, dtype=str)
 
-# Create label: "first last, position (team)"
+# Create 'label' column: first_name last_name, position (team)
 players_df["label"] = (
     players_df["first_name"].fillna("") + " " +
     players_df["last_name"].fillna("") + ", " +
     players_df["position"].fillna("") + " (" +
     players_df["team"].fillna("") + ")"
 )
+
+# Build lookup dictionary for fast access
 player_label_map = pd.Series(players_df.label.values, index=players_df.player_id).to_dict()
 
 # -------------------------
@@ -46,9 +36,19 @@ if not os.path.exists(LEAGUE_FILE):
     raise FileNotFoundError(f"Missing LeagueID file: {LEAGUE_FILE}")
 
 league_df = pd.read_csv(LEAGUE_FILE, dtype=str)
-all_years = sorted(league_df["Year"].astype(int).unique())
 
-print(f"📘 Found {len(all_years)} years in LeagueID file: {all_years}")
+# -------------------------
+# LOAD EXISTING CSV (handle empty)
+# -------------------------
+if os.path.exists(CSV_PATH):
+    try:
+        existing_df = pd.read_csv(CSV_PATH, dtype=str)
+        print(f"📂 Loaded existing data: {len(existing_df)} rows")
+    except pd.errors.EmptyDataError:
+        print(f"⚠️ {CSV_PATH} exists but is empty. Starting fresh.")
+        existing_df = pd.DataFrame()
+else:
+    existing_df = pd.DataFrame()
 
 # -------------------------
 # FUNCTION TO FETCH SCORES
@@ -68,7 +68,7 @@ def get_weekly_scores(league_id, league_year):
             continue
 
         matchups = resp.json()
-        print(f"   Week {week}: {len(matchups)} matchups")
+        print(f"  Week {week}: {len(matchups)} matchups")
 
         if not matchups:
             continue
@@ -77,8 +77,9 @@ def get_weekly_scores(league_id, league_year):
             roster_id = matchup.get("roster_id", "")
             starters = matchup.get("starters", []) or []
             starters_points = matchup.get("starters_points", []) or []
-            lookup_id = f"{league_id}.{roster_id}"
+            lookup_id = f"{league_id}&{roster_id}"
 
+            # Ensure all starters are captured safely
             length = max(len(starters), len(starters_points))
             for i in range(length):
                 player_id = str(starters[i]) if i < len(starters) else ""
@@ -92,47 +93,65 @@ def get_weekly_scores(league_id, league_year):
                     "lookupID": lookup_id,
                     "starter": player_id,
                     "starter_points": points,
-                    "array_index": i + 1,
+                    "array_index": i + 1,  # 1-based
                     "label": player_label_map.get(player_id, "")
                 })
     return results
 
 # -------------------------
-# FETCH ALL HISTORICAL DATA
+# FETCH AND COMBINE DATA (ALL YEARS)
 # -------------------------
+print("🔎 Rebuilding historical data for all years listed in LeagueIDs_AllYears.csv...")
+
 all_data = []
-for year in all_years:
-    league_ids = league_df.loc[league_df["Year"].astype(int) == year, "LeagueID"].tolist()
-    print(f"\n📅 Fetching data for {year} ({len(league_ids)} leagues)")
-    for league_id in league_ids:
-        print(f"➡️ League {league_id}")
-        league_scores = get_weekly_scores(league_id, league_year=year)
-        print(f"   -> {len(league_scores)} rows fetched")
-        all_data.extend(league_scores)
+
+for _, row in league_df.iterrows():
+    league_id = row["LeagueID"]
+    league_year = int(row["Year"])
+
+    print(f"➡️ Fetching scores for league {league_id} ({league_year})")
+    league_scores = get_weekly_scores(league_id, league_year=league_year)
+    print(f"   -> {len(league_scores)} rows fetched")
+
+    all_data.extend(league_scores)
 
 if not all_data:
-    raise RuntimeError("No data fetched. Check your LeagueIDs or network connection.")
+    print("⚠️ No data fetched. Exiting without changes.")
+    exit()
+
+new_df = pd.DataFrame(all_data)
 
 # -------------------------
-# BUILD AND SAVE FINAL CSV
+# DEDUPLICATE BASED ON KEY COLUMNS
 # -------------------------
-df = pd.DataFrame(all_data)
-
-# Deduplicate in case of any overlaps
-df = df.drop_duplicates(
-    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
+new_df = new_df.drop_duplicates(
+    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
     keep="last"
 )
 
-# Sort cleanly for readability
-df["array_index"] = df["array_index"].astype(int)
-df = df.sort_values(
+# -------------------------
+# COMBINE WITH EXISTING DATA (if any)
+# -------------------------
+if not existing_df.empty:
+    print("🔁 Combining with existing Scores.csv data...")
+    combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+
+    combined_df = combined_df.drop_duplicates(
+        subset=["LeagueYear", "league_id", "weekNum", "roster_id", "starter"],
+        keep="last"
+    )
+else:
+    combined_df = new_df
+
+# -------------------------
+# FINAL SORT & SAVE
+# -------------------------
+combined_df["array_index"] = combined_df["array_index"].astype(int)
+combined_df = combined_df.sort_values(
     by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]
 )
 
-os.makedirs(os.path.dirname(CSV_PATH), exist_ok=True)
-df.to_csv(CSV_PATH, index=False)
+combined_df.to_csv(CSV_PATH, index=False)
 
-print(f"\n✅ Historical rebuild complete!")
-print(f"📊 Total rows written: {len(df)}")
-print(f"💾 Saved to: {CSV_PATH}")
+print(f"\n✅ Historical rebuild complete — saved to {CSV_PATH}")
+print(f"📊 Total rows after rebuild: {len(combined_df)}")
