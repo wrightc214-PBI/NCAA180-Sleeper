@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import datetime
 import os
+import subprocess
 
 # -------------------------
 # CONFIG
@@ -19,7 +20,7 @@ if today.month < 3:  # Jan or Feb -> still previous NFL season
 else:
     CURRENT_YEAR = today.year
 
-print(f"🏈 Current NFL Year: {CURRENT_YEAR}")
+print(f"🏈 Running full rebuild — includes all years up to {CURRENT_YEAR}")
 
 # -------------------------
 # LOAD PLAYERS DATA
@@ -41,15 +42,16 @@ players_df["label"] = (
 player_label_map = pd.Series(players_df.label.values, index=players_df.player_id).to_dict()
 
 # -------------------------
-# LOAD LEAGUE IDs
+# LOAD LEAGUE IDs (all years)
 # -------------------------
 if not os.path.exists(LEAGUE_FILE):
     raise FileNotFoundError(f"Missing LeagueID file: {LEAGUE_FILE}")
 
 league_df = pd.read_csv(LEAGUE_FILE, dtype=str)
+league_df["Year"] = league_df["Year"].astype(int)
 
 # -------------------------
-# LOAD EXISTING CSV (handle empty)
+# LOAD EXISTING CSV (optional, for incremental rebuilds)
 # -------------------------
 if os.path.exists(CSV_PATH):
     try:
@@ -106,18 +108,22 @@ def get_weekly_scores(league_id, league_year):
     return results
 
 # -------------------------
-# FETCH AND COMBINE DATA (CURRENT YEAR ONLY)
+# FETCH AND COMBINE DATA (ALL YEARS)
 # -------------------------
-current_leagues = league_df.loc[league_df["Year"].astype(int) == CURRENT_YEAR, "LeagueID"].tolist()
-if not current_leagues:
-    raise ValueError(f"No leagues found for {CURRENT_YEAR} in {LEAGUE_FILE}")
-
 all_data = []
-for league_id in current_leagues:
-    print(f"➡️ Fetching scores for league {league_id}")
-    league_scores = get_weekly_scores(league_id, league_year=CURRENT_YEAR)
-    print(f"   -> {len(league_scores)} rows fetched")
-    all_data.extend(league_scores)
+
+for year in sorted(league_df["Year"].unique()):
+    leagues = league_df.loc[league_df["Year"] == year, "LeagueID"].tolist()
+    if not leagues:
+        print(f"⚠️ No leagues found for {year}")
+        continue
+
+    print(f"🏆 Fetching data for season {year} ({len(leagues)} leagues)")
+    for league_id in leagues:
+        print(f"➡️ League {league_id}")
+        league_scores = get_weekly_scores(league_id, league_year=year)
+        print(f"   -> {len(league_scores)} rows fetched")
+        all_data.extend(league_scores)
 
 if not all_data:
     print("⚠️ No new data fetched. Exiting without changes.")
@@ -126,35 +132,51 @@ if not all_data:
 new_df = pd.DataFrame(all_data)
 
 # -------------------------
-# DEDUPLICATE NEW DATA
+# DEDUPLICATE — overwrite duplicates based on key combo
 # -------------------------
 new_df = new_df.drop_duplicates(
-    subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
+    subset=["league_id", "weekNum", "roster_id", "array_index"],
     keep="last"
 )
 
 # -------------------------
-# COMBINE WITH EXISTING DATA (replace matching rows, append new)
+# COMBINE WITH EXISTING DATA (replace duplicates, append new)
 # -------------------------
 if not existing_df.empty:
-    # Remove any existing rows from the same year + same league/week/roster/array_index
-    merged = pd.concat([existing_df, new_df], ignore_index=True)
-    combined_df = merged.drop_duplicates(
-        subset=["LeagueYear", "league_id", "weekNum", "roster_id", "array_index"],
+    existing_df = existing_df.drop_duplicates(
+        subset=["league_id", "weekNum", "roster_id", "array_index"],
+        keep="last"
+    )
+
+    # Drop old duplicates and replace with latest
+    merged_df = pd.concat([existing_df, new_df], ignore_index=True)
+    merged_df = merged_df.drop_duplicates(
+        subset=["league_id", "weekNum", "roster_id", "array_index"],
         keep="last"
     )
 else:
-    combined_df = new_df
+    merged_df = new_df
 
 # -------------------------
 # SORT & SAVE
 # -------------------------
-combined_df["array_index"] = combined_df["array_index"].astype(int)
-combined_df = combined_df.sort_values(
+merged_df["array_index"] = merged_df["array_index"].astype(int)
+merged_df = merged_df.sort_values(
     by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"]
 )
 
-combined_df.to_csv(CSV_PATH, index=False)
+merged_df.to_csv(CSV_PATH, index=False)
 
-print(f"\n✅ Scores.csv updated for {CURRENT_YEAR}")
-print(f"📊 Total rows after update: {len(combined_df)}")
+print(f"\n✅ Rebuild complete — Scores.csv updated through {CURRENT_YEAR}")
+print(f"📊 Total rows after rebuild: {len(merged_df)}")
+
+# -------------------------
+# AUTO GIT COMMIT + PUSH
+# -------------------------
+try:
+    subprocess.run(["git", "add", CSV_PATH], check=True)
+    subprocess.run(["git", "commit", "-m", f"Auto rebuild: Scores.csv updated through {CURRENT_YEAR}"], check=True)
+    subprocess.run(["git", "push"], check=True)
+    print("🚀 Auto-commit and push completed successfully.")
+except subprocess.CalledProcessError as e:
+    print(f"⚠️ Git auto-commit failed: {e}")
