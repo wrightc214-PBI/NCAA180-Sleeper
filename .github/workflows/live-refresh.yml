@@ -3,7 +3,7 @@ name: Live Scoreboard Refresh
 on:
   schedule:
     - cron: "*/10 * * * *"   # every 10 minutes
-  workflow_dispatch:          # allows manual trigger
+  workflow_dispatch:          # manual trigger
 
 jobs:
   refresh:
@@ -25,7 +25,7 @@ jobs:
         run: python NFLgameStatus.py
 
       - name: Refresh Scores
-        if: ${{ success() }}   # only if previous step exit code == 0
+        if: ${{ success() }}   # Only runs if NFLgameStatus exit code == 0
         run: python score_details.py
 
       - name: Commit updated Scores.csv
@@ -36,3 +36,30 @@ jobs:
           git add data/Scores.csv
           git commit -m "Auto update live scores"
           git push
+
+      - name: Trigger Power BI dataset refresh
+        if: ${{ success() }}
+        env:
+          TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
+          CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.PBI_CLIENT_SECRET }}
+          WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
+          DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
+        run: |
+          echo "🔐 Getting Power BI access token via MSAL..."
+          TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default" \
+            | jq -r '.access_token')
+
+          echo "🚀 Triggering dataset refresh in Power BI..."
+          RESPONSE=$(curl -s -w "%{http_code}" -o /dev/null -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes")
+
+          if [ "$RESPONSE" = "202" ]; then
+            echo "✅ Power BI refresh triggered successfully!"
+          else
+            echo "⚠️ Power BI refresh returned status $RESPONSE"
+          fi
