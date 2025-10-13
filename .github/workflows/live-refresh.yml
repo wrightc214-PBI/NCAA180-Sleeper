@@ -13,8 +13,14 @@ on:
     # Monday nights (8PM–Midnight ET → Tue 00–04 UTC), every 5 minutes
     - cron: "*/5 0-3 * * TUE"
 
-  # Manual run
+  # 🧠 Manual trigger (adds dropdown option in GitHub Actions)
   workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: "Force Power BI refresh even if no data changed or no games are active"
+        required: false
+        default: "false"
+
 
 permissions:
   contents: write
@@ -143,12 +149,11 @@ jobs:
             git push || echo "Nothing to push"
             echo "DATA_CHANGED=true" >> $GITHUB_ENV
           fi
-
       # --------------------------------------------------------
       # 🚀 Step 7: Trigger Power BI dataset refresh
       # --------------------------------------------------------
       - name: Trigger Power BI dataset refresh
-        if: env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true'
+        if: env.GAMES_ACTIVE == 'true' && (env.DATA_CHANGED == 'true' || github.event.inputs.force_refresh == 'true')
         env:
           TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
           CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
@@ -184,6 +189,7 @@ jobs:
             jq '.' response.json || true
             exit 1
           fi
+
 
       # --------------------------------------------------------
       # 📋 Step 8: Run summary
