@@ -37,17 +37,7 @@ jobs:
       # --------------------------------------------------------
       # 🗓️ Step 1: Skip if outside NFL season (Sep 1–Jan 15)
       # --------------------------------------------------------
-      # Check Secrets
-      - name: Debug Power BI secrets (masked)
-        run: |
-          echo "Tenant ID: ${{ secrets.PBI_TENANT_ID }}"
-          echo "Client ID: ${{ secrets.PBI_CLIENT_ID }}"
-          echo "Client Secret: ${{ secrets.PBI_CLIENT_SECRET }}"
-          echo "Workspace ID: ${{ secrets.PBI_WORKSPACE_ID }}"
-          echo "Dataset ID: ${{ secrets.PBI_DATASET_ID }}"
-
-
-    
+   
       - name: Check if current date is within NFL season
         id: season_check
         run: |
@@ -164,6 +154,15 @@ jobs:
       # --------------------------------------------------------
       # 🚀 Step 7: Trigger Power BI dataset refresh
       # --------------------------------------------------------
+      # Check Secrets
+      - name: Debug Power BI secrets (masked)
+        run: |
+          echo "Tenant ID: ${{ secrets.PBI_TENANT_ID }}"
+          echo "Client ID: ${{ secrets.PBI_CLIENT_ID }}"
+          echo "Client Secret: ${{ secrets.PBI_CLIENT_SECRET }}"
+          echo "Workspace ID: ${{ secrets.PBI_WORKSPACE_ID }}"
+          echo "Dataset ID: ${{ secrets.PBI_DATASET_ID }}"
+          
       - name: Trigger Power BI dataset refresh
         if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
         env:
