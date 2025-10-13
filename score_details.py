@@ -34,16 +34,12 @@ if not os.path.exists(PLAYERS_FILE):
     raise FileNotFoundError(f"Missing Players file: {PLAYERS_FILE}")
 
 players_df = pd.read_csv(PLAYERS_FILE, dtype=str)
-
-# Create readable player labels
 players_df["label"] = (
     players_df["first_name"].fillna("") + " " +
     players_df["last_name"].fillna("") + ", " +
     players_df["position"].fillna("") + " (" +
     players_df["team"].fillna("") + ")"
 )
-
-# Build player ID → label lookup
 player_label_map = pd.Series(players_df.label.values, index=players_df.player_id).to_dict()
 
 # -------------------------
@@ -79,11 +75,12 @@ def normalize_keys(df):
     return df
 
 # -------------------------
-# FUNCTION TO FETCH SCORES
+# FUNCTION TO FETCH SCORES (fixed for correct point source)
 # -------------------------
 def get_weekly_scores(league_id, league_year, week=None):
     results = []
     weeks_to_pull = [week] if week else range(1, 19)
+
     for week_num in weeks_to_pull:
         url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week_num}"
         try:
@@ -100,10 +97,18 @@ def get_weekly_scores(league_id, league_year, week=None):
             roster_id = matchup.get("roster_id", "")
             starters = matchup.get("starters", []) or []
             starters_points = matchup.get("starters_points", []) or []
+            player_points = matchup.get("players_points", {}) or {}
             lookup_id = f"{league_id}{roster_id}"
 
             for i, player_id in enumerate(starters):
-                points = starters_points[i] if i < len(starters_points) else ""
+                # Prefer players_points dict for accuracy
+                points = player_points.get(str(player_id))
+                # Fall back to starters_points positional list
+                if points is None and i < len(starters_points):
+                    points = starters_points[i]
+                # Clean fallback for missing/null
+                points = float(points) if points not in (None, "", "null") else 0.0
+
                 results.append({
                     "LeagueYear": league_year,
                     "league_id": league_id,
@@ -136,6 +141,7 @@ if not all_data:
     exit()
 
 new_df = pd.DataFrame(all_data)
+new_df["starter_points"] = pd.to_numeric(new_df["starter_points"], errors="coerce").fillna(0)
 
 # -------------------------
 # NORMALIZE BEFORE MERGE
@@ -170,8 +176,8 @@ combined_df.sort_values(
     by=["LeagueYear", "league_id", "roster_id", "weekNum", "array_index"],
     inplace=True
 )
-
 combined_df.to_csv(CSV_PATH, index=False)
+
 print(f"\n✅ Scores.csv updated for {CURRENT_YEAR}")
 print(f"📊 Total rows after update: {len(combined_df)}")
 
