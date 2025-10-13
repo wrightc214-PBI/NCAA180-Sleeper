@@ -13,13 +13,12 @@ on:
     # Monday nights (8PM–Midnight ET → Tue 00–04 UTC), every 5 minutes
     - cron: "*/5 0-3 * * TUE"
 
-  # Allow manual runs anytime
+  # Manual run
   workflow_dispatch:
 
 permissions:
   contents: write
 
-# Prevent overlapping runs if one is still executing
 concurrency:
   group: live-scoreboard-refresh
   cancel-in-progress: true
@@ -30,7 +29,7 @@ jobs:
 
     steps:
       # --------------------------------------------------------
-      # 🗓️ Step 1: Skip workflow if outside NFL season (Sep 1–Jan 15)
+      # 🗓️ Step 1: Skip if outside NFL season (Sep 1–Jan 15)
       # --------------------------------------------------------
       - name: Check if current date is within NFL season
         id: season_check
@@ -40,12 +39,9 @@ jobs:
           DAY=$(date -u +%d)
           RUN_SEASON=false
 
-          # Allow Sep–Dec
           if [ $MONTH -ge 9 ] && [ $MONTH -le 12 ]; then
             RUN_SEASON=true
           fi
-
-          # Allow Jan 1–15
           if [ $MONTH -eq 1 ] && [ $DAY -le 15 ]; then
             RUN_SEASON=true
           fi
@@ -64,7 +60,7 @@ jobs:
         run: echo "🛑 Skipping job (offseason months)."
 
       # --------------------------------------------------------
-      # 🧰 Step 2: Standard setup
+      # 🧰 Step 2: Setup
       # --------------------------------------------------------
       - name: Checkout repo
         if: env.IN_SEASON == 'true'
@@ -78,7 +74,7 @@ jobs:
 
       - name: Install dependencies
         if: env.IN_SEASON == 'true'
-        run: pip install pandas requests jq
+        run: pip install pandas requests jq pytz
 
       - name: Cron heartbeat
         if: env.IN_SEASON == 'true'
@@ -93,7 +89,7 @@ jobs:
         if: env.IN_SEASON == 'true'
         id: gamestatus
         run: python NFLgameStatus.py
-        continue-on-error: true  # exit 1 = no games, exit 2 = error
+        continue-on-error: true  # don't fail on exit 1
 
       - name: Parse NFL status JSON
         if: env.IN_SEASON == 'true' && always()
@@ -101,9 +97,13 @@ jobs:
           if [ -f "nfl_status.json" ]; then
             WEEK_NUM=$(jq -r '.week_number' nfl_status.json)
             GAMES_ACTIVE=$(jq -r '.games_active' nfl_status.json)
+            REFRESH_INTERVAL=$(jq -r '.refresh_interval' nfl_status.json)
+            TIMESTAMP_ET=$(jq -r '.timestamp_et' nfl_status.json)
             echo "WEEK_NUM=$WEEK_NUM" >> $GITHUB_ENV
             echo "GAMES_ACTIVE=$GAMES_ACTIVE" >> $GITHUB_ENV
-            echo "📅 Week: $WEEK_NUM | 🏈 Games active: $GAMES_ACTIVE"
+            echo "REFRESH_INTERVAL=$REFRESH_INTERVAL" >> $GITHUB_ENV
+            echo "TIMESTAMP_ET=$TIMESTAMP_ET" >> $GITHUB_ENV
+            echo "📅 Week: $WEEK_NUM | 🏈 Games active: $GAMES_ACTIVE | 🔁 Refresh: ${REFRESH_INTERVAL}m | 🕒 $TIMESTAMP_ET"
           else
             echo "⚠️ nfl_status.json not found — likely API error."
             echo "GAMES_ACTIVE=false" >> $GITHUB_ENV
@@ -124,7 +124,7 @@ jobs:
         run: python score_details.py --week $WEEK_NUM
 
       # --------------------------------------------------------
-      # 💾 Step 6: Commit updated CSV + timestamps
+      # 💾 Step 6: Commit updated CSV + timestamp
       # --------------------------------------------------------
       - name: Commit updated data
         if: env.GAMES_ACTIVE == 'true'
@@ -164,3 +164,15 @@ jobs:
           else
             echo "⚠️ Power BI refresh returned status $RESPONSE"
           fi
+
+      # --------------------------------------------------------
+      # 📋 Step 8: Add summary log for all runs
+      # --------------------------------------------------------
+      - name: Run summary
+        if: always()
+        run: |
+          echo "🧾 --- SUMMARY ---"
+          echo "📅 Week: ${WEEK_NUM:-unknown}"
+          echo "🏈 Games active: ${GAMES_ACTIVE:-unknown}"
+          echo "🔁 Refresh interval: ${REFRESH_INTERVAL:-unknown} min"
+          echo "🕒 Timestamp (ET): ${TIMESTAMP_ET:-unknown}"
