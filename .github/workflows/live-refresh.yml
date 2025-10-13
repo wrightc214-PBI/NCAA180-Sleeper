@@ -1,17 +1,25 @@
 name: Live Scoreboard Refresh
 
 on:
-  # Runs at the top of every hour (UTC)
+  # 🏈 Schedule (UTC times)
   schedule:
-    - cron: "0 * * * *"
-  # Lets you run it by hand anytime
+    # Thursday nights (8PM–Midnight ET → Fri 00–04 UTC), every 15 minutes
+    - cron: "*/15 0-3 * * FRI"
+
+    # Sunday (1PM–Midnight ET → Sun 17–23 UTC, Mon 00–04 UTC), every 15 minutes
+    - cron: "*/15 17-23 * * SUN"
+    - cron: "*/15 0-3 * * MON"
+
+    # Monday nights (8PM–Midnight ET → Tue 00–04 UTC), every 5 minutes
+    - cron: "*/5 0-3 * * TUE"
+
+  # Allow manual runs anytime
   workflow_dispatch:
 
-# Allow this workflow to commit/push
 permissions:
   contents: write
 
-# Prevent overlapping runs if one is still going when the next hour hits
+# Prevent overlapping runs if one is still executing
 concurrency:
   group: live-scoreboard-refresh
   cancel-in-progress: true
@@ -21,40 +29,105 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # --------------------------------------------------------
+      # 🗓️ Step 1: Skip workflow if outside NFL season (Sep 1–Jan 15)
+      # --------------------------------------------------------
+      - name: Check if current date is within NFL season
+        id: season_check
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          MONTH=$(date -u +%m)
+          DAY=$(date -u +%d)
+          RUN_SEASON=false
+
+          # Allow Sep–Dec
+          if [ $MONTH -ge 9 ] && [ $MONTH -le 12 ]; then
+            RUN_SEASON=true
+          fi
+
+          # Allow Jan 1–15
+          if [ $MONTH -eq 1 ] && [ $DAY -le 15 ]; then
+            RUN_SEASON=true
+          fi
+
+          if [ "$RUN_SEASON" = "false" ]; then
+            echo "⚠️ $TODAY is outside NFL season. Skipping workflow."
+            echo "IN_SEASON=false" >> $GITHUB_ENV
+            exit 0
+          else
+            echo "🏈 NFL season active ($TODAY). Continuing..."
+            echo "IN_SEASON=true" >> $GITHUB_ENV
+          fi
+
+      - name: Skip notice (offseason)
+        if: env.IN_SEASON != 'true'
+        run: echo "🛑 Skipping job (offseason months)."
+
+      # --------------------------------------------------------
+      # 🧰 Step 2: Standard setup
+      # --------------------------------------------------------
       - name: Checkout repo
+        if: env.IN_SEASON == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Python
+        if: env.IN_SEASON == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install pandas requests
+        if: env.IN_SEASON == 'true'
+        run: pip install pandas requests jq
 
-      # Heartbeat so you can see it fired and when (UTC)
       - name: Cron heartbeat
+        if: env.IN_SEASON == 'true'
         run: |
           echo "⏰ Cron fired at: $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
           echo "Tip: UTC = ET + 4 (during Daylight Time)."
 
-      # 1) Check NFL game status and capture active week
+      # --------------------------------------------------------
+      # 🏈 Step 3: Check game status
+      # --------------------------------------------------------
       - name: Check if games are active
+        if: env.IN_SEASON == 'true'
         id: gamestatus
         run: python NFLgameStatus.py
+        continue-on-error: true  # exit 1 = no games, exit 2 = error
 
-      - name: Read NFL week number
-        if: ${{ success() }}
-        run: echo "WEEK_NUM=$(jq -r '.week_number' nfl_status.json)" >> $GITHUB_ENV
+      - name: Parse NFL status JSON
+        if: env.IN_SEASON == 'true' && always()
+        run: |
+          if [ -f "nfl_status.json" ]; then
+            WEEK_NUM=$(jq -r '.week_number' nfl_status.json)
+            GAMES_ACTIVE=$(jq -r '.games_active' nfl_status.json)
+            echo "WEEK_NUM=$WEEK_NUM" >> $GITHUB_ENV
+            echo "GAMES_ACTIVE=$GAMES_ACTIVE" >> $GITHUB_ENV
+            echo "📅 Week: $WEEK_NUM | 🏈 Games active: $GAMES_ACTIVE"
+          else
+            echo "⚠️ nfl_status.json not found — likely API error."
+            echo "GAMES_ACTIVE=false" >> $GITHUB_ENV
+          fi
 
-      # 2) Refresh scores for active week only
+      # --------------------------------------------------------
+      # ⏸️ Step 4: Skip if no active games
+      # --------------------------------------------------------
+      - name: Skip if no active games
+        if: env.GAMES_ACTIVE != 'true'
+        run: echo "😴 No live games right now. Skipping score refresh."
+
+      # --------------------------------------------------------
+      # 🔄 Step 5: Refresh data if games are active
+      # --------------------------------------------------------
       - name: Refresh Scores for active week
-        if: ${{ success() }}
+        if: env.GAMES_ACTIVE == 'true'
         run: python score_details.py --week $WEEK_NUM
 
-      # 3) Commit updated CSV and LastUpdate
+      # --------------------------------------------------------
+      # 💾 Step 6: Commit updated CSV + timestamps
+      # --------------------------------------------------------
       - name: Commit updated data
-        if: ${{ success() }}
+        if: env.GAMES_ACTIVE == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -62,9 +135,11 @@ jobs:
           git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
           git push || echo "Nothing to push"
 
-      # 4) Trigger Power BI dataset refresh
+      # --------------------------------------------------------
+      # 🚀 Step 7: Trigger Power BI refresh
+      # --------------------------------------------------------
       - name: Trigger Power BI dataset refresh
-        if: ${{ success() }}
+        if: env.GAMES_ACTIVE == 'true'
         env:
           TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
           CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
@@ -72,7 +147,7 @@ jobs:
           WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
           DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
         run: |
-          echo "🔐 Getting Power BI access token via MSAL..."
+          echo "🔐 Getting Power BI access token..."
           TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default" \
