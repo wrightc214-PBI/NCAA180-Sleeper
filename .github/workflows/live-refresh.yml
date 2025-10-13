@@ -89,7 +89,7 @@ jobs:
         if: env.IN_SEASON == 'true'
         id: gamestatus
         run: python NFLgameStatus.py
-        continue-on-error: true  # don't fail on exit 1
+        continue-on-error: true  # don't fail on exit 1 (no games)
 
       - name: Parse NFL status JSON
         if: env.IN_SEASON == 'true' && always()
@@ -131,15 +131,24 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/Scores.csv data/LastUpdate.csv || true
-          git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
-          git push || echo "Nothing to push"
+
+          # Check if there are changes before committing
+          if git diff --quiet --exit-code data/Scores.csv data/LastUpdate.csv; then
+            echo "No data changes detected."
+            echo "DATA_CHANGED=false" >> $GITHUB_ENV
+          else
+            echo "📈 New data detected — committing update."
+            git add data/Scores.csv data/LastUpdate.csv || true
+            git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
+            git push || echo "Nothing to push"
+            echo "DATA_CHANGED=true" >> $GITHUB_ENV
+          fi
 
       # --------------------------------------------------------
-      # 🚀 Step 7: Trigger Power BI refresh
+      # 🚀 Step 7: Trigger Power BI dataset refresh
       # --------------------------------------------------------
       - name: Trigger Power BI dataset refresh
-        if: env.GAMES_ACTIVE == 'true'
+        if: env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true'
         env:
           TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
           CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
@@ -147,26 +156,37 @@ jobs:
           WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
           DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
         run: |
+          echo "⏳ Waiting 10 seconds to ensure GitHub commit is visible..."
+          sleep 10
+
           echo "🔐 Getting Power BI access token..."
           TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default" \
             | jq -r '.access_token')
 
+          if [ -z "$TOKEN" ] || [ "$TOKEN" == "null" ]; then
+            echo "❌ Failed to obtain Power BI access token"
+            exit 1
+          fi
+
           echo "🚀 Triggering dataset refresh in Power BI..."
-          RESPONSE=$(curl -s -w "%{http_code}" -o /dev/null -X POST \
+          RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
-            "https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes")
+            -X POST "https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes")
 
           if [ "$RESPONSE" = "202" ]; then
-            echo "✅ Power BI refresh queued"
+            echo "✅ Power BI refresh successfully queued"
+            jq '.' response.json || true
           else
             echo "⚠️ Power BI refresh returned status $RESPONSE"
+            jq '.' response.json || true
+            exit 1
           fi
 
       # --------------------------------------------------------
-      # 📋 Step 8: Add summary log for all runs
+      # 📋 Step 8: Run summary
       # --------------------------------------------------------
       - name: Run summary
         if: always()
@@ -176,3 +196,4 @@ jobs:
           echo "🏈 Games active: ${GAMES_ACTIVE:-unknown}"
           echo "🔁 Refresh interval: ${REFRESH_INTERVAL:-unknown} min"
           echo "🕒 Timestamp (ET): ${TIMESTAMP_ET:-unknown}"
+          echo "💾 Data changed: ${DATA_CHANGED:-unknown}"
