@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import datetime
 import os
+import argparse
 
 # -------------------------
 # CONFIG
@@ -11,11 +12,20 @@ LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
 # -------------------------
+# ARGUMENT PARSER
+# -------------------------
+parser = argparse.ArgumentParser(description="Fetch Sleeper league scores.")
+parser.add_argument("--week", type=int, help="Specify NFL week number to fetch (1–18)")
+args = parser.parse_args()
+
+# -------------------------
 # DETERMINE CURRENT NFL YEAR (adjust for Jan/Feb rollover)
 # -------------------------
 today = datetime.date.today()
 CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
 print(f"🏈 Current NFL Year: {CURRENT_YEAR}")
+if args.week:
+    print(f"📅 Limiting update to Week {args.week}")
 
 # -------------------------
 # LOAD PLAYERS DATA
@@ -69,21 +79,22 @@ def normalize_keys(df):
     return df
 
 # -------------------------
-# FUNCTION TO FETCH WEEKLY SCORES
+# FUNCTION TO FETCH SCORES
 # -------------------------
-def get_weekly_scores(league_id, league_year):
+def get_weekly_scores(league_id, league_year, week=None):
     results = []
-    for week in range(1, 19):  # NFL weeks 1–18
-        url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week}"
+    weeks_to_pull = [week] if week else range(1, 19)
+    for week_num in weeks_to_pull:
+        url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week_num}"
         try:
             resp = requests.get(url, timeout=10)
             resp.raise_for_status()
         except Exception as e:
-            print(f"⚠️ Error fetching league {league_id}, week {week}: {e}")
+            print(f"⚠️ Error fetching league {league_id}, week {week_num}: {e}")
             continue
 
         matchups = resp.json() or []
-        print(f"  Week {week}: {len(matchups)} matchups")
+        print(f"  Week {week_num}: {len(matchups)} matchups")
 
         for matchup in matchups:
             roster_id = matchup.get("roster_id", "")
@@ -96,7 +107,7 @@ def get_weekly_scores(league_id, league_year):
                 results.append({
                     "LeagueYear": league_year,
                     "league_id": league_id,
-                    "weekNum": week,
+                    "weekNum": week_num,
                     "roster_id": roster_id,
                     "lookupID": lookup_id,
                     "starter": str(player_id),
@@ -116,7 +127,7 @@ if not current_leagues:
 all_data = []
 for league_id in current_leagues:
     print(f"➡️ Fetching scores for league {league_id}")
-    league_scores = get_weekly_scores(league_id, league_year=CURRENT_YEAR)
+    league_scores = get_weekly_scores(league_id, league_year=CURRENT_YEAR, week=args.week)
     print(f"   -> {len(league_scores)} rows fetched")
     all_data.extend(league_scores)
 
@@ -161,6 +172,14 @@ combined_df.sort_values(
 )
 
 combined_df.to_csv(CSV_PATH, index=False)
-
 print(f"\n✅ Scores.csv updated for {CURRENT_YEAR}")
 print(f"📊 Total rows after update: {len(combined_df)}")
+
+# -------------------------
+# UPDATE TRACKER
+# -------------------------
+try:
+    os.system("python update_tracker.py")
+    print("🕒 LastUpdate.csv refreshed successfully.")
+except Exception as e:
+    print(f"⚠️ Could not update LastUpdate.csv: {e}")

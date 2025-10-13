@@ -3,7 +3,7 @@ name: Live Scoreboard Refresh
 on:
   schedule:
     - cron: "*/10 * * * *"   # every 10 minutes
-  workflow_dispatch:          # manual trigger
+  workflow_dispatch:          # allows manual trigger
 
 jobs:
   refresh:
@@ -19,24 +19,45 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install pandas requests
+        run: pip install pandas requests jq
 
+      # -------------------------------
+      # 1️⃣ Check current game status
+      # -------------------------------
       - name: Check if games are active
+        id: gamestatus
         run: python NFLgameStatus.py
 
-      - name: Refresh Scores
-        if: ${{ success() }}   # Only runs if NFLgameStatus exit code == 0
-        run: python score_details.py
+      # -------------------------------
+      # 2️⃣ Extract week number from JSON
+      # -------------------------------
+      - name: Read NFL week number
+        if: ${{ success() }}
+        id: week
+        run: echo "WEEK_NUM=$(jq -r '.week_number' nfl_status.json)" >> $GITHUB_ENV
 
+      # -------------------------------
+      # 3️⃣ Refresh scores for active week only
+      # -------------------------------
+      - name: Refresh Scores for active week
+        if: ${{ success() }}
+        run: python score_details.py --week $WEEK_NUM
+
+      # -------------------------------
+      # 4️⃣ Commit updated CSV
+      # -------------------------------
       - name: Commit updated Scores.csv
         if: ${{ success() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/Scores.csv
-          git commit -m "Auto update live scores"
+          git commit -m "Auto update live scores (Week $WEEK_NUM)"
           git push
 
+      # -------------------------------
+      # 5️⃣ Trigger Power BI refresh
+      # -------------------------------
       - name: Trigger Power BI dataset refresh
         if: ${{ success() }}
         env:
