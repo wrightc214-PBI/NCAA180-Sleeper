@@ -1,0 +1,38 @@
+name: Live Scoreboard Refresh
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes
+  workflow_dispatch:          # allows manual trigger
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas requests
+
+      - name: Check if games are active
+        run: python NFLgameStatus.py
+
+      - name: Refresh Scores
+        if: ${{ success() }}   # only if previous step exit code == 0
+        run: python score_details.py
+
+      - name: Commit updated Scores.csv
+        if: ${{ success() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/Scores.csv
+          git commit -m "Auto update live scores"
+          git push
