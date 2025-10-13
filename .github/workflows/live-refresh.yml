@@ -149,11 +149,12 @@ jobs:
             git push || echo "Nothing to push"
             echo "DATA_CHANGED=true" >> $GITHUB_ENV
           fi
+
       # --------------------------------------------------------
       # 🚀 Step 7: Trigger Power BI dataset refresh
       # --------------------------------------------------------
       - name: Trigger Power BI dataset refresh
-        if: env.GAMES_ACTIVE == 'true' && (env.DATA_CHANGED == 'true' || github.event.inputs.force_refresh == 'true')
+        if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
         env:
           TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
           CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
@@ -189,7 +190,7 @@ jobs:
             jq '.' response.json || true
             exit 1
           fi
-
+          
 
       # --------------------------------------------------------
       # 📋 Step 8: Run summary
