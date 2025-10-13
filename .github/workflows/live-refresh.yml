@@ -4,13 +4,14 @@ on:
   # Runs at the top of every hour (UTC)
   schedule:
     - cron: "0 * * * *"
-  # Manual run
+  # Lets you run it by hand anytime
   workflow_dispatch:
 
+# Allow this workflow to commit/push
 permissions:
   contents: write
 
-# Prevent overlapping runs if one is still going
+# Prevent overlapping runs if one is still going when the next hour hits
 concurrency:
   group: live-scoreboard-refresh
   cancel-in-progress: true
@@ -29,49 +30,31 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install pandas requests jq
+        run: pip install pandas requests
 
-      # Heartbeat log
+      # Heartbeat so you can see it fired and when (UTC)
       - name: Cron heartbeat
         run: |
           echo "⏰ Cron fired at: $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
           echo "Tip: UTC = ET + 4 (during Daylight Time)."
 
-      # 1️⃣ Check NFL game status
+      # 1) Check NFL game status and capture active week
       - name: Check if games are active
         id: gamestatus
         run: python NFLgameStatus.py
-        continue-on-error: true  # Prevent workflow failure on exit 1 (no games)
 
-      # 2️⃣ Parse game status JSON regardless of exit code
-      - name: Parse NFL status JSON
-        if: always()
-        run: |
-          if [ -f "nfl_status.json" ]; then
-            WEEK_NUM=$(jq -r '.week_number' nfl_status.json)
-            GAMES_ACTIVE=$(jq -r '.games_active' nfl_status.json)
-            echo "WEEK_NUM=$WEEK_NUM" >> $GITHUB_ENV
-            echo "GAMES_ACTIVE=$GAMES_ACTIVE" >> $GITHUB_ENV
-            echo "📅 Week: $WEEK_NUM | 🏈 Games active: $GAMES_ACTIVE"
-          else
-            echo "⚠️ nfl_status.json not found — likely an API error."
-            echo "GAMES_ACTIVE=false" >> $GITHUB_ENV
-            exit 2
-          fi
+      - name: Read NFL week number
+        if: ${{ success() }}
+        run: echo "WEEK_NUM=$(jq -r '.week_number' nfl_status.json)" >> $GITHUB_ENV
 
-      # 3️⃣ Stop early if no active games
-      - name: Skip if no active games
-        if: env.GAMES_ACTIVE != 'true'
-        run: echo "🕒 No live games — skipping score refresh."
-        
-      # 4️⃣ Refresh Scores (only if games are active)
+      # 2) Refresh scores for active week only
       - name: Refresh Scores for active week
-        if: env.GAMES_ACTIVE == 'true'
+        if: ${{ success() }}
         run: python score_details.py --week $WEEK_NUM
 
-      # 5️⃣ Commit updated CSV + timestamp (only if games are active)
+      # 3) Commit updated CSV and LastUpdate
       - name: Commit updated data
-        if: env.GAMES_ACTIVE == 'true'
+        if: ${{ success() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -79,9 +62,9 @@ jobs:
           git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
           git push || echo "Nothing to push"
 
-      # 6️⃣ Trigger Power BI refresh (only if games are active)
+      # 4) Trigger Power BI dataset refresh
       - name: Trigger Power BI dataset refresh
-        if: env.GAMES_ACTIVE == 'true'
+        if: ${{ success() }}
         env:
           TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
           CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
