@@ -384,6 +384,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 ATL,Atlanta,Falcons,DEF,,ATL
 10219,Chris,Rodriguez,RB,Active,WAS
 4983,DJ,Moore,WR,Active,CHI
+12460,Antwane,Wells,WR,Active,NYG
 5022,Dallas,Goedert,TE,Active,PHI
 12849,Traeshon,Holden,WR,Active,DAL
 CAR,Carolina,Panthers,DEF,,CAR
@@ -449,7 +450,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 8250,Tay,Martin,WR,Active,WAS
 12715,Thomas,Fidone,TE,Active,NYG
 10857,Stetson,Bennett,QB,Active,LAR
-9229,Anthony,Richardson,QB,Active,IND
+9229,Anthony,Richardson,QB,Inactive,IND
 6770,Joe,Burrow,QB,Inactive,CIN
 11624,Xavier,Worthy,WR,Active,KC
 11994,Kameron,Johnson,WR,Active,TB
@@ -532,6 +533,7 @@ GB,Green Bay,Packers,DEF,,GB
 12939,Anthony,Tyus,RB,Active,CAR
 8129,Dameon,Pierce,RB,Active,HOU
 11581,MarShawn,Lloyd,RB,Inactive,GB
+5032,Jordan,Akins,TE,Active,JAX
 4080,Zay,Jones,WR,Active,ARI
 4147,Samaje,Perine,RB,Active,CIN
 12538,Brady,Cook,QB,Active,NYJ
