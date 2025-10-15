@@ -84,3 +84,7 @@ jobs:
 
       - name: List CSVs
         run: ls -l data/
+
+      - name: Record last modified times
+        run: python update_lastmodified.py
+
