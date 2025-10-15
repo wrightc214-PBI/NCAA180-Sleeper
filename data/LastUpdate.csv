@@ -1,21 +1,21 @@
-Filename,LastModifiedET
-Drafts_AllYears.csv,2025-10-12T12:33:43.382505-04:00
-Rosters_Current.csv,2025-10-12T12:33:43.395505-04:00
-Results_RegularSeason.csv,2025-10-12T12:33:43.393505-04:00
-Rosters_Players_AllYears.csv,2025-10-12T12:33:43.401505-04:00
-Scores.csv,2025-10-12T12:33:43.445505-04:00
-ScoringSettings.csv,2025-10-12T12:33:43.446505-04:00
-Users_AllYears.csv,2025-10-12T12:33:43.455506-04:00
-Players.csv,2025-10-12T12:33:43.388505-04:00
-Divisions.csv,2025-10-12T12:33:43.381505-04:00
-Transactions_AllYears.csv,2025-10-12T12:33:43.455506-04:00
-Teams.csv,2025-10-12T12:33:43.446505-04:00
-LeagueIDs_AllYears.csv,2025-10-12T12:33:43.382505-04:00
-Colors - Teams.csv,2025-10-12T12:33:43.381505-04:00
-LeagueShortNames.csv,2025-10-12T12:33:43.382505-04:00
-Colors - Leagues.csv,2025-10-12T12:33:43.381505-04:00
-Lineup.csv,2025-10-12T12:33:43.382505-04:00
-DraftPicks_AllYears.csv,2025-10-12T12:33:43.382505-04:00
-LastUpdate.csv,2025-10-12T12:33:43.382505-04:00
-Weeks.csv,2025-10-12T12:33:43.455506-04:00
-Matchups_AllYears.csv,2025-10-12T12:33:43.388505-04:00
+FileName,LastModified,Size_KB
+Colors - Leagues.csv,2025-10-15 20:05:51 UTC,2.0
+Colors - Teams.csv,2025-10-15 20:05:51 UTC,4.9
+Divisions.csv,2025-10-15 20:05:51 UTC,0.7
+DraftPicks_AllYears.csv,2025-10-15 20:05:51 UTC,386.4
+Drafts_AllYears.csv,2025-10-15 20:05:51 UTC,5.9
+LastUpdate.csv,2025-10-15 20:05:51 UTC,1.1
+LeagueIDs_AllYears.csv,2025-10-15 20:05:51 UTC,3.9
+LeagueShortNames.csv,2025-10-15 20:05:51 UTC,0.3
+Lineup.csv,2025-10-15 20:05:51 UTC,0.1
+Matchups_AllYears.csv,2025-10-15 20:05:51 UTC,2020.8
+Players.csv,2025-10-15 20:05:51 UTC,30.4
+Results_RegularSeason.csv,2025-10-15 20:05:51 UTC,1420.5
+Rosters_Current.csv,2025-10-15 20:05:51 UTC,708.2
+Rosters_Players_AllYears.csv,2025-10-15 20:05:51 UTC,2784.1
+Scores.csv,2025-10-15 20:07:35 UTC,16384.1
+ScoringSettings.csv,2025-10-15 20:05:51 UTC,1.7
+Teams.csv,2025-10-15 20:05:51 UTC,19.9
+Transactions_AllYears.csv,2025-10-15 20:05:51 UTC,2894.3
+Users_AllYears.csv,2025-10-15 20:06:19 UTC,82.3
+Weeks.csv,2025-10-15 20:05:51 UTC,0.3
