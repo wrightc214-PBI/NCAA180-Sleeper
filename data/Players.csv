@@ -405,7 +405,6 @@ CAR,Carolina,Panthers,DEF,,CAR
 2374,Tyler,Lockett,WR,Active,TEN
 6957,James,Proche,WR,Active,TEN
 3357,Brandon,Allen,QB,Active,TEN
-6268,Matthew,Wright,K,Active,TEN
 10229,Rashee,Rice,WR,Active,KC
 3050,Myles,White,WR,Active,NYJ
 12776,Connor,Bazelak,QB,Active,TB
@@ -482,7 +481,7 @@ GB,Green Bay,Packers,DEF,,GB
 7090,Darnell,Mooney,WR,Active,ATL
 6677,Joe,Forson,WR,Practice Squad,KC
 7612,Dee,Eskridge,WR,Active,MIA
-4217,George,Kittle,TE,Inactive,SF
+4217,George,Kittle,TE,Active,SF
 12480,Moliki,Matavao,TE,Active,NO
 7529,Gary,Brightwell,RB,Active,CIN
 11628,Marvin,Harrison,WR,Active,ARI
@@ -776,7 +775,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 3155,Laquon,Treadwell,WR,Active,IND
 8162,Sam,Howell,QB,Active,PHI
 11560,Caleb,Williams,QB,Active,CHI
-6012,Travis,Homer,RB,Inactive,CHI
+6012,Travis,Homer,RB,Active,CHI
 9490,Tyler,Scott,WR,Active,SEA
 4349,Taquan,Mizzell,RB,Inactive,NYG
 6798,Jalen,Reagor,WR,Active,LAC
