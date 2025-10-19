@@ -1,21 +1,21 @@
-FileName,LastModified,Size_KB
-Colors - Leagues.csv,2025-10-18 07:27:01 UTC,2.0
-Colors - Teams.csv,2025-10-18 07:27:01 UTC,4.9
-Divisions.csv,2025-10-18 07:27:01 UTC,0.7
-DraftPicks_AllYears.csv,2025-10-18 08:32:42 UTC,386.4
-Drafts_AllYears.csv,2025-10-18 08:32:42 UTC,5.9
-LastUpdate.csv,2025-10-18 07:27:01 UTC,1.0
-LeagueIDs_AllYears.csv,2025-10-18 07:27:22 UTC,3.9
-LeagueShortNames.csv,2025-10-18 07:27:01 UTC,0.3
-Lineup.csv,2025-10-18 07:27:01 UTC,0.1
-Matchups_AllYears.csv,2025-10-18 07:56:07 UTC,2021.5
-Players.csv,2025-10-18 07:28:09 UTC,30.3
-Results_RegularSeason.csv,2025-10-18 08:37:59 UTC,1442.9
-Rosters_Current.csv,2025-10-18 07:27:31 UTC,708.0
-Rosters_Players_AllYears.csv,2025-10-18 07:28:27 UTC,2783.9
-Scores.csv,2025-10-18 08:40:14 UTC,16384.8
-ScoringSettings.csv,2025-10-18 07:27:01 UTC,1.7
-Teams.csv,2025-10-18 07:27:01 UTC,19.9
-Transactions_AllYears.csv,2025-10-18 08:32:06 UTC,2898.7
-Users_AllYears.csv,2025-10-18 07:28:09 UTC,82.3
-Weeks.csv,2025-10-18 07:27:01 UTC,0.3
+FileName,LastModified
+Colors - Leagues.csv,2025-10-18 21:49:02
+Colors - Teams.csv,2025-10-18 21:49:02
+Divisions.csv,2025-10-18 21:49:02
+DraftPicks_AllYears.csv,2025-10-18 21:49:02
+Drafts_AllYears.csv,2025-10-18 21:49:02
+LastUpdate.csv,2025-10-18 21:49:02
+LeagueIDs_AllYears.csv,2025-10-18 21:49:02
+LeagueShortNames.csv,2025-10-18 21:49:02
+Lineup.csv,2025-10-18 21:49:02
+Matchups_AllYears.csv,2025-10-18 21:49:02
+Players.csv,2025-10-18 21:49:02
+Results_RegularSeason.csv,2025-10-18 21:49:02
+Rosters_Current.csv,2025-10-18 21:49:02
+Rosters_Players_AllYears.csv,2025-10-18 21:49:02
+Scores.csv,2025-10-18 21:49:02
+ScoringSettings.csv,2025-10-18 21:49:02
+Teams.csv,2025-10-18 21:49:02
+Transactions_AllYears.csv,2025-10-18 21:49:02
+Users_AllYears.csv,2025-10-18 21:49:02
+Weeks.csv,2025-10-18 21:49:02
