@@ -9,18 +9,19 @@ DATA_DIR = "data"
 OUT_FILE = os.path.join(DATA_DIR, "LastUpdate.csv")
 
 # -------------------------
-# HELPER: Get Eastern Time (handles DST automatically)
+# HELPER: Get Eastern Time (handles DST)
 # -------------------------
-def get_eastern_time(ts):
-    # UTC offset: -5 in standard time, -4 in DST
-    # Using built-in tz handling from datetime + isdst heuristic
-    utc_dt = datetime.fromtimestamp(ts, tz=timezone.utc)
-    # Approx conversion to US Eastern manually
-    offset = -4 if datetime.now().astimezone().dst() else -5
-    return (utc_dt + timedelta(hours=offset)).strftime("%Y-%m-%d %H:%M:%S %Z")
+def to_eastern(ts):
+    """Return timestamp in US Eastern Time (handles DST)."""
+    # Get UTC datetime first
+    utc_time = datetime.fromtimestamp(ts, tz=timezone.utc)
+    # Determine correct offset (-5 in standard time, -4 in DST)
+    offset_hours = -4 if datetime.now().astimezone().dst() else -5
+    eastern_time = utc_time + timedelta(hours=offset_hours)
+    return eastern_time.strftime("%Y-%m-%d %H:%M:%S")
 
 # -------------------------
-# MAIN: Collect all file info
+# MAIN: Collect file info
 # -------------------------
 rows = []
 for root, _, files in os.walk(DATA_DIR):
@@ -28,12 +29,9 @@ for root, _, files in os.walk(DATA_DIR):
         fpath = os.path.join(root, fname)
         try:
             ts = os.path.getmtime(fpath)
-            mtime = datetime.fromtimestamp(ts, tz=timezone.utc).astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")
-            size_kb = round(os.path.getsize(fpath) / 1024, 1)
             rows.append({
                 "FileName": fname,
-                "LastModified": mtime,
-                "Size_KB": size_kb
+                "LastModified": to_eastern(ts)
             })
         except Exception as e:
             print(f"⚠️ Could not read {fpath}: {e}")
