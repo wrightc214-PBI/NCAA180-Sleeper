@@ -1,6 +1,6 @@
 ﻿Team,Background,Font
 Air Force,#003087,#8a8d8f
-Alabama,#9e1b32,#FFFFFF
+Alabama,#828A8F,#9e1b32
 Alabama A&M,#660000,#FFFFFF
 Alcorn State,#46166A,#FFFFFF
 Arizona,#AB0520,#0C234B
@@ -19,14 +19,14 @@ Brown,#4E3629,#FFFFFF
 Bucknell,#003865,#FFFFFF
 Butler,#13294B,#FFFFFF
 BYU,#002255,#FFFFFF
-California,#041E42,#FFC72C
+California,#FFC72C,#041E42
 Campbell,#1E252B,#FFFFFF
 Central Arkansas,#582C83,#FFFFFF
 Central Michigan,#6a0032,#ffc82e
 Charleston Southern,#A8996E,#002855
 Chattanooga,#00386B,#FFFFFF
 Citadel,#1F3A60,#FFFFFF
-Clemson,#F56600,#522D80
+Clemson,#522D80,#F56600
 Coastal Carolina,#006F71,#FFFFFF
 Colgate,#821019,#FFFFFF
 Colorado,#000000,#CFB87C
@@ -40,19 +40,20 @@ Delaware,#00539F,#FFFFFF
 Delaware State,#EE3124,#FFFFFF
 Duke,#001A57,#FFFFFF
 Eastern Kentucky,#4C151E,#FFFFFF
-Eastern Michigan,#006633,#FFFFFF
+Eastern Michigan,#FFFFFF,#006633
 Eastern Washington,#A10022,#FFFFFF
 ETSU,#041E42,#FFFFFF
 Florida,#0021a5,#FA4616
 Florida A&M,#008344,#FFFFFF
 Florida Atlantic,#003366,#CC0000
 Florida International,#081E3F,#FFFFFF
+Fresno State,#DB0032,#002E6D
 FSU,#782F40,#FFFFFF
 Furman,#582C83,#FFFFFF
 Georgetown,#041E42,#FFFFFF
 Georgia,#DA291C,#000000
 Georgia Southern,#011E41,#FFFFFF
-Georgia State,#0039A6,#FFFFFF
+Georgia State,#FFFFFF,#0039A6
 Georgia Tech,#C59353,#FFFFFF
 Grambling State,#000000,#FFFFFF
 Harvard,#A31F36,#FFFFFF
@@ -62,7 +63,7 @@ Howard,#003A63,#FFFFFF
 Idaho,#B3A369,#000000
 Illinois,#e04e39,#13294b
 Indiana,#990000,#EEEDEB
-Iowa,#000000,#FFE100
+Iowa,#FFE100,#000000
 Iowa State,#a6192e,#FDC82F
 Jackson State,#002147,#FFFFFF
 Jacksonville State,#CC0000,#FFFFFF
@@ -76,13 +77,13 @@ Louisiana,#CE181E,#FFFFFF
 Louisiana Monroe,#840029,#FFFFFF
 Louisiana Tech,#003087,#CB333B
 Louisville,#AD0000,#000000
-LSU,#582c83,#ffc72c
+LSU,#ffc72c,#582c83
 Maine,#003263,#FFFFFF
 Marshall,#006140,#FFFFFF
 Maryland,#c8102e,#FFFFFF
 Memphis,#0D3182,#888C8F
 Miami,#005030,#FFFFFF
-Michigan,#ffcb05,#00274c
+Michigan,#00274c,#ffcb05
 Michigan State,#18453B,#FFFFFF
 Middle Tennessee State,#0066CC,#FFFFFF
 Minnesota,#7a0019,#ffcc33
@@ -103,17 +104,17 @@ North Alabama,#46166B,#FFFFFF
 North Carolina,#7BAFD4,#13294B
 North Carolina A&T,#004684,#FFFFFF
 North Carolina Central,#862633,#FFFFFF
-North Dakota State,#005643,#FFFFFF
+North Dakota State,#FFC72A,#005643
 North Texas,#00853E,#FFFFFF
 Northern Iowa,#4B116F,#FFFFFF
 Northwestern,#4E2A84,#FFFFFF
-Notre Dame,#0C2340,#C99700
-Ohio State,#bb0000,#666666
+Notre Dame,#C99700,#0C2340
+Ohio State,#666666,#bb0000
 Oklahoma,#841617,#FDF9D8
 Oklahoma State,#FF7300,#000000
 Old Dominion,#05344C,#7c878e
 Ole Miss,#00205b,#c8102e
-Oregon,#154733,#FEE123
+Oregon,#FEE123,#154733
 Oregon State,#C34500,#000000
 Penn,#011F5B,#FFFFFF
 Penn State,#041E42,#FFFFFF
@@ -122,7 +123,7 @@ Portland State,#154734,#FFFFFF
 Princeton,#000000,#FFFFFF
 Purdue,#000000,#CEB888
 Rhode Island,#68ABE8,#FFFFFF
-Rice,#002469,#5e6062
+Rice,#7C7E7F,#002469
 Richmond,#002B5E,#FFFFFF
 Rutgers,#d21034,#000000
 San Diego State,#C41230,#000000
@@ -135,47 +136,48 @@ South Dakota State,#0032A0,#FFFFFF
 Southern,#05356E,#FFFFFF
 Southern Miss,#000000,#FDC737
 Stanford,#8C1515,#FFFFFF
-Stony Brook,#990000,#FFFFFF
+Stony Brook,#16243E,#990000
 Syracuse,#D44500,#000000
 TCU,#4d1979,#FFFFFF
 Temple,#990033,#FFFFFF
-Tennessee,#FF8200,#FFFFFF
+Tennessee,#58595B,#FF8200
 Tennessee State,#171796,#FFFFFF
-Texas,#BF5700,#FFFFFF
+Texas,#333F48,#BF5700
 Texas A&M,#500000,#FFFFFF
 Texas State,#501214,#8D734A
 Texas Tech,#CC0000,#000000
 Troy,#862633,#8a8d8f
-Tulane,#005837,#0082ba
+Tulane,#0082ba,#005837
 Tulsa,#c5b783,#002d72
 Tuskegee,#7B0707,#FFFFFF
 UAB,#1E6B52,#FFFFFF
 UCF,#000000,#BA9B37
-UCLA,#0072ce,#ffc72c
+UCLA,#ffc72c,#0072ce
 UCONN,#000E2F,#FFFFFF
-UNC Charlotte,#005035,#FFFFFF
-UNLV,#B10202,#666666
+UNC Charlotte,#A49665,#005035
+UNLV,#9FA1A4,#E31837
 USC,#990000,#FFCC00
 USF,#006747,#FFFFFF
 UT Martin,#F79728,#002A5B
 Utah,#CC0000,#FFFFFF
 Utah State,#0F2439,#FFFFFF
 UTEP,#002147,#FF5600
-UTSA,#0c2340,#FFFFFF
+UTSA,#F15A22,#0c2340
 Vanderbilt,#000000,#997F3D
-Villanova,#00205B,#FFFFFF
-Virginia,#041E42,#fa4616
+Villanova,#00205B,#8B634B
+Virginia,#fa4616,#041E42
 Virginia Tech,#660000,#FF6600
 Wake Forest,#000000,#9E7E38
 Washington,#363c74,#e8d3a2
-Washington State,#981E32,#FFFFFF
+Washington State,#5E6A71,#981E32
 Weber State,#4B2682,#FFFFFF
 West Virginia,#002855,#EAAA00
 Western Kentucky,#B01E24,#FFFFFF
-Wichita State,#27251F,#FFFFFF
-William & Mary,#115740,#FFFFFF
+Wichita State,#27251F,#FFDB00
+William & Mary,#115740,#F0B323
 Wisconsin,#c5050c,#FFFFFF
 Wofford,#000000,#FFFFFF
 Wyoming,#492f24,#ffc425
 Yale,#0A2240,#FFFFFF
 Youngstown State,#C8102E,#FFFFFF
+
