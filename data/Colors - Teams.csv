@@ -105,7 +105,7 @@ North Carolina,#7BAFD4,#13294B
 North Carolina A&T,#004684,#FFFFFF
 North Carolina Central,#862633,#FFFFFF
 North Dakota State,#FFC72A,#005643
-North Texas,#00853E,#FFFFFF
+North Texas,#FFFFFF,#00853E
 Northern Iowa,#4B116F,#FFFFFF
 Northwestern,#4E2A84,#FFFFFF
 Notre Dame,#C99700,#0C2340
@@ -124,7 +124,7 @@ Princeton,#000000,#FFFFFF
 Purdue,#000000,#CEB888
 Rhode Island,#68ABE8,#FFFFFF
 Rice,#7C7E7F,#002469
-Richmond,#002B5E,#FFFFFF
+Richmond,#990000,#000066
 Rutgers,#d21034,#000000
 San Diego State,#C41230,#000000
 San Jose State,#0055A2,#FFFFFF
@@ -171,7 +171,7 @@ Wake Forest,#000000,#9E7E38
 Washington,#363c74,#e8d3a2
 Washington State,#5E6A71,#981E32
 Weber State,#4B2682,#FFFFFF
-West Virginia,#002855,#EAAA00
+West Virginia,#EAAA00,#002855
 Western Kentucky,#B01E24,#FFFFFF
 Wichita State,#27251F,#FFDB00
 William & Mary,#115740,#F0B323
@@ -180,4 +180,5 @@ Wofford,#000000,#FFFFFF
 Wyoming,#492f24,#ffc425
 Yale,#0A2240,#FFFFFF
 Youngstown State,#C8102E,#FFFFFF
+
 
