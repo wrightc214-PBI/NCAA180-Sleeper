@@ -84,7 +84,7 @@ Maryland,#c8102e,#FFFFFF
 Memphis,#0D3182,#888C8F
 Miami,#005030,#FFFFFF
 Michigan,#00274c,#ffcb05
-Michigan State,#18453B,#FFFFFF
+Michigan State#FFFFFF,#18453B
 Middle Tennessee State,#0066CC,#FFFFFF
 Minnesota,#7a0019,#ffcc33
 Mississippi State,#660000,#FFFFFF
@@ -180,3 +180,4 @@ Wofford,#000000,#FFFFFF
 Wyoming,#492f24,#ffc425
 Yale,#0A2240,#FFFFFF
 Youngstown State,#C8102E,#FFFFFF
+
