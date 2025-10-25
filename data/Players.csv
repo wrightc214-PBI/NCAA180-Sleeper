@@ -256,7 +256,7 @@ DAL,Dallas,Cowboys,DEF,,DAL
 11597,Theo,Johnson,TE,Active,NYG
 11576,Braelon,Allen,RB,Inactive,NYJ
 7596,Elijah,Moore,WR,Active,BUF
-8799,Zaire,Mitchell-Paden,TE,Active,BAL
+8799,Zaire,Mitchell-Paden,TE,Active,NO
 8146,Garrett,Wilson,WR,Active,NYJ
 6040,Tyree,Jackson,TE,Inactive,WAS
 4663,Austin,Ekeler,RB,Inactive,WAS
@@ -395,6 +395,7 @@ CAR,Carolina,Panthers,DEF,,CAR
 8755,Kaden,Davis,WR,Active,CLE
 12495,Ollie,Gordon,RB,Active,MIA
 4602,Robert,Tonyan,TE,Active,KC
+4189,Eric,Saubert,TE,Active,SEA
 5133,Tyler,Conklin,TE,Active,LAC
 8221,Keaontay,Ingram,RB,Inactive,KC
 8917,KaVontae,Turpin,WR,Active,DAL
@@ -829,6 +830,7 @@ DEN,Denver,Broncos,DEF,,DEN
 8210,Chig,Okonkwo,TE,Active,TEN
 6151,Miles,Sanders,RB,Inactive,DAL
 12670,KeAndre,Lambert-Smith,WR,Active,LAC
+13034,Tyrone,Broden,WR,Active,SEA
 11256,Tyson,Bagent,QB,Active,CHI
 11568,Blake,Watson,RB,Active,TEN
 12851,Rivaldo,Fairweather,TE,Active,DAL
