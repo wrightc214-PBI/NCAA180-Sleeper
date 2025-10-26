@@ -215,7 +215,7 @@ NYJ,New York,Jets,DEF,,NYJ
 5347,Nyheim,Hines,RB,Active,LAC
 9506,Sean,Tucker,RB,Active,TB
 7607,Michael,Carter,RB,Active,ARI
-8167,Christian,Watson,WR,Inactive,GB
+8167,Christian,Watson,WR,Active,GB
 7599,Jermar,Jefferson,RB,Active,ARI
 12897,Nathan,Carter,RB,Active,ATL
 5223,Caleb,Scott,WR,Active,TEN
@@ -296,7 +296,6 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 8107,Nikola,Kalinic,TE,Active,CHI
 12489,RJ,Harvey,RB,Active,DEN
 8157,Bailey,Zappe,QB,Active,CLE
-8223,Velus,Jones,WR,Active,NO
 7535,Hunter,Long,TE,Active,JAX
 12482,Savion,Williams,WR,Active,GB
 8088,Kalif,Jackson,TE,Active,MIA
@@ -326,7 +325,7 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 11617,Malachi,Corley,WR,Active,CLE
 TB,Tampa Bay,Buccaneers,DEF,,TB
 4981,Calvin,Ridley,WR,Active,TEN
-4171,Josh,Reynolds,WR,Active,NYJ
+4171,Josh,Reynolds,WR,Inactive,NYJ
 7946,Jack,Stoll,TE,Active,NO
 10224,Brayden,Willis,TE,Active,SF
 8160,Kenny,Pickett,QB,Active,LV
@@ -579,7 +578,7 @@ GB,Green Bay,Packers,DEF,,GB
 13162,Maximilian,Mang,TE,Active,IND
 2118,Eric,Ebron,TE,Inactive,PIT
 6290,Scotty,Miller,WR,Active,PIT
-13150,Darius,Cooper,WR,Inactive,PHI
+13150,Darius,Cooper,WR,Active,PHI
 11186,Carlos,Washington,RB,Active,ATL
 11583,Jonathon,Brooks,RB,Active,CAR
 5127,Kyle,Allen,QB,Active,DET
@@ -778,7 +777,6 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 8162,Sam,Howell,QB,Active,PHI
 11560,Caleb,Williams,QB,Active,CHI
 6012,Travis,Homer,RB,Active,CHI
-9490,Tyler,Scott,WR,Active,SEA
 4349,Taquan,Mizzell,RB,Inactive,NYG
 8041,Shane,Zylstra,TE,Inactive,DET
 4035,Alvin,Kamara,RB,Active,NO
@@ -787,7 +785,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 12114,Joshua,Cephus,WR,Inactive,JAX
 11320,Nikko,Remigio,WR,Active,KC
 11716,Tip,Reiman,TE,Inactive,ARI
-503,Graham,Gano,K,Inactive,NYG
+503,Graham,Gano,K,Active,NYG
 5113,Cedrick,Wilson,WR,Active,MIA
 11783,Ryan,Flournoy,WR,Active,DAL
 4683,Aaron,Bailey,QB,Active,BAL
@@ -824,7 +822,6 @@ DEN,Denver,Broncos,DEF,,DEN
 2505,Darren,Waller,TE,Inactive,MIA
 11963,Chris,Collier,RB,Active,LV
 1426,DeAndre,Hopkins,WR,Active,BAL
-11034,Jalen,Brooks,WR,Active,DAL
 12045,Jack,Westover,TE,Active,NE
 6451,Stephen,Carlson,TE,Active,CHI
 8210,Chig,Okonkwo,TE,Active,TEN
