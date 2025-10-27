@@ -164,6 +164,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ca-certificates
 
+      - name: Test outbound connectivity
+        run: |
+          ping -c 2 login.microsoftonline.com || true
+          curl -I https://login.microsoftonline.com || true
+
       
       - name: Get Power BI token and trigger refresh (diagnostic)
         if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
