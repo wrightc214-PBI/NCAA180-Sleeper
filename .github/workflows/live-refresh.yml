@@ -158,6 +158,13 @@ jobs:
       # --------------------------------------------------------
       # 🚀 Step 8: Get token + trigger Power BI dataset refresh (diagnostic)
       # --------------------------------------------------------
+      - name: Ensure curl certificates
+        if: env.IN_SEASON == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ca-certificates
+
+      
       - name: Get Power BI token and trigger refresh (diagnostic)
         if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
         env:
