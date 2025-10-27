@@ -167,7 +167,7 @@ jobs:
           WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
           DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
         run: |
-          set -e
+          set +e
           echo "🔎 Checking secrets exist (lengths only):"
           echo "TENANT_ID len: ${#TENANT_ID}"
           echo "CLIENT_ID len: ${#CLIENT_ID}"
