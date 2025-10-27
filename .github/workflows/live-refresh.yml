@@ -232,9 +232,11 @@ jobs:
 
           echo "✅ Got access token. Triggering dataset refresh…"
           REFRESH_URL="https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes"
+          
           R=$(curl -s -o response.json -w "%{http_code}" \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
+            --data '{}' \
             -X POST "$REFRESH_URL")
 
           echo "Power BI POST /refreshes -> HTTP $R"
