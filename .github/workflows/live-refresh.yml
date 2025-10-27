@@ -3,21 +3,21 @@ name: Live Scoreboard Refresh
 on:
   # 🏈 Schedule (UTC times)
   schedule:
-    # Thursday nights (8PM–Midnight ET → Fri 00–04 UTC), every 15 minutes
+    # Thursday nights (8 PM–Midnight ET → Fri 00–04 UTC), every 15 minutes
     - cron: "*/15 0-3 * * FRI"
 
-    # Sunday (1PM–Midnight ET → Sun 17–23 UTC, Mon 00–04 UTC), every 15 minutes
+    # Sunday (1 PM–Midnight ET → Sun 17–23 UTC, Mon 00–04 UTC)
     - cron: "*/15 17-23 * * SUN"
     - cron: "*/15 0-3 * * MON"
 
-    # Monday nights (8PM–Midnight ET → Tue 00–04 UTC), every 5 minutes
+    # Monday nights (8 PM–Midnight ET → Tue 00–04 UTC), every 5 minutes
     - cron: "*/5 0-3 * * TUE"
 
-  # 🧠 Manual trigger (adds dropdown option in GitHub Actions)
+  # Manual trigger
   workflow_dispatch:
     inputs:
       force_refresh:
-        description: "Force Power BI refresh even if no data changed or no games are active"
+        description: "Force Power BI refresh even if no games are active"
         required: false
         default: "false"
 
@@ -34,7 +34,7 @@ jobs:
 
     steps:
       # --------------------------------------------------------
-      # 🗓️ Step 1: Skip if outside NFL season (Sep 1–Jan 15)
+      # 🗓️ Step 1: Skip if outside NFL season (Sep 1 – Jan 15)
       # --------------------------------------------------------
       - name: Check if current date is within NFL season
         id: season_check
@@ -94,7 +94,7 @@ jobs:
         if: env.IN_SEASON == 'true'
         id: gamestatus
         run: python NFLgameStatus.py
-        continue-on-error: true  # don't fail on exit 1 (no games)
+        continue-on-error: true
 
       - name: Parse NFL status JSON
         if: env.IN_SEASON == 'true' && always()
@@ -144,7 +144,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Check if there are changes before committing
           if git diff --quiet --exit-code data/Scores.csv data/LastUpdate.csv; then
             echo "No data changes detected."
             echo "DATA_CHANGED=false" >> $GITHUB_ENV
@@ -157,9 +156,9 @@ jobs:
           fi
 
       # --------------------------------------------------------
-      # 🚀 Step 8: Trigger Power BI dataset refresh
+      # 🚀 Step 8: Get token + trigger Power BI dataset refresh (diagnostic)
       # --------------------------------------------------------
-      - name: Trigger Power BI dataset refresh
+      - name: Get Power BI token and trigger refresh (diagnostic)
         if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
         env:
           TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
@@ -168,31 +167,63 @@ jobs:
           WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
           DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
         run: |
-          echo "⏳ Waiting 10 seconds to ensure GitHub commit is visible..."
-          sleep 10
-          echo "🔐 Getting Power BI access token..."
-          TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default" \
-            | jq -r '.access_token')
+          set -e
+          echo "🔎 Checking secrets exist (lengths only):"
+          echo "TENANT_ID len: ${#TENANT_ID}"
+          echo "CLIENT_ID len: ${#CLIENT_ID}"
+          echo "CLIENT_SECRET len: ${#CLIENT_SECRET}"
+          echo "WORKSPACE_ID len: ${#WORKSPACE_ID}"
+          echo "DATASET_ID len: ${#DATASET_ID}"
 
-          if [ -z "$TOKEN" ] || [ "$TOKEN" == "null" ]; then
-            echo "❌ Failed to obtain Power BI access token"
+          if [ -z "$TENANT_ID" ] || [ -z "$CLIENT_ID" ] || [ -z "$CLIENT_SECRET" ]; then
+            echo "❌ One or more required secrets are empty."
             exit 1
           fi
 
-          echo "🚀 Triggering dataset refresh in Power BI..."
-          RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
+          TOKEN_URL="https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token"
+          echo "🔐 Attempt 1 (modern .scope)"
+          RESP1=$(curl -s -w " HTTP_STATUS:%{http_code}" -X POST "$TOKEN_URL" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default")
+
+          BODY1="${RESP1% HTTP_STATUS:*}"
+          CODE1="${RESP1##*HTTP_STATUS:}"
+          echo "HTTP $CODE1"
+          echo "$BODY1" | jq -r '.error, .error_description // empty' || true
+          TOKEN=$(echo "$BODY1" | jq -r '.access_token // empty')
+
+          if [ -z "$TOKEN" ]; then
+            echo "🔁 Attempt 2 (legacy resource)"
+            TOKEN_URL_V1="https://login.microsoftonline.com/$TENANT_ID/oauth2/token"
+            RESP2=$(curl -s -w " HTTP_STATUS:%{http_code}" -X POST "$TOKEN_URL_V1" \
+              -H "Content-Type: application/x-www-form-urlencoded" \
+              -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&resource=https://analysis.windows.net/powerbi/api")
+
+            BODY2="${RESP2% HTTP_STATUS:*}"
+            CODE2="${RESP2##*HTTP_STATUS:}"
+            echo "HTTP $CODE2"
+            echo "$BODY2" | jq -r '.error, .error_description // empty' || true
+            TOKEN=$(echo "$BODY2" | jq -r '.access_token // empty')
+          fi
+
+          if [ -z "$TOKEN" ]; then
+            echo "❌ Still no access token. See error details above."
+            exit 1
+          fi
+
+          echo "✅ Got access token. Triggering dataset refresh…"
+          REFRESH_URL="https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes"
+          R=$(curl -s -o response.json -w "%{http_code}" \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
-            -X POST "https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes")
+            -X POST "$REFRESH_URL")
 
-          if [ "$RESPONSE" = "202" ]; then
-            echo "✅ Power BI refresh successfully queued"
-            jq '.' response.json || true
+          echo "Power BI POST /refreshes -> HTTP $R"
+          cat response.json || true
+          if [ "$R" = "202" ]; then
+            echo "🎉 Refresh queued."
           else
-            echo "⚠️ Power BI refresh returned status $RESPONSE"
-            jq '.' response.json || true
+            echo "⚠️ Unexpected status $R"
             exit 1
           fi
 
