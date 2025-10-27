@@ -169,6 +169,13 @@ jobs:
           ping -c 2 login.microsoftonline.com || true
           curl -I https://login.microsoftonline.com || true
 
+      - name: Test network connectivity to Azure
+        run: |
+          echo "🌐 Checking DNS and SSL to login.microsoftonline.com"
+          curl -vI https://login.microsoftonline.com/common/oauth2/v2.0/token || true
+          echo "🌐 Checking api.powerbi.com"
+          curl -vI https://api.powerbi.com/ || true
+
       
       - name: Get Power BI token and trigger refresh (diagnostic)
         if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
