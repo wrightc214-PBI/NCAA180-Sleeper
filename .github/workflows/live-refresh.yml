@@ -156,28 +156,9 @@ jobs:
           fi
 
       # --------------------------------------------------------
-      # 🚀 Step 8: Get token + trigger Power BI dataset refresh (diagnostic)
+      # 🚀 Step 8: Trigger Power BI dataset refresh (final version)
       # --------------------------------------------------------
-      - name: Ensure curl certificates
-        if: env.IN_SEASON == 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ca-certificates
-
-      - name: Test outbound connectivity
-        run: |
-          ping -c 2 login.microsoftonline.com || true
-          curl -I https://login.microsoftonline.com || true
-
-      - name: Test network connectivity to Azure
-        run: |
-          echo "🌐 Checking DNS and SSL to login.microsoftonline.com"
-          curl -vI https://login.microsoftonline.com/common/oauth2/v2.0/token || true
-          echo "🌐 Checking api.powerbi.com"
-          curl -vI https://api.powerbi.com/ || true
-
-      
-      - name: Get Power BI token and trigger refresh (diagnostic)
+      - name: Trigger Power BI dataset refresh
         if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
         env:
           TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
@@ -186,67 +167,36 @@ jobs:
           WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
           DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
         run: |
-          set +e
-          echo "🔎 Checking secrets exist (lengths only):"
-          echo "TENANT_ID len: ${#TENANT_ID}"
-          echo "CLIENT_ID len: ${#CLIENT_ID}"
-          echo "CLIENT_SECRET len: ${#CLIENT_SECRET}"
-          echo "WORKSPACE_ID len: ${#WORKSPACE_ID}"
-          echo "DATASET_ID len: ${#DATASET_ID}"
-
-          if [ -z "$TENANT_ID" ] || [ -z "$CLIENT_ID" ] || [ -z "$CLIENT_SECRET" ]; then
-            echo "❌ One or more required secrets are empty."
-            exit 1
-          fi
-
+          set -e
+          echo "🔐 Requesting Power BI access token..."
           TOKEN_URL="https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token"
-          echo "🔐 Attempt 1 (modern .scope)"
-          RESP1=$(curl -s -w " HTTP_STATUS:%{http_code}" -X POST "$TOKEN_URL" \
+          TOKEN=$(curl -s -X POST "$TOKEN_URL" \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default")
+            -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default" \
+            | jq -r '.access_token')
 
-          BODY1="${RESP1% HTTP_STATUS:*}"
-          CODE1="${RESP1##*HTTP_STATUS:}"
-          echo "HTTP $CODE1"
-          echo "$BODY1" | jq -r '.error, .error_description // empty' || true
-          TOKEN=$(echo "$BODY1" | jq -r '.access_token // empty')
-
-          if [ -z "$TOKEN" ]; then
-            echo "🔁 Attempt 2 (legacy resource)"
-            TOKEN_URL_V1="https://login.microsoftonline.com/$TENANT_ID/oauth2/token"
-            RESP2=$(curl -s -w " HTTP_STATUS:%{http_code}" -X POST "$TOKEN_URL_V1" \
-              -H "Content-Type: application/x-www-form-urlencoded" \
-              -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&resource=https://analysis.windows.net/powerbi/api")
-
-            BODY2="${RESP2% HTTP_STATUS:*}"
-            CODE2="${RESP2##*HTTP_STATUS:}"
-            echo "HTTP $CODE2"
-            echo "$BODY2" | jq -r '.error, .error_description // empty' || true
-            TOKEN=$(echo "$BODY2" | jq -r '.access_token // empty')
-          fi
-
-          if [ -z "$TOKEN" ]; then
-            echo "❌ Still no access token. See error details above."
+          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
+            echo "❌ Failed to obtain Power BI access token"
             exit 1
           fi
 
-          echo "✅ Got access token. Triggering dataset refresh…"
+          echo "✅ Access token received — triggering dataset refresh..."
           REFRESH_URL="https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes"
-          
-          R=$(curl -s -o response.json -w "%{http_code}" \
+          RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
             --data '{}' \
             -X POST "$REFRESH_URL")
 
-          echo "Power BI POST /refreshes -> HTTP $R"
-          cat response.json || true
-          if [ "$R" = "202" ]; then
-            echo "🎉 Refresh queued."
+          echo "Power BI API response: HTTP $RESPONSE"
+          if [ "$RESPONSE" = "202" ]; then
+            echo "🎉 Refresh successfully queued."
           else
-            echo "⚠️ Unexpected status $R"
+            echo "⚠️ Unexpected status $RESPONSE"
+            cat response.json || true
             exit 1
           fi
+
 
       # --------------------------------------------------------
       # 📋 Step 9: Run summary
