@@ -1,12 +1,25 @@
-# Your GitHub Actions workflow appears to update live data files (Scores.csv, etc.)
-# but doesn't currently call update_lastmodified.py. Here's how you should modify it.
-
 name: Live Scoreboard Refresh
 
 on:
+  # 🏈 Schedule (UTC times)
   schedule:
-    - cron: "0 * * * *"   # hourly example; customize as needed
+    # Thursday nights (8PM–Midnight ET → Fri 00–04 UTC), every 15 minutes
+    - cron: "*/15 0-3 * * FRI"
+
+    # Sunday (1PM–Midnight ET → Sun 17–23 UTC, Mon 00–04 UTC), every 15 minutes
+    - cron: "*/15 17-23 * * SUN"
+    - cron: "*/15 0-3 * * MON"
+
+    # Monday nights (8PM–Midnight ET → Tue 00–04 UTC), every 5 minutes
+    - cron: "*/5 0-3 * * TUE"
+
+  # 🧠 Manual trigger (adds dropdown option in GitHub Actions)
   workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: "Force Power BI refresh even if no data changed or no games are active"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -20,30 +33,178 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      # --------------------------------------------------------
+      # 🗓️ Step 1: Skip if outside NFL season (Sep 1–Jan 15)
+      # --------------------------------------------------------
+      - name: Check if current date is within NFL season
+        id: season_check
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          MONTH=$(date -u +%m)
+          DAY=$(date -u +%d)
+          RUN_SEASON=false
+
+          if [ $MONTH -ge 9 ] && [ $MONTH -le 12 ]; then
+            RUN_SEASON=true
+          fi
+          if [ $MONTH -eq 1 ] && [ $DAY -le 15 ]; then
+            RUN_SEASON=true
+          fi
+
+          if [ "$RUN_SEASON" = "false" ]; then
+            echo "⚠️ $TODAY is outside NFL season. Skipping workflow."
+            echo "IN_SEASON=false" >> $GITHUB_ENV
+            exit 0
+          else
+            echo "🏈 NFL season active ($TODAY). Continuing..."
+            echo "IN_SEASON=true" >> $GITHUB_ENV
+          fi
+
+      - name: Skip notice (offseason)
+        if: env.IN_SEASON != 'true'
+        run: echo "🛑 Skipping job (offseason months)."
+
+      # --------------------------------------------------------
+      # 🧰 Step 2: Setup
+      # --------------------------------------------------------
+      - name: Checkout repo
+        if: env.IN_SEASON == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Python
+        if: env.IN_SEASON == 'true'
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Install dependencies
+        if: env.IN_SEASON == 'true'
+        run: pip install pandas requests jq pytz
+
+      - name: Cron heartbeat
+        if: env.IN_SEASON == 'true'
         run: |
-          python -m pip install --upgrade pip
-          pip install pandas requests
+          echo "⏰ Cron fired at: $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
+          echo "Tip: UTC = ET + 4 (during Daylight Time)."
 
-      - name: Run update_tracker.py (fetch Sleeper scores)
-        run: python update_tracker.py
+      # --------------------------------------------------------
+      # 🏈 Step 3: Check game status
+      # --------------------------------------------------------
+      - name: Check if games are active
+        if: env.IN_SEASON == 'true'
+        id: gamestatus
+        run: python NFLgameStatus.py
+        continue-on-error: true  # don't fail on exit 1 (no games)
 
-      # 👉 Add this new step AFTER CSV updates
-      - name: Update LastUpdate.csv timestamps
+      - name: Parse NFL status JSON
+        if: env.IN_SEASON == 'true' && always()
+        run: |
+          if [ -f "nfl_status.json" ]; then
+            WEEK_NUM=$(jq -r '.week_number' nfl_status.json)
+            GAMES_ACTIVE=$(jq -r '.games_active' nfl_status.json)
+            REFRESH_INTERVAL=$(jq -r '.refresh_interval' nfl_status.json)
+            TIMESTAMP_ET=$(jq -r '.timestamp_et' nfl_status.json)
+            echo "WEEK_NUM=$WEEK_NUM" >> $GITHUB_ENV
+            echo "GAMES_ACTIVE=$GAMES_ACTIVE" >> $GITHUB_ENV
+            echo "REFRESH_INTERVAL=$REFRESH_INTERVAL" >> $GITHUB_ENV
+            echo "TIMESTAMP_ET=$TIMESTAMP_ET" >> $GITHUB_ENV
+            echo "📅 Week: $WEEK_NUM | 🏈 Games active: $GAMES_ACTIVE | 🔁 Refresh: ${REFRESH_INTERVAL}m | 🕒 $TIMESTAMP_ET"
+          else
+            echo "⚠️ nfl_status.json not found — likely API error."
+            echo "GAMES_ACTIVE=false" >> $GITHUB_ENV
+          fi
+
+      # --------------------------------------------------------
+      # ⏸️ Step 4: Skip if no active games
+      # --------------------------------------------------------
+      - name: Skip if no active games
+        if: env.GAMES_ACTIVE != 'true'
+        run: echo "😴 No live games right now. Skipping score refresh."
+
+      # --------------------------------------------------------
+      # 🔄 Step 5: Refresh data if games are active
+      # --------------------------------------------------------
+      - name: Refresh Scores for active week
+        if: env.GAMES_ACTIVE == 'true'
+        run: python score_details.py --week $WEEK_NUM
+
+      # --------------------------------------------------------
+      # 🕒 Step 6: Update LastUpdate.csv timestamps
+      # --------------------------------------------------------
+      - name: Update LastUpdate.csv
+        if: env.GAMES_ACTIVE == 'true'
         run: python update_lastmodified.py
 
-      - name: Commit and push updates
+      # --------------------------------------------------------
+      # 💾 Step 7: Commit updated CSV + timestamp
+      # --------------------------------------------------------
+      - name: Commit updated data
+        if: env.GAMES_ACTIVE == 'true'
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add data/*.csv
-          git commit -m "Auto refresh data and update timestamps" || echo "No changes to commit"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Check if there are changes before committing
+          if git diff --quiet --exit-code data/Scores.csv data/LastUpdate.csv; then
+            echo "No data changes detected."
+            echo "DATA_CHANGED=false" >> $GITHUB_ENV
+          else
+            echo "📈 New data detected — committing update."
+            git add data/Scores.csv data/LastUpdate.csv || true
+            git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
+            git push || echo "Nothing to push"
+            echo "DATA_CHANGED=true" >> $GITHUB_ENV
+          fi
+
+      # --------------------------------------------------------
+      # 🚀 Step 8: Trigger Power BI dataset refresh
+      # --------------------------------------------------------
+      - name: Trigger Power BI dataset refresh
+        if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
+        env:
+          TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
+          CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.PBI_CLIENT_SECRET }}
+          WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
+          DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
+        run: |
+          echo "⏳ Waiting 10 seconds to ensure GitHub commit is visible..."
+          sleep 10
+          echo "🔐 Getting Power BI access token..."
+          TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default" \
+            | jq -r '.access_token')
+
+          if [ -z "$TOKEN" ] || [ "$TOKEN" == "null" ]; then
+            echo "❌ Failed to obtain Power BI access token"
+            exit 1
+          fi
+
+          echo "🚀 Triggering dataset refresh in Power BI..."
+          RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            -X POST "https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes")
+
+          if [ "$RESPONSE" = "202" ]; then
+            echo "✅ Power BI refresh successfully queued"
+            jq '.' response.json || true
+          else
+            echo "⚠️ Power BI refresh returned status $RESPONSE"
+            jq '.' response.json || true
+            exit 1
+          fi
+
+      # --------------------------------------------------------
+      # 📋 Step 9: Run summary
+      # --------------------------------------------------------
+      - name: Run summary
+        if: always()
+        run: |
+          echo "🧾 --- SUMMARY ---"
+          echo "📅 Week: ${WEEK_NUM:-unknown}"
+          echo "🏈 Games active: ${GAMES_ACTIVE:-unknown}"
+          echo "🔁 Refresh interval: ${REFRESH_INTERVAL:-unknown} min"
+          echo "🕒 Timestamp (ET): ${TIMESTAMP_ET:-unknown}"
+          echo "💾 Data changed: ${DATA_CHANGED:-unknown}"
