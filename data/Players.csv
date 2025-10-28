@@ -65,6 +65,7 @@ NE,New England,Patriots,DEF,,NE
 6927,Quez,Watkins,WR,Active,PHI
 8111,Cade,Otton,TE,Active,TB
 3269,Chris,Moore,WR,Active,WAS
+12374,Brenden,Bates,TE,Active,CLE
 12866,Jalin,Conyers,TE,Inactive,MIA
 11647,Kimani,Vidal,RB,Active,LAC
 7608,Khalil,Herbert,RB,Active,NYJ
@@ -285,7 +286,7 @@ WAS,Washington,Commanders,DEF,,WAS
 6185,Easton,Stick,QB,Active,ATL
 LAC,Los Angeles,Chargers,DEF,,LAC
 2216,Mike,Evans,WR,Inactive,TB
-7562,Tutu,Atwell,WR,Active,LAR
+7562,Tutu,Atwell,WR,Inactive,LAR
 7149,Tommy,Stevens,TE,Active,NYG
 8132,Tyler,Allgeier,RB,Active,ATL
 12523,Jimmy,Horn,WR,Active,CAR
@@ -388,6 +389,7 @@ ATL,Atlanta,Falcons,DEF,,ATL
 CAR,Carolina,Panthers,DEF,,CAR
 7436,Mason,Kinsey,WR,Active,TEN
 1689,Adam,Thielen,WR,Active,MIN
+11082,Ben,Sims,TE,Active,MIN
 8755,Kaden,Davis,WR,Active,CLE
 12495,Ollie,Gordon,RB,Active,MIA
 4602,Robert,Tonyan,TE,Active,KC
@@ -398,8 +400,10 @@ CAR,Carolina,Panthers,DEF,,CAR
 11655,Tyrone,Tracy,RB,Active,NYG
 12775,Max,Brosmer,QB,Active,MIN
 12901,Patrick,Herbert,TE,Active,JAX
+2374,Tyler,Lockett,WR,Active,LV
 6957,James,Proche,WR,Active,TEN
 3357,Brandon,Allen,QB,Active,TEN
+6268,Matthew,Wright,K,Active,WAS
 10229,Rashee,Rice,WR,Active,KC
 3050,Myles,White,WR,Active,NYJ
 12776,Connor,Bazelak,QB,Active,TB
@@ -582,6 +586,7 @@ GB,Green Bay,Packers,DEF,,GB
 12497,Tory,Horton,WR,Active,SEA
 12469,Dylan,Sampson,RB,Active,CLE
 5285,Ross,Dwelley,TE,Active,DET
+12933,Caden,Prieskorn,TE,Active,CLE
 4274,David,Moore,WR,Inactive,CAR
 13179,Ja'seem,Reed,WR,Active,CAR
 8219,Jelani,Woods,TE,Active,NYJ
@@ -623,7 +628,7 @@ BUF,Buffalo,Bills,DEF,,BUF
 PHI,Philadelphia,Eagles,DEF,,PHI
 8121,Romeo,Doubs,WR,Active,GB
 8123,Hassan,Haskins,RB,Active,LAC
-3161,Carson,Wentz,QB,Active,MIN
+3161,Carson,Wentz,QB,Inactive,MIN
 12705,Graham,Mertz,QB,Active,HOU
 7600,Pat,Freiermuth,TE,Active,PIT
 8527,Dareke,Young,WR,Active,SEA
@@ -826,6 +831,7 @@ DEN,Denver,Broncos,DEF,,DEN
 12670,KeAndre,Lambert-Smith,WR,Active,LAC
 13034,Tyrone,Broden,WR,Active,SEA
 11256,Tyson,Bagent,QB,Active,CHI
+5086,Marquez,Valdes-Scantling,WR,Active,PIT
 11568,Blake,Watson,RB,Active,TEN
 12851,Rivaldo,Fairweather,TE,Active,DAL
 11911,Jeshaun,Jones,WR,Active,MIN
