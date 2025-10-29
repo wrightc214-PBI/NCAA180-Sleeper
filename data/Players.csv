@@ -21,7 +21,6 @@ player_id,first_name,last_name,position,status,team
 11304,E.J.,Jenkins,TE,Active,PHI
 19,Joe,Flacco,QB,Active,CIN
 4054,Mo,Alie-Cox,TE,Active,IND
-3423,Robbie,Chosen,WR,Active,WAS
 12848,Josh,Kelly,WR,Active,HOU
 8698,Jake,Tonges,TE,Active,SF
 12971,Ke'Shawn,Williams,WR,Active,PIT
@@ -138,6 +137,7 @@ IND,Indianapolis,Colts,DEF,,IND
 1837,Jimmy,Garoppolo,QB,Active,LAR
 8259,Cameron,Dicker,K,Active,LAC
 10220,Will,Mallory,TE,Active,IND
+13128,Rushawn,Baker,RB,Active,NE
 8205,Isiah,Pacheco,RB,Active,KC
 1166,Kirk,Cousins,QB,Active,ATL
 5185,Allen,Lazard,WR,Active,NYJ
@@ -440,6 +440,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 8112,Drake,London,WR,Active,ATL
 11632,Malik,Nabers,WR,Inactive,NYG
 4177,Mack,Hollins,WR,Active,NE
+12757,Hal,Presley,WR,Active,TEN
 12983,Brock,Lampe,FB,Inactive,NE
 5848,Marquise,Brown,WR,Active,KC
 3832,C.J.,Ham,FB,Active,MIN
@@ -501,6 +502,7 @@ GB,Green Bay,Packers,DEF,,GB
 7357,Dan,Chisena,WR,Active,CAR
 6843,Albert,Okwuegbunam,TE,Active,LV
 6147,Clayton,Thorson,QB,Active,NYG
+7087,Jonathan,Ward,RB,Active,NE
 12969,Lan,Larison,RB,Inactive,NE
 8423,Brittain,Brown,RB,Active,CHI
 11653,Charlie,Smyth,K,Active,NO
@@ -607,7 +609,7 @@ MIA,Miami,Dolphins,DEF,,MIA
 11646,Jalen,Coker,WR,Active,CAR
 4454,Kendrick,Bourne,WR,Active,SF
 12498,Mason,Taylor,TE,Active,NYJ
-12481,Cam,Skattebo,RB,Active,NYG
+12481,Cam,Skattebo,RB,Inactive,NYG
 10218,Xavier,Hutchinson,WR,Active,HOU
 6154,David,Sills,WR,Active,ATL
 6931,DeeJay,Dallas,RB,Active,CAR
@@ -779,6 +781,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 8162,Sam,Howell,QB,Active,PHI
 11560,Caleb,Williams,QB,Active,CHI
 6012,Travis,Homer,RB,Active,CHI
+9490,Tyler,Scott,WR,Active,LAR
 4349,Taquan,Mizzell,RB,Inactive,NYG
 8041,Shane,Zylstra,TE,Inactive,DET
 4035,Alvin,Kamara,RB,Active,NO
@@ -848,7 +851,7 @@ DEN,Denver,Broncos,DEF,,DEN
 9505,Deuce,Vaughn,RB,Active,DEN
 11604,Brock,Bowers,TE,Active,LV
 12826,Ulysses,Bentley,RB,Active,IND
-11566,Jayden,Daniels,QB,Inactive,WAS
+11566,Jayden,Daniels,QB,Active,WAS
 6588,Tom,Kennedy,WR,Active,DET
 12185,Spencer,Shrader,K,Inactive,IND
 10860,Malik,Cunningham,WR,Active,DET
@@ -857,7 +860,6 @@ DEN,Denver,Broncos,DEF,,DEN
 12658,Jackson,Hawes,TE,Active,BUF
 12788,Will,Sheppard,WR,Active,GB
 11506,Jalen,Cropper,WR,Active,DAL
-12797,Ahmani,Marshall,RB,Active,CLE
 5374,Justin,Watson,WR,Inactive,HOU
 11619,Ja'Lynn,Polk,WR,Inactive,NO
 9756,Jordan,Addison,WR,Active,MIN
