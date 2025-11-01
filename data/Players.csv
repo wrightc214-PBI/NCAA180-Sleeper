@@ -294,7 +294,6 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 8107,Nikola,Kalinic,TE,Active,CHI
 12489,RJ,Harvey,RB,Active,DEN
 8157,Bailey,Zappe,QB,Active,CLE
-8223,Velus,Jones,WR,Active,SEA
 7535,Hunter,Long,TE,Active,JAX
 12482,Savion,Williams,WR,Active,GB
 8088,Kalif,Jackson,TE,Active,MIA
@@ -424,7 +423,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 6869,Adam,Trautman,TE,Active,DEN
 9509,Bijan,Robinson,RB,Active,ATL
 7525,DeVonta,Smith,WR,Active,PHI
-12530,Travis,Hunter,WR,Active,JAX
+12530,Travis,Hunter,WR,Inactive,JAX
 11292,Tommy,DeVito,QB,Active,NE
 12476,Devin,Neal,RB,Active,NO
 12511,Will,Howard,QB,Inactive,PIT
