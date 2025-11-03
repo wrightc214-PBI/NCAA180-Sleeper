@@ -505,7 +505,7 @@ GB,Green Bay,Packers,DEF,,GB
 12969,Lan,Larison,RB,Inactive,NE
 8423,Brittain,Brown,RB,Active,CHI
 11653,Charlie,Smyth,K,Active,NO
-8183,Brock,Purdy,QB,Active,SF
+8183,Brock,Purdy,QB,Inactive,SF
 1234,Russell,Wilson,QB,Active,NYG
 12541,Dont'e,Thornton,WR,Active,LV
 12732,Dominic,Lovett,WR,Active,DET
@@ -613,7 +613,6 @@ MIA,Miami,Dolphins,DEF,,MIA
 12481,Cam,Skattebo,RB,Inactive,NYG
 10218,Xavier,Hutchinson,WR,Active,HOU
 6154,David,Sills,WR,Active,ATL
-6931,DeeJay,Dallas,RB,Active,CAR
 11623,Jordan,Whittington,WR,Active,LAR
 2549,Trevor,Siemian,QB,Active,TEN
 4995,Ian,Thomas,TE,Active,LV
