@@ -7,7 +7,7 @@ on:
     - cron: "*/15 0-3 * * FRI"
 
     # Sunday (1 PM–Midnight ET → Sun 17–23 UTC, Mon 00–04 UTC)
-    - cron: "*/15 17-23 * * SUN"
+    - cron: "*/30 17-23 * * SUN"
     - cron: "*/15 0-3 * * MON"
 
     # Monday nights (8 PM–Midnight ET → Tue 00–04 UTC), every 5 minutes
@@ -182,21 +182,28 @@ jobs:
 
           echo "✅ Access token received — triggering dataset refresh..."
           REFRESH_URL="https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes"
-          RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
-            -H "Authorization: Bearer $TOKEN" \
-            -H "Content-Type: application/json" \
-            --data '{}' \
-            -X POST "$REFRESH_URL")
 
-          echo "Power BI API response: HTTP $RESPONSE"
-          if [ "$RESPONSE" = "202" ]; then
-            echo "🎉 Refresh successfully queued."
-          else
-            echo "⚠️ Unexpected status $RESPONSE"
-            cat response.json || true
-            exit 1
-          fi
+          MAX_RETRIES=3
+          for ((i=1; i<=MAX_RETRIES; i++)); do
+            RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Content-Type: application/json" \
+              --data '{}' \
+              -X POST "$REFRESH_URL")
 
+            echo "Attempt $i: HTTP $RESPONSE"
+            if [ "$RESPONSE" = "202" ]; then
+              echo "🎉 Refresh successfully queued."
+              break
+            elif [ "$RESPONSE" = "429" ]; then
+              echo "⏳ Rate-limited. Waiting 120 seconds before retry..."
+              sleep 120
+            else
+              echo "⚠️ Unexpected status $RESPONSE"
+              cat response.json || true
+              exit 1
+            fi
+          done
 
       # --------------------------------------------------------
       # 📋 Step 9: Run summary
