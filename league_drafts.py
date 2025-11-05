@@ -1,78 +1,126 @@
 import pandas as pd
+import time
 from sleeper_wrapper.league import League
 from sleeper_wrapper.drafts import Drafts
+import requests
 
-# Load league IDs
-league_ids_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
+# -------------------------
+# CONFIG
+# -------------------------
+INPUT_FILE = "data/LeagueIDs_AllYears.csv"
+OUTPUT_DRAFTS = "data/Drafts_AllYears.csv"
+OUTPUT_PICKS = "data/DraftPicks_AllYears.csv"
 
+# -------------------------
+# HELPER FUNCTIONS
+# -------------------------
+def safe_get_drafts(league_id, league_name):
+    """Safely fetch all drafts for a given league."""
+    try:
+        drafts = League(league_id).get_all_drafts()
+        if not drafts:
+            print(f"⚠️  No drafts found for {league_name} ({league_id})")
+        return drafts or []
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Network error fetching drafts for {league_name} ({league_id}): {e}")
+        return []
+    except Exception as e:
+        print(f"❌ Unexpected error fetching drafts for {league_name} ({league_id}): {e}")
+        return []
+
+def safe_get_picks(draft_id, league_name):
+    """Safely fetch all picks for a given draft."""
+    try:
+        picks = Drafts(draft_id).get_all_picks()
+        if isinstance(picks, dict) and "message" in picks:
+            # Sleeper sometimes returns {'message': 'Not Found'} instead of raising error
+            print(f"⚠️  Draft not available for {league_name} ({draft_id})")
+            return []
+        return picks or []
+    except requests.exceptions.RequestException as e:
+        print(f"⚠️  Network error fetching picks for draft {draft_id}: {e}")
+        return []
+    except Exception as e:
+        print(f"⚠️  Unexpected error fetching picks for draft {draft_id}: {e}")
+        return []
+
+# -------------------------
+# MAIN SCRIPT
+# -------------------------
+league_ids_df = pd.read_csv(INPUT_FILE)
 all_drafts = []
 all_picks = []
 
-# Loop through each league and pull draft info
 for _, row in league_ids_df.iterrows():
     league_id = row["LeagueID"]
     league_name = row["LeagueName"]
 
-    print(f"Fetching draft info for league {league_name} ({league_id})...")
+    print(f"\nFetching draft info for league {league_name} ({league_id})...")
 
-    # Get drafts for this league
-    drafts = League(league_id).get_all_drafts()
+    drafts = safe_get_drafts(league_id, league_name)
+    if not drafts:
+        continue  # skip this league if no drafts available
 
-    if drafts:
-        for draft in drafts:
-            draft_id = draft.get("draft_id")
-            rounds = draft.get("settings", {}).get("rounds", 0)
-            num_teams = draft.get("settings", {}).get("teams", 0)
+    for draft in drafts:
+        draft_id = draft.get("draft_id")
+        rounds = draft.get("settings", {}).get("rounds", 0)
+        num_teams = draft.get("settings", {}).get("teams", 0)
 
-            # Store draft metadata
-            all_drafts.append({
+        all_drafts.append({
+            "LeagueID": league_id,
+            "LeagueName": league_name,
+            "DraftID": draft_id,
+            "Status": draft.get("status"),
+            "Type": draft.get("type"),
+            "Season": draft.get("season"),
+            "Rounds": rounds,
+            "Teams": num_teams
+        })
+
+        picks = safe_get_picks(draft_id, league_name)
+        if not isinstance(picks, list):
+            print(f"⚠️  Invalid pick data for {league_name} ({draft_id})")
+            continue
+
+        for p in picks:
+            meta = p.get("metadata", {}) or {}
+            round_no = p.get("round")
+            pick_no = p.get("pick_no")
+
+            overall_pick = None
+            if round_no and pick_no and num_teams:
+                overall_pick = ((round_no - 1) * num_teams) + pick_no
+
+            all_picks.append({
                 "LeagueID": league_id,
                 "LeagueName": league_name,
                 "DraftID": draft_id,
-                "Status": draft.get("status"),
-                "Type": draft.get("type"),
-                "Season": draft.get("season"),
-                "Rounds": rounds,
-                "Teams": num_teams
+                "Round": round_no,
+                "Pick_No": pick_no,
+                "OverallPick": overall_pick,
+                "Picked_By": p.get("picked_by"),
+                "RosterID": p.get("roster_id"),
+                "PlayerID": meta.get("player_id"),
+                "FirstName": meta.get("first_name"),
+                "LastName": meta.get("last_name"),
+                "Team": meta.get("team"),
+                "Position": meta.get("position"),
+                "Status": meta.get("status"),
+                "YearsExp": meta.get("years_exp")
             })
 
-            # Get picks for this draft
-            picks = Drafts(draft_id).get_all_picks()
+        # Light rate limit buffer (Sleeper API friendly)
+        time.sleep(0.2)
 
-            for p in picks:
-                meta = p.get("metadata", {})
-
-                round_no = p.get("round")
-                pick_no = p.get("pick_no")
-
-                # Overall pick = ((round - 1) * num_teams) + pick_no
-                overall_pick = None
-                if round_no and pick_no and num_teams:
-                    overall_pick = ((round_no - 1) * num_teams) + pick_no
-
-                all_picks.append({
-                    "LeagueID": league_id,
-                    "LeagueName": league_name,
-                    "DraftID": draft_id,
-                    "Round": round_no,
-                    "Pick_No": pick_no,
-                    "OverallPick": overall_pick,
-                    "Picked_By": p.get("picked_by"),
-                    "RosterID": p.get("roster_id"),
-                    "PlayerID": meta.get("player_id"),
-                    "FirstName": meta.get("first_name"),
-                    "LastName": meta.get("last_name"),
-                    "Team": meta.get("team"),
-                    "Position": meta.get("position"),
-                    "Status": meta.get("status"),
-                    "YearsExp": meta.get("years_exp")
-                })
-
-# Save drafts and picks to CSV
+# -------------------------
+# SAVE OUTPUTS
+# -------------------------
 drafts_df = pd.DataFrame(all_drafts)
 picks_df = pd.DataFrame(all_picks)
 
-drafts_df.to_csv("data/Drafts_AllYears.csv", index=False)
-picks_df.to_csv("data/DraftPicks_AllYears.csv", index=False)
+drafts_df.to_csv(OUTPUT_DRAFTS, index=False)
+picks_df.to_csv(OUTPUT_PICKS, index=False)
 
-print("Drafts and picks exported successfully!")
+print(f"\n✅ Drafts and picks exported successfully!")
+print(f"   • Drafts saved to: {OUTPUT_DRAFTS}")
+print(f"   • Picks saved to:  {OUTPUT_PICKS}")
