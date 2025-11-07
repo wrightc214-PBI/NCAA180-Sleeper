@@ -489,6 +489,7 @@ GB,Green Bay,Packers,DEF,,GB
 10210,Cameron,Latu,TE,Active,PHI
 2306,Jameis,Winston,QB,Active,NYG
 4924,Zach,Terrell,QB,Active,BAL
+13032,Marshall,Lang,TE,Active,SEA
 1479,Keenan,Allen,WR,Active,LAC
 3258,Nick,Vannett,TE,Active,MIN
 4381,Taysom,Hill,TE,Active,NO
@@ -788,6 +789,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 503,Graham,Gano,K,Active,NYG
 5113,Cedrick,Wilson,WR,Active,MIA
 11783,Ryan,Flournoy,WR,Active,DAL
+3362,Jeff,Driskel,QB,Active,ARI
 4683,Aaron,Bailey,QB,Active,BAL
 10871,Luke,Schoonmaker,TE,Active,DAL
 11435,Emanuel,Wilson,RB,Active,GB
@@ -844,7 +846,6 @@ DEN,Denver,Broncos,DEF,,DEN
 4314,Johnny,Mundt,TE,Active,JAX
 7527,Mac,Jones,QB,Active,SF
 9505,Deuce,Vaughn,RB,Active,DEN
-7082,Dalton,Keene,TE,Active,HOU
 11604,Brock,Bowers,TE,Active,LV
 12826,Ulysses,Bentley,RB,Active,IND
 11566,Jayden,Daniels,QB,Active,WAS
