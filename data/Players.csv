@@ -4,7 +4,7 @@ player_id,first_name,last_name,position,status,team
 9487,Parker,Washington,WR,Active,JAX
 6918,Salvon,Ahmed,RB,Inactive,IND
 6786,CeeDee,Lamb,WR,Active,DAL
-11584,Bucky,Irving,RB,Active,TB
+11584,Bucky,Irving,RB,Inactive,TB
 11649,Kendall,Milton,RB,Active,CIN
 6783,Jerry,Jeudy,WR,Active,CLE
 11616,Jacob,Cowing,WR,Inactive,SF
@@ -128,7 +128,7 @@ IND,Indianapolis,Colts,DEF,,IND
 5773,KhaDarel,Hodge,WR,Active,ATL
 4574,Cooper,Rush,QB,Active,BAL
 8500,John,FitzPatrick,TE,Active,GB
-4037,Chris,Godwin,WR,Active,TB
+4037,Chris,Godwin,WR,Inactive,TB
 5906,Dawson,Knox,TE,Active,BUF
 7812,Simi,Fehoko,WR,Active,ARI
 12908,Chandler,Brayboy,WR,Active,JAX
@@ -572,7 +572,6 @@ GB,Green Bay,Packers,DEF,,GB
 4218,Trent,Taylor,WR,Inactive,SF
 12154,Messiah,Swinson,TE,Active,ARI
 1642,Levine,Toilolo,TE,Inactive,NYG
-8849,Tanner,Conner,TE,Active,MIA
 2152,Teddy,Bridgewater,QB,Active,TB
 5189,Eddy,Pineiro,K,Active,SF
 13101,Gage,Larvadain,WR,Active,CLE
@@ -720,6 +719,7 @@ TEN,Tennessee,Titans,DEF,,TEN
 8172,Greg,Dulcich,TE,Active,MIA
 12506,Harold,Fannin,TE,Active,CLE
 11421,Ryan,Miller,WR,Active,TB
+7050,Josiah,Deguara,TE,Active,ARI
 4144,Jonnu,Smith,TE,Active,PIT
 8126,Wan'Dale,Robinson,WR,Active,NYG
 11773,Keilan,Robinson,RB,Active,NYJ
@@ -768,11 +768,12 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 138,Ben,Roethlisberger,QB,Active,PIT
 2020,Cairo,Santos,K,Active,CHI
 7042,Tyler,Bass,K,Inactive,BUF
+8800,Malik,Davis,RB,Active,DAL
 11558,Sam,Hartman,QB,Active,WAS
 10863,A.T.,Perry,WR,Active,DEN
 10235,Roschon,Johnson,RB,Active,CHI
 12743,Junior,Bergen,WR,Active,SF
-3451,Ka'imi,Fairbairn,K,Active,HOU
+3451,Ka'imi,Fairbairn,K,Inactive,HOU
 3155,Laquon,Treadwell,WR,Active,IND
 8162,Sam,Howell,QB,Active,PHI
 11560,Caleb,Williams,QB,Active,CHI
