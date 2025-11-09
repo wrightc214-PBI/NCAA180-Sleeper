@@ -477,7 +477,7 @@ GB,Green Bay,Packers,DEF,,GB
 7237,Scotty,Washington,WR,Active,BAL
 11786,Cam,Little,K,Active,JAX
 8148,Jameson,Williams,WR,Active,DET
-10444,Cedric,Tillman,WR,Inactive,CLE
+10444,Cedric,Tillman,WR,Active,CLE
 7090,Darnell,Mooney,WR,Active,ATL
 6677,Joe,Forson,WR,Practice Squad,KC
 7612,Dee,Eskridge,WR,Active,MIA
@@ -572,6 +572,7 @@ GB,Green Bay,Packers,DEF,,GB
 4218,Trent,Taylor,WR,Inactive,SF
 12154,Messiah,Swinson,TE,Active,ARI
 1642,Levine,Toilolo,TE,Inactive,NYG
+8849,Tanner,Conner,TE,Active,MIA
 2152,Teddy,Bridgewater,QB,Active,TB
 5189,Eddy,Pineiro,K,Active,SF
 13101,Gage,Larvadain,WR,Active,CLE
@@ -632,7 +633,7 @@ PHI,Philadelphia,Eagles,DEF,,PHI
 3161,Carson,Wentz,QB,Inactive,MIN
 12705,Graham,Mertz,QB,Active,HOU
 7600,Pat,Freiermuth,TE,Active,PIT
-8527,Dareke,Young,WR,Active,SEA
+8527,Dareke,Young,WR,Inactive,SEA
 11199,Emari,Demercado,RB,Active,ARI
 12860,Theo,Wease,WR,Active,MIA
 12688,Cam,Miller,QB,Active,LV
@@ -819,6 +820,7 @@ DEN,Denver,Broncos,DEF,,DEN
 4464,Nick,Mullens,QB,Active,JAX
 13011,Brennan,Presley,WR,Active,LAR
 8139,Zamir,White,RB,Active,LV
+11588,Jawhar,Jordan,RB,Active,HOU
 5095,Daniel,Carlson,K,Active,LV
 12510,Jalen,Milroe,QB,Active,SEA
 2505,Darren,Waller,TE,Inactive,MIA
@@ -867,7 +869,7 @@ DEN,Denver,Broncos,DEF,,DEN
 4033,David,Njoku,TE,Active,CLE
 5849,Kyler,Murray,QB,Inactive,ARI
 5409,Tanner,Hudson,TE,Active,CIN
-12889,Beaux,Collins,WR,Active,NYG
+12889,Beaux,Collins,WR,Inactive,NYG
 7233,Andre,Baccellia,WR,Active,ARI
 6960,Tyler,Johnson,WR,Active,NYJ
 11068,Mitch,Tinsley,WR,Active,CIN
