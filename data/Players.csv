@@ -8,7 +8,6 @@ player_id,first_name,last_name,position,status,team
 11649,Kendall,Milton,RB,Active,CIN
 6783,Jerry,Jeudy,WR,Active,CLE
 11616,Jacob,Cowing,WR,Inactive,SF
-5965,Miles,Boykin,WR,Active,CHI
 4992,Dante,Pettis,WR,Active,NO
 9504,Kayshon,Boutte,WR,Active,NE
 12507,Omarion,Hampton,RB,Inactive,LAC
@@ -33,7 +32,6 @@ player_id,first_name,last_name,position,status,team
 2359,Ameer,Abdullah,RB,Active,IND
 5854,Drew,Lock,QB,Active,SEA
 7593,Trey,Sermon,RB,Active,PIT
-12809,Mac,Dalena,WR,Active,SEA
 11579,Audric,Estime,RB,Active,NO
 HOU,Houston,Texans,DEF,,HOU
 3294,Dak,Prescott,QB,Active,DAL
@@ -647,7 +645,6 @@ PHI,Philadelphia,Eagles,DEF,,PHI
 11562,Spencer,Rattler,QB,Active,NO
 8230,Ty,Chandler,RB,Inactive,MIN
 6011,Gardner,Minshew,QB,Active,KC
-5089,Mike,White,QB,Active,CAR
 SF,San Francisco,49ers,DEF,,SF
 6136,Jarrett,Stidham,QB,Active,DEN
 12494,Kyle,McCord,QB,Active,PHI
