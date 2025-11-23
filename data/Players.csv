@@ -195,7 +195,7 @@ NYJ,New York,Jets,DEF,,NYJ
 96,Aaron,Rodgers,QB,Active,PIT
 5872,Deebo,Samuel,WR,Active,WAS
 12941,Bryson,Nesbit,TE,Active,MIN
-9480,Brenton,Strange,TE,Inactive,JAX
+9480,Brenton,Strange,TE,Active,JAX
 12545,Tyler,Shough,QB,Active,NO
 827,Tyrod,Taylor,QB,Active,NYJ
 6650,Chase,McLaughlin,K,Active,TB
@@ -410,7 +410,7 @@ JAX,Jacksonville,Jaguars,DEF,,JAX
 9226,De'Von,Achane,RB,Active,MIA
 9494,Marvin,Mims,WR,Active,DEN
 11559,Michael,Penix,QB,Inactive,ATL
-4993,Mike,Gesicki,TE,Inactive,CIN
+4993,Mike,Gesicki,TE,Active,CIN
 LAR,Los Angeles,Rams,DEF,,LAR
 12070,McCallan,Castles,TE,Active,GB
 12928,Amar,Johnson,RB,Active,LAC
@@ -446,7 +446,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 3832,C.J.,Ham,FB,Active,MIN
 11371,Julian,Hill,TE,Active,MIA
 6598,Trenton,Irwin,WR,Active,NYJ
-12715,Thomas,Fidone,TE,Active,NYG
+12715,Thomas,Fidone,TE,Inactive,NYG
 10857,Stetson,Bennett,QB,Active,LAR
 9229,Anthony,Richardson,QB,Inactive,IND
 6770,Joe,Burrow,QB,Inactive,CIN
@@ -542,7 +542,7 @@ GB,Green Bay,Packers,DEF,,GB
 12538,Brady,Cook,QB,Active,NYJ
 7720,Kene,Nwangwu,RB,Active,NYJ
 12536,Jaylin,Noel,WR,Active,HOU
-10223,Eric,Gray,RB,Inactive,NYG
+10223,Eric,Gray,RB,Active,NYG
 12492,Pat,Bryant,WR,Active,DEN
 6826,Cole,Kmet,TE,Active,CHI
 12526,Tetairoa,McMillan,WR,Active,CAR
@@ -586,7 +586,7 @@ GB,Green Bay,Packers,DEF,,GB
 11186,Carlos,Washington,RB,Active,ATL
 11583,Jonathon,Brooks,RB,Active,CAR
 5127,Kyle,Allen,QB,Active,DET
-12497,Tory,Horton,WR,Active,SEA
+12497,Tory,Horton,WR,Inactive,SEA
 12469,Dylan,Sampson,RB,Active,CLE
 5285,Ross,Dwelley,TE,Active,DET
 12933,Caden,Prieskorn,TE,Active,CLE
@@ -711,7 +711,7 @@ TEN,Tennessee,Titans,DEF,,TEN
 9500,Josh,Downs,WR,Active,IND
 11762,Anthony,Gould,WR,Active,IND
 7602,Kylen,Granson,TE,Active,PHI
-12516,Kalel,Mullings,RB,Inactive,TEN
+12516,Kalel,Mullings,RB,Active,TEN
 12357,David,Martin-Robinson,TE,Active,TEN
 3668,Joshua,Perkins,TE,Active,NYJ
 5010,Will,Dissly,TE,Active,LAC
@@ -776,7 +776,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 12803,Luke,Grimm,WR,Active,LAC
 11558,Sam,Hartman,QB,Active,WAS
 10863,A.T.,Perry,WR,Active,DEN
-10235,Roschon,Johnson,RB,Active,CHI
+10235,Roschon,Johnson,RB,Inactive,CHI
 12743,Junior,Bergen,WR,Active,SF
 3451,Ka'imi,Fairbairn,K,Active,HOU
 3155,Laquon,Treadwell,WR,Active,IND
