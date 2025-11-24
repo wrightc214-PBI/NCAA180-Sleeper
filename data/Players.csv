@@ -534,6 +534,7 @@ GB,Green Bay,Packers,DEF,,GB
 12718,Konata,Mumpfield,WR,Active,LAR
 9481,Luke,Musgrave,TE,Active,GB
 12939,Anthony,Tyus,RB,Active,CAR
+8129,Dameon,Pierce,RB,Active,KC
 5272,Greg,Joseph,K,Active,LV
 11581,MarShawn,Lloyd,RB,Inactive,GB
 5032,Jordan,Akins,TE,Active,JAX
@@ -694,7 +695,6 @@ TEN,Tennessee,Titans,DEF,,TEN
 7618,Micah,Simon,WR,Active,CAR
 11625,Adonai,Mitchell,WR,Active,NYJ
 12389,Hayden,Rucci,TE,Active,MIA
-6938,Cam,Akers,RB,Active,MIN
 4198,Jamal,Agnew,WR,Active,ATL
 11821,Tahj,Washington,WR,Active,MIA
 7537,Jaret,Patterson,RB,Active,LAC
@@ -847,7 +847,7 @@ DEN,Denver,Broncos,DEF,,DEN
 4490,Wyatt,Houston,TE,Active,CAR
 9499,Bryce,Ford-Wheaton,WR,Inactive,NYG
 7865,Brandon,Smith,WR,Active,NYJ
-5850,Josh,Jacobs,RB,Active,GB
+5850,Josh,Jacobs,RB,Inactive,GB
 9753,Zach,Charbonnet,RB,Active,SEA
 11065,Adrian,Martinez,QB,Active,SF
 5880,Parris,Campbell,WR,Active,DAL
