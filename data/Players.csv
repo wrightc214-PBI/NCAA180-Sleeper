@@ -41,7 +41,7 @@ HOU,Houston,Texans,DEF,,HOU
 7828,Noah,Gray,TE,Active,KC
 NE,New England,Patriots,DEF,,NE
 11557,Joe,Milton,QB,Active,DAL
-5995,Justice,Hill,RB,Active,BAL
+5995,Justice,Hill,RB,Inactive,BAL
 12925,Jamaal,Pritchett,WR,Active,NYJ
 12517,Colston,Loveland,TE,Active,CHI
 8138,James,Cook,RB,Active,BUF
@@ -222,7 +222,6 @@ NYJ,New York,Jets,DEF,,NYJ
 5947,Jakobi,Meyers,WR,Active,JAX
 12946,Dontae,Fleming,WR,Active,MIN
 11651,Isaac,Guerendo,RB,Active,SF
-8932,Lucas,Havrisik,K,Active,GB
 12700,Gavin,Bartholomew,TE,Active,MIN
 3271,Tyler,Higbee,TE,Inactive,LAR
 12761,Jordan,Moore,WR,Active,CIN
@@ -231,7 +230,6 @@ NYJ,New York,Jets,DEF,,NYJ
 12514,Emeka,Egbuka,WR,Active,TB
 7605,Kyle,Trask,QB,Active,ATL
 7569,Nico,Collins,WR,Active,HOU
-6659,Craig,Reynolds,RB,Active,DET
 9228,Bryce,Young,QB,Active,CAR
 12487,Terrance,Ferguson,TE,Active,LAR
 DAL,Dallas,Cowboys,DEF,,DAL
@@ -578,6 +576,7 @@ GB,Green Bay,Packers,DEF,,GB
 12154,Messiah,Swinson,TE,Active,ARI
 1642,Levine,Toilolo,TE,Inactive,NYG
 8849,Tanner,Conner,TE,Active,MIA
+8159,Desmond,Ridder,QB,Active,MIN
 2152,Teddy,Bridgewater,QB,Active,TB
 5189,Eddy,Pineiro,K,Active,SF
 13101,Gage,Larvadain,WR,Active,CLE
