@@ -516,7 +516,7 @@ GB,Green Bay,Packers,DEF,,GB
 1234,Russell,Wilson,QB,Active,NYG
 12541,Dont'e,Thornton,WR,Active,LV
 12732,Dominic,Lovett,WR,Active,DET
-7891,Brock,Wright,TE,Active,DET
+7891,Brock,Wright,TE,Inactive,DET
 11593,Brevyn,Spann-Ford,TE,Active,DAL
 12512,Quinshon,Judkins,RB,Active,CLE
 12634,Jordan,Watkins,WR,Active,SF
@@ -769,6 +769,7 @@ CHI,Chicago,Bears,DEF,,CHI
 11748,Bub,Means,WR,Inactive,NO
 5744,Eldridge,Massington,WR,Active,NO
 12412,Terrell,Jennings,RB,Active,NE
+8200,Kevin,Austin,WR,Active,NO
 7528,Najee,Harris,RB,Inactive,LAC
 CIN,Cincinnati,Bengals,DEF,,CIN
 8745,Lance,McCutcheon,WR,Active,TEN
