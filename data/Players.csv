@@ -10,7 +10,7 @@ player_id,first_name,last_name,position,status,team
 11616,Jacob,Cowing,WR,Inactive,SF
 4992,Dante,Pettis,WR,Active,NO
 9504,Kayshon,Boutte,WR,Active,NE
-12507,Omarion,Hampton,RB,Inactive,LAC
+12507,Omarion,Hampton,RB,Active,LAC
 11439,Jaleel,McLaughlin,RB,Active,DEN
 11629,Devontez,Walker,WR,Active,BAL
 12493,Oronde,Gadsden,TE,Active,LAC
@@ -55,7 +55,7 @@ NE,New England,Patriots,DEF,,NE
 4943,Sam,Darnold,QB,Active,SEA
 10228,Charlie,Jones,WR,Active,CIN
 829,Andy,Dalton,QB,Active,CAR
-10222,Jayden,Reed,WR,Inactive,GB
+10222,Jayden,Reed,WR,Active,GB
 11311,Jason,Brownlee,WR,Active,KC
 12532,Ja'Corey,Brooks,WR,Active,WAS
 11370,Chris,Brooks,RB,Active,GB
@@ -813,7 +813,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 4972,Mason,Rudolph,QB,Active,PIT
 9227,Israel,Abanikanda,RB,Active,DAL
 11113,Joel,Wilson,TE,Active,TEN
-5970,Greg,Dortch,WR,Active,ARI
+5970,Greg,Dortch,WR,Inactive,ARI
 12892,Da'Quan,Felton,WR,Inactive,NYG
 13075,Myles,Price,WR,Active,MIN
 6202,Jakob,Johnson,FB,Active,HOU
@@ -924,4 +924,4 @@ MIN,Minnesota,Vikings,DEF,,MIN
 12505,Jalen,Royals,WR,Active,KC
 12501,Matthew,Golden,WR,Active,GB
 3309,Wendell,Smallwood,RB,Active,WAS
-4234,Noah,Brown,WR,Inactive,WAS
+4234,Noah,Brown,WR,Active,WAS
