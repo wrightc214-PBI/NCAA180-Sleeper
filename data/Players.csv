@@ -31,7 +31,6 @@ player_id,first_name,last_name,position,status,team
 8025,Adam,Prentice,FB,Active,DEN
 2359,Ameer,Abdullah,RB,Active,IND
 5854,Drew,Lock,QB,Active,SEA
-7593,Trey,Sermon,RB,Active,PIT
 11579,Audric,Estime,RB,Active,NO
 HOU,Houston,Texans,DEF,,HOU
 3294,Dak,Prescott,QB,Active,DAL
@@ -54,6 +53,7 @@ NE,New England,Patriots,DEF,,NE
 11610,Malik,Washington,WR,Active,MIA
 4943,Sam,Darnold,QB,Active,SEA
 10228,Charlie,Jones,WR,Active,CIN
+11598,Tanner,McLachlan,TE,Active,LAC
 829,Andy,Dalton,QB,Active,CAR
 10222,Jayden,Reed,WR,Active,GB
 11311,Jason,Brownlee,WR,Active,KC
@@ -700,7 +700,6 @@ TEN,Tennessee,Titans,DEF,,TEN
 13210,Drake,Dabney,TE,Active,GB
 7618,Micah,Simon,WR,Active,CAR
 11625,Adonai,Mitchell,WR,Active,NYJ
-12389,Hayden,Rucci,TE,Active,DET
 6938,Cam,Akers,RB,Active,SEA
 4198,Jamal,Agnew,WR,Active,ATL
 11821,Tahj,Washington,WR,Active,MIA
@@ -728,7 +727,7 @@ TEN,Tennessee,Titans,DEF,,TEN
 9997,Zay,Flowers,WR,Active,BAL
 8172,Greg,Dulcich,TE,Active,MIA
 12506,Harold,Fannin,TE,Active,CLE
-11421,Ryan,Miller,WR,Active,TB
+11421,Ryan,Miller,WR,Active,NYG
 7050,Josiah,Deguara,TE,Active,ARI
 4144,Jonnu,Smith,TE,Active,PIT
 8126,Wan'Dale,Robinson,WR,Active,NYG
@@ -759,7 +758,6 @@ CHI,Chicago,Bears,DEF,,CHI
 11789,Joshua,Karty,K,Active,LAR
 13208,Kyrese,Rowan,WR,Active,DEN
 6850,Harrison,Bryant,TE,Inactive,HOU
-5096,Ray-Ray,McCloud,WR,Active,NYG
 4098,Kareem,Hunt,RB,Active,KC
 8127,Charlie,Kolar,TE,Active,BAL
 12883,Joshua,Simon,TE,Active,ATL
