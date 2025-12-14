@@ -285,7 +285,7 @@ WAS,Washington,Commanders,DEF,,WAS
 6185,Easton,Stick,QB,Active,ATL
 LAC,Los Angeles,Chargers,DEF,,LAC
 2216,Mike,Evans,WR,Active,TB
-7562,Tutu,Atwell,WR,Inactive,LAR
+7562,Tutu,Atwell,WR,Active,LAR
 7149,Tommy,Stevens,TE,Active,NYG
 8132,Tyler,Allgeier,RB,Active,ATL
 12523,Jimmy,Horn,WR,Active,CAR
@@ -397,7 +397,7 @@ CAR,Carolina,Panthers,DEF,,CAR
 8755,Kaden,Davis,WR,Active,CLE
 12495,Ollie,Gordon,RB,Active,MIA
 4602,Robert,Tonyan,TE,Active,KC
-4189,Eric,Saubert,TE,Inactive,SEA
+4189,Eric,Saubert,TE,Active,SEA
 5133,Tyler,Conklin,TE,Active,LAC
 8221,Keaontay,Ingram,RB,Inactive,KC
 8917,KaVontae,Turpin,WR,Active,DAL
@@ -554,6 +554,7 @@ GB,Green Bay,Packers,DEF,,GB
 11058,Blake,Grupe,K,Active,IND
 11210,Malik,Heath,WR,Active,ATL
 8089,Sal,Cannella,TE,Active,CLE
+111,Marcedes,Lewis,TE,Active,DEN
 13003,Tru,Edwards,WR,Active,LAR
 13121,Ben,Yurosek,TE,Active,MIN
 6943,Gabe,Davis,WR,Active,BUF
@@ -673,7 +674,7 @@ SF,San Francisco,49ers,DEF,,SF
 9224,Chase,Brown,RB,Active,CIN
 12520,Xavier,Restrepo,WR,Active,TEN
 8204,Bo,Melton,WR,Active,GB
-12521,Elijah,Arroyo,TE,Active,SEA
+12521,Elijah,Arroyo,TE,Inactive,SEA
 4914,Glen,Coffee,RB,Active,SF
 12479,Ja'Quinden,Jackson,RB,Active,JAX
 5012,Mark,Andrews,TE,Active,BAL
@@ -700,6 +701,7 @@ TEN,Tennessee,Titans,DEF,,TEN
 7618,Micah,Simon,WR,Active,CAR
 11625,Adonai,Mitchell,WR,Active,NYJ
 12389,Hayden,Rucci,TE,Active,MIA
+6938,Cam,Akers,RB,Active,SEA
 4198,Jamal,Agnew,WR,Active,ATL
 11821,Tahj,Washington,WR,Active,MIA
 7537,Jaret,Patterson,RB,Active,LAC
@@ -756,7 +758,7 @@ CHI,Chicago,Bears,DEF,,CHI
 11834,Devaughn,Vele,WR,Active,NO
 11789,Joshua,Karty,K,Active,LAR
 13208,Kyrese,Rowan,WR,Active,DEN
-6850,Harrison,Bryant,TE,Inactive,HOU
+6850,Harrison,Bryant,TE,Active,HOU
 4098,Kareem,Hunt,RB,Active,KC
 8127,Charlie,Kolar,TE,Active,BAL
 12883,Joshua,Simon,TE,Active,ATL
@@ -766,7 +768,7 @@ CHI,Chicago,Bears,DEF,,CHI
 7559,Ihmir,Smith-Marsette,WR,Active,NYG
 11748,Bub,Means,WR,Inactive,NO
 5744,Eldridge,Massington,WR,Active,NO
-12412,Terrell,Jennings,RB,Active,NE
+12412,Terrell,Jennings,RB,Inactive,NE
 8200,Kevin,Austin,WR,Active,NO
 7528,Najee,Harris,RB,Inactive,LAC
 CIN,Cincinnati,Bengals,DEF,,CIN
@@ -790,7 +792,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 6012,Travis,Homer,RB,Active,CHI
 9490,Tyler,Scott,WR,Active,LAR
 4349,Taquan,Mizzell,RB,Inactive,NYG
-8041,Shane,Zylstra,TE,Inactive,DET
+8041,Shane,Zylstra,TE,Active,DET
 4035,Alvin,Kamara,RB,Active,NO
 8756,Brandon,Johnson,WR,Active,TB
 11569,Jarquez,Hunter,RB,Active,LAR
