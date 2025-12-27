@@ -54,6 +54,7 @@ NE,New England,Patriots,DEF,,NE
 11610,Malik,Washington,WR,Active,MIA
 4943,Sam,Darnold,QB,Active,SEA
 10228,Charlie,Jones,WR,Active,CIN
+11598,Tanner,McLachlan,TE,Active,LAC
 829,Andy,Dalton,QB,Active,CAR
 10222,Jayden,Reed,WR,Active,GB
 11311,Jason,Brownlee,WR,Active,KC
@@ -278,7 +279,6 @@ WAS,Washington,Commanders,DEF,,WAS
 12504,Kaleb,Johnson,RB,Active,PIT
 12079,Treyton,Welch,TE,Active,NO
 12474,Woody,Marks,RB,Active,HOU
-11644,Cody,Schrader,RB,Active,DEN
 6465,Thomas,Ives,WR,Inactive,CHI
 4040,JuJu,Smith-Schuster,WR,Active,KC
 8206,Skylar,Thompson,QB,Inactive,PIT
@@ -475,7 +475,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 12483,Jack,Bech,WR,Active,LV
 NO,New Orleans,Saints,DEF,,NO
 7568,Brevin,Jordan,TE,Inactive,HOU
-5985,Foster,Moreau,TE,Active,NO
+5985,Foster,Moreau,TE,Inactive,NO
 GB,Green Bay,Packers,DEF,,GB
 7989,DJ,Turner,WR,Active,LV
 3702,Andy,Jones,WR,Inactive,NYG
