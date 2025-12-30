@@ -105,6 +105,7 @@ BAL,Baltimore,Ravens,DEF,,BAL
 6904,Jalen,Hurts,QB,Active,PHI
 7538,Zach,Wilson,QB,Active,MIA
 7561,Elijah,Mitchell,RB,Active,NE
+12898,Seth,Henigan,QB,Active,IND
 11635,Ladd,McConkey,WR,Active,LAC
 12475,Ricky,White,WR,Active,SEA
 8154,Brian,Robinson,RB,Active,SF
@@ -389,7 +390,6 @@ CLE,Cleveland,Browns,DEF,,CLE
 12473,Mitchell,Evans,TE,Active,CAR
 ATL,Atlanta,Falcons,DEF,,ATL
 10219,Chris,Rodriguez,RB,Active,WAS
-5917,Mecole,Hardman,WR,Active,BUF
 4983,DJ,Moore,WR,Active,CHI
 5022,Dallas,Goedert,TE,Active,PHI
 12849,Traeshon,Holden,WR,Active,DAL
@@ -881,7 +881,7 @@ DEN,Denver,Broncos,DEF,,DEN
 12788,Will,Sheppard,WR,Active,GB
 11506,Jalen,Cropper,WR,Active,DAL
 12797,Ahmani,Marshall,RB,Active,CLE
-5374,Justin,Watson,WR,Inactive,HOU
+5374,Justin,Watson,WR,Active,HOU
 11619,Ja'Lynn,Polk,WR,Inactive,NO
 9756,Jordan,Addison,WR,Active,MIN
 4033,David,Njoku,TE,Active,CLE
