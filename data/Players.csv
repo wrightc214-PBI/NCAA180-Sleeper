@@ -47,7 +47,6 @@ NE,New England,Patriots,DEF,,NE
 8138,James,Cook,RB,Active,BUF
 7262,Jalen,Morton,QB,Active,IND
 8119,Jahan,Dotson,WR,Active,PHI
-8194,Jashaun,Corbin,RB,Active,NE
 12542,Efton,Chism,WR,Active,NE
 7049,Jauan,Jennings,WR,Active,SF
 8136,Rachaad,White,RB,Active,TB
@@ -337,7 +336,7 @@ TB,Tampa Bay,Buccaneers,DEF,,TB
 7946,Jack,Stoll,TE,Active,NO
 10224,Brayden,Willis,TE,Active,SF
 8160,Kenny,Pickett,QB,Active,LV
-9479,Darnell,Washington,TE,Active,PIT
+9479,Darnell,Washington,TE,Inactive,PIT
 11577,Will,Shipley,RB,Active,PHI
 12540,Chimere,Dike,WR,Active,TEN
 CLE,Cleveland,Browns,DEF,,CLE
@@ -370,15 +369,18 @@ CLE,Cleveland,Browns,DEF,,CLE
 3976,Mitchell,Trubisky,QB,Active,BUF
 7523,Trevor,Lawrence,QB,Active,JAX
 12508,Jaxson,Dart,QB,Active,NYG
+11605,Jaheim,Bell,TE,Active,PIT
 4066,Evan,Engram,TE,Active,DEN
 12533,Jacory,Croskey-Merritt,RB,Active,WAS
 3048,Chris,Manhertz,TE,Active,NYG
 5903,Will,Grier,QB,Active,DAL
 6945,Antonio,Gibson,RB,Inactive,NE
+12787,Josh,Williams,RB,Active,TB
 17,Matt,Prater,K,Active,BUF
 8227,Teagan,Quitoriano,TE,Active,ATL
 11565,J.J.,McCarthy,QB,Active,MIN
 11859,John Rhys,Plumlee,QB,Active,PIT
+8220,Sincere,McCormick,RB,Active,MIN
 8676,Rashid,Shaheed,WR,Active,SEA
 6271,Olamide,Zaccheaus,WR,Active,CHI
 6866,KJ,Hill,WR,Active,LAC
@@ -583,9 +585,9 @@ GB,Green Bay,Packers,DEF,,GB
 12534,Kyle,Monangai,RB,Active,CHI
 8195,Ronnie,Rivers,RB,Active,LAR
 4218,Trent,Taylor,WR,Inactive,SF
-12154,Messiah,Swinson,TE,Active,ARI
 1642,Levine,Toilolo,TE,Inactive,NYG
 8849,Tanner,Conner,TE,Active,NYG
+8159,Desmond,Ridder,QB,Active,GB
 2152,Teddy,Bridgewater,QB,Active,TB
 5189,Eddy,Pineiro,K,Active,SF
 13101,Gage,Larvadain,WR,Active,CLE
@@ -695,7 +697,7 @@ SF,San Francisco,49ers,DEF,,SF
 3202,Austin,Hooper,TE,Active,NE
 6794,Justin,Jefferson,WR,Active,MIN
 11377,Tyrell,Shavers,WR,Active,BUF
-11600,Ja'Tavion,Sanders,TE,Active,CAR
+11600,Ja'Tavion,Sanders,TE,Inactive,CAR
 12713,Andy,Borregales,K,Active,NE
 9230,Tanner,McKee,QB,Active,PHI
 5008,Durham,Smythe,TE,Active,CHI
@@ -745,7 +747,6 @@ TEN,Tennessee,Titans,DEF,,TEN
 8489,Drew,Ogletree,TE,Inactive,IND
 8801,Dennis,Houston,WR,Active,TB
 12954,Kye,Robichaux,RB,Inactive,DET
-11943,Michael,Wiley,RB,Active,TB
 4451,Isaac,Whitney,WR,Inactive,ARI
 11851,Carter,Bradley,QB,Active,JAX
 6528,Joey,Slye,K,Active,TEN
