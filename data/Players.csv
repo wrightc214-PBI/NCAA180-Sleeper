@@ -644,7 +644,7 @@ DET,Detroit,Lions,DEF,,DET
 11603,AJ,Barner,TE,Active,SEA
 BUF,Buffalo,Bills,DEF,,BUF
 9757,Kendre,Miller,RB,Inactive,NO
-7670,Joshua,Palmer,WR,Active,BUF
+7670,Joshua,Palmer,WR,Inactive,BUF
 7611,Rhamondre,Stevenson,RB,Active,NE
 12547,Kyle,Williams,WR,Active,NE
 3333,Temarrick,Hemingway,TE,Active,WAS
@@ -722,7 +722,6 @@ TEN,Tennessee,Titans,DEF,,TEN
 12467,Jordan,James,RB,Active,SF
 8144,Chris,Olave,WR,Active,NO
 11621,Brenden,Rice,WR,Active,LV
-6529,Chris,Myarick,TE,Active,MIA
 4984,Josh,Allen,QB,Active,BUF
 12938,Jackson,Meeks,WR,Active,DET
 4937,Al,Riles,WR,Active,IND
@@ -859,7 +858,7 @@ DEN,Denver,Broncos,DEF,,DEN
 6451,Stephen,Carlson,TE,Active,CHI
 8210,Chig,Okonkwo,TE,Active,TEN
 6151,Miles,Sanders,RB,Inactive,DAL
-12670,KeAndre,Lambert-Smith,WR,Active,LAC
+12670,KeAndre,Lambert-Smith,WR,Inactive,LAC
 7943,Zach,Davidson,TE,Active,NYG
 13034,Tyrone,Broden,WR,Active,SEA
 11256,Tyson,Bagent,QB,Active,CHI
@@ -910,7 +909,7 @@ DEN,Denver,Broncos,DEF,,DEN
 11245,Patrick,Murtagh,TE,Active,DEN
 7002,Juwan,Johnson,TE,Active,NO
 12485,Tez,Johnson,WR,Active,TB
-8885,Tucker,Fisk,TE,Inactive,LAC
+8885,Tucker,Fisk,TE,Active,LAC
 12738,Phil,Mafah,RB,Active,DAL
 5846,DK,Metcalf,WR,Active,PIT
 8155,Breece,Hall,RB,Active,NYJ
