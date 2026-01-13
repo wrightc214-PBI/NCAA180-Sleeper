@@ -32,6 +32,7 @@ player_id,first_name,last_name,position,status,team
 2359,Ameer,Abdullah,RB,Active,IND
 5854,Drew,Lock,QB,Active,SEA
 7593,Trey,Sermon,RB,Active,PIT
+12809,Mac,Dalena,WR,Active,NYJ
 11579,Audric,Estime,RB,Active,NO
 HOU,Houston,Texans,DEF,,HOU
 3294,Dak,Prescott,QB,Active,DAL
@@ -300,7 +301,7 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 13261,Layne,Pryor,TE,Active,HOU
 8107,Nikola,Kalinic,TE,Active,CHI
 12489,RJ,Harvey,RB,Active,DEN
-8157,Bailey,Zappe,QB,Active,CLE
+8157,Bailey,Zappe,QB,Active,NYJ
 8223,Velus,Jones,WR,Active,SEA
 7535,Hunter,Long,TE,Active,JAX
 12482,Savion,Williams,WR,Inactive,GB
@@ -445,7 +446,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 1945,Chris,Boswell,K,Active,PIT
 12478,Nick,Nash,WR,Active,WAS
 12457,Jaydon,Blue,RB,Active,DAL
-12548,Lenny,Krieg,K,Active,ATL
+12548,Lenny,Krieg,K,Active,NYJ
 7039,Cody,White,WR,Inactive,SEA
 2749,Raheem,Mostert,RB,Active,LV
 8112,Drake,London,WR,Active,ATL
