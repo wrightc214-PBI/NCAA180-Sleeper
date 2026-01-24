@@ -339,7 +339,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 5967,Tony,Pollard,RB,Active,TEN
 8076,Michael,Bandy,WR,Active,DEN
 12756,Stephen,Gosnell,WR,Active,BUF
-12048,George,Holani,RB,Inactive,SEA
+12048,George,Holani,RB,Active,SEA
 12888,Dalen,Cambre,WR,Active,NYG
 12641,Jaylin,Lane,WR,Inactive,WAS
 10213,Tre,Tucker,WR,Active,LV
@@ -655,7 +655,7 @@ SF,San Francisco,49ers,DEF,,SF
 9224,Chase,Brown,RB,Active,CIN
 12520,Xavier,Restrepo,WR,Active,TEN
 8204,Bo,Melton,WR,Inactive,GB
-12521,Elijah,Arroyo,TE,Inactive,SEA
+12521,Elijah,Arroyo,TE,Active,SEA
 4914,Glen,Coffee,RB,Active,SF
 12479,Ja'Quinden,Jackson,RB,Active,JAX
 5012,Mark,Andrews,TE,Active,BAL
@@ -802,6 +802,7 @@ DEN,Denver,Broncos,DEF,,DEN
 11539,Jake,Bates,K,Active,DET
 11056,Jared,Wayne,WR,Active,HOU
 1466,Travis,Kelce,TE,Active,KC
+12975,JJ,Galbreath,TE,Active,PIT
 6149,Darius,Slayton,WR,Active,NYG
 8214,Cole,Turner,TE,Active,MIA
 13145,ShunDerrick,Powell,RB,Active,KC
