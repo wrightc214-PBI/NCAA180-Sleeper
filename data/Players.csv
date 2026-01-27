@@ -54,6 +54,7 @@ NE,New England,Patriots,DEF,,NE
 11598,Tanner,McLachlan,TE,Active,LAC
 829,Andy,Dalton,QB,Active,CAR
 10222,Jayden,Reed,WR,Active,GB
+11311,Jason,Brownlee,WR,Active,KC
 12532,Ja'Corey,Brooks,WR,Active,WAS
 11370,Chris,Brooks,RB,Active,GB
 11574,Dylan,Laube,RB,Active,LV
@@ -394,7 +395,6 @@ CAR,Carolina,Panthers,DEF,,CAR
 2374,Tyler,Lockett,WR,Active,LV
 6957,James,Proche,WR,Active,TEN
 3357,Brandon,Allen,QB,Active,TEN
-6268,Matthew,Wright,K,Active,BUF
 10229,Rashee,Rice,WR,Inactive,KC
 3050,Myles,White,WR,Active,NYJ
 12776,Connor,Bazelak,QB,Active,TB
@@ -419,7 +419,6 @@ LAR,Los Angeles,Rams,DEF,,LAR
 11292,Tommy,DeVito,QB,Active,NE
 12476,Devin,Neal,RB,Inactive,NO
 12511,Will,Howard,QB,Active,PIT
-8002,Shane,Buechele,QB,Active,BUF
 8207,Tyler,Goodson,RB,Active,IND
 12490,Bhayshul,Tuten,RB,Active,JAX
 1945,Chris,Boswell,K,Active,PIT
@@ -454,7 +453,6 @@ LAR,Los Angeles,Rams,DEF,,LAR
 11201,Blake,Whiteheart,TE,Active,CLE
 11299,Zavier,Scott,RB,Active,MIN
 9221,Jahmyr,Gibbs,RB,Active,DET
-6895,Quintez,Cephus,WR,Active,HOU
 3163,Jared,Goff,QB,Active,DET
 4039,Cooper,Kupp,WR,Active,SEA
 7610,Trey,Lance,QB,Active,LAC
