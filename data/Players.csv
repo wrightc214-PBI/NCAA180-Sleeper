@@ -6,7 +6,7 @@ player_id,first_name,last_name,position,status,team
 6786,CeeDee,Lamb,WR,Active,DAL
 11584,Bucky,Irving,RB,Active,TB
 6783,Jerry,Jeudy,WR,Active,CLE
-11616,Jacob,Cowing,WR,Inactive,SF
+11616,Jacob,Cowing,WR,Active,SF
 4992,Dante,Pettis,WR,Active,NO
 9504,Kayshon,Boutte,WR,Active,NE
 12507,Omarion,Hampton,RB,Active,LAC
@@ -117,7 +117,6 @@ IND,Indianapolis,Colts,DEF,,IND
 8147,John,Metchie,WR,Active,NYJ
 9483,Zack,Kuntz,TE,Active,MIA
 11592,Erick,All,TE,Active,CIN
-7496,Nick,Westbrook-Ikhine,WR,Active,MIA
 3634,Kalif,Raymond,WR,Active,DET
 5773,KhaDarel,Hodge,WR,Active,ATL
 4574,Cooper,Rush,QB,Active,BAL
@@ -273,7 +272,6 @@ WAS,Washington,Commanders,DEF,,WAS
 4040,JuJu,Smith-Schuster,WR,Active,KC
 8206,Skylar,Thompson,QB,Active,PIT
 12171,British,Brooks,RB,Active,HOU
-3321,Tyreek,Hill,WR,Active,MIA
 8013,Tim,Jones,WR,Active,JAX
 13074,Isaiah,Neyor,WR,Active,GB
 6185,Easton,Stick,QB,Active,ATL
@@ -336,7 +334,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 4866,Saquon,Barkley,RB,Active,PHI
 8170,James,Mitchell,TE,Active,CAR
 13110,Zach,Horton,TE,Active,DET
-5119,Jason,Sanders,K,Inactive,MIA
+5119,Jason,Sanders,K,Active,MIA
 5967,Tony,Pollard,RB,Active,TEN
 12756,Stephen,Gosnell,WR,Active,BUF
 12048,George,Holani,RB,Active,SEA
@@ -440,7 +438,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 11371,Julian,Hill,TE,Active,MIA
 12715,Thomas,Fidone,TE,Active,NYG
 10857,Stetson,Bennett,QB,Active,LAR
-9229,Anthony,Richardson,QB,Inactive,IND
+9229,Anthony,Richardson,QB,Active,IND
 6770,Joe,Burrow,QB,Active,CIN
 11624,Xavier,Worthy,WR,Active,KC
 11994,Kameron,Johnson,WR,Active,TB
@@ -647,7 +645,7 @@ SF,San Francisco,49ers,DEF,,SF
 11637,Keon,Coleman,WR,Active,BUF
 9489,Justin,Shorter,WR,Active,LV
 11573,Frank,Gore,RB,Active,BUF
-12817,Jake,Briningstool,TE,Inactive,KC
+12817,Jake,Briningstool,TE,Active,KC
 5857,Noah,Fant,TE,Active,CIN
 13066,Ben,Sauls,K,Active,NYG
 12725,Luke,Lachey,TE,Active,HOU
@@ -712,7 +710,7 @@ TEN,Tennessee,Titans,DEF,,TEN
 4144,Jonnu,Smith,TE,Active,PIT
 8126,Wan'Dale,Robinson,WR,Active,NYG
 11773,Keilan,Robinson,RB,Active,NYJ
-8249,Lucas,Krull,TE,Inactive,DEN
+8249,Lucas,Krull,TE,Active,DEN
 11168,Xavier,Smith,WR,Active,LAR
 6853,Van,Jefferson,WR,Active,TEN
 8489,Drew,Ogletree,TE,Active,IND
@@ -878,7 +876,7 @@ KC,Kansas City,Chiefs,DEF,,KC
 7868,Mason,Stokke,FB,Active,CAR
 5638,Shaq,Roland,WR,Active,CHI
 6427,Ashton,Dulin,WR,Active,IND
-6806,J.K.,Dobbins,RB,Inactive,DEN
+6806,J.K.,Dobbins,RB,Active,DEN
 6813,Jonathan,Taylor,RB,Active,IND
 11564,Drake,Maye,QB,Active,NE
 6828,A.J.,Dillon,RB,Active,PHI
