@@ -13176,7 +13176,7 @@ Year,LeagueID,LeagueName,Week,TransactionID,Type,RosterIDs,OwnerIDs,Picks,Adds,D
 2024,1051381610739847168,NCAA BIG EAST & CO.,1,1065431762756493312,free_agent,[5],['836025225756934144'],[],,{'5010': 5},complete,1708381236307
 2024,1051381610739847168,NCAA BIG EAST & CO.,1,1061716786892038144,free_agent,[6],['443323427143544832'],[],{'10226': 6},,complete,1707495517040
 2024,1051381610739847168,NCAA BIG EAST & CO.,1,1061716713617547264,free_agent,[6],['443323427143544832'],[],,{'8176': 6},complete,1707495499570
-2024,1051381610739847168,NCAA BIG EAST & CO.,2,1140837373333565440,trade,"[1, 8]","['1087519270663258112', '456167283761344512']","[{'round': 2, 'season': '2025', 'league_id': None, 'owner_id': 1, 'roster_id': 8, 'previous_owner_id': 8}, {'round': 3, 'season': '2027', 'league_id': None, 'owner_id': 1, 'roster_id': 8, 'previous_owner_id': 8}]",{'8136': 8},{'8136': 1},complete,1726359334837
+2024,1051381610739847168,NCAA BIG EAST & CO.,2,1140837373333565440,trade,"[1, 8]","['1087519270663258112', '456167283761344512']","[{'round': 2, 'season': '2025', 'league_id': None, 'roster_id': 8, 'owner_id': 1, 'previous_owner_id': 8}, {'round': 3, 'season': '2027', 'league_id': None, 'roster_id': 8, 'owner_id': 1, 'previous_owner_id': 8}]",{'8136': 8},{'8136': 1},complete,1726359334837
 2024,1051381610739847168,NCAA BIG EAST & CO.,2,1140833403122601984,free_agent,[8],['456167283761344512'],[],,{'5122': 8},complete,1726358388265
 2024,1051381610739847168,NCAA BIG EAST & CO.,2,1140833351859818496,free_agent,[8],['456167283761344512'],[],,{'10219': 8},complete,1726358376043
 2024,1051381610739847168,NCAA BIG EAST & CO.,2,1140833252362539008,free_agent,[8],['456167283761344512'],[],,{'8157': 8},complete,1726358352321
