@@ -41,6 +41,7 @@ NE,New England,Patriots,DEF,,NE
 7262,Jalen,Morton,QB,Active,IND
 8119,Jahan,Dotson,WR,Active,ATL
 12542,Efton,Chism,WR,Active,NE
+8136,Rachaad,White,RB,Active,WAS
 11610,Malik,Washington,WR,Active,MIA
 4943,Sam,Darnold,QB,Active,SEA
 10228,Charlie,Jones,WR,Active,CIN
@@ -103,7 +104,6 @@ IND,Indianapolis,Colts,DEF,,IND
 9483,Zack,Kuntz,TE,Active,MIA
 11592,Erick,All,TE,Active,CIN
 3634,Kalif,Raymond,WR,Active,CHI
-4574,Cooper,Rush,QB,Active,BAL
 9998,Hendon,Hooker,QB,Active,NYJ
 4037,Chris,Godwin,WR,Active,TB
 5906,Dawson,Knox,TE,Active,BUF
@@ -114,7 +114,6 @@ IND,Indianapolis,Colts,DEF,,IND
 10220,Will,Mallory,TE,Active,IND
 13249,Thomas,Gordon,TE,Active,DET
 8205,Isiah,Pacheco,RB,Active,DET
-1166,Kirk,Cousins,QB,Active,ATL
 8110,Jake,Ferguson,TE,Active,DAL
 7842,Luke,Farrell,TE,Active,SF
 11046,Colton,Dowell,WR,Active,SF
@@ -133,6 +132,7 @@ ARI,Arizona,Cardinals,DEF,,ARI
 SEA,Seattle,Seahawks,DEF,,SEA
 7564,Ja'Marr,Chase,WR,Active,CIN
 8177,Grant,Calcaterra,TE,Active,PHI
+8125,Calvin,Austin,WR,Active,NYG
 7746,Austin,Trammell,WR,Active,JAX
 LV,Las Vegas,Raiders,DEF,,LV
 7839,Evan,McPherson,K,Active,CIN
@@ -205,6 +205,7 @@ DAL,Dallas,Cowboys,DEF,,DAL
 7083,Tyler,Huntley,QB,Active,BAL
 12735,Caleb,Lohner,TE,Active,DEN
 8137,George,Pickens,WR,Active,DAL
+8135,Treylon,Burks,WR,Active,WAS
 7694,Tommy,Tremble,TE,Active,CAR
 9484,Tucker,Kraft,TE,Active,GB
 10215,Jake,Haener,QB,Active,KC
@@ -213,7 +214,7 @@ DAL,Dallas,Cowboys,DEF,,DAL
 8799,Zaire,Mitchell-Paden,TE,Active,NO
 8146,Garrett,Wilson,WR,Active,NYJ
 6040,Tyree,Jackson,TE,Active,WAS
-9511,Keaton,Mitchell,RB,Active,BAL
+9511,Keaton,Mitchell,RB,Active,LAC
 7521,Chris,Blair,WR,Active,ATL
 12543,Tahj,Brooks,RB,Active,CIN
 4233,Zane,Gonzalez,K,Active,MIA
@@ -225,6 +226,7 @@ WAS,Washington,Commanders,DEF,,WAS
 11139,Elijah,Cooks,WR,Active,NO
 8225,Daniel,Bellinger,TE,Active,TEN
 12959,Bryce,Pierre,TE,Active,CAR
+5938,Lil'Jordan,Humphrey,WR,Active,DEN
 12504,Kaleb,Johnson,RB,Active,PIT
 12079,Treyton,Welch,TE,Active,NO
 12474,Woody,Marks,RB,Active,HOU
@@ -235,6 +237,7 @@ WAS,Washington,Commanders,DEF,,WAS
 13074,Isaiah,Neyor,WR,Active,GB
 LAC,Los Angeles,Chargers,DEF,,LAC
 2216,Mike,Evans,WR,Active,SF
+7562,Tutu,Atwell,WR,Active,MIA
 7149,Tommy,Stevens,TE,Active,NYG
 8132,Tyler,Allgeier,RB,Active,ARI
 12523,Jimmy,Horn,WR,Active,CAR
@@ -440,6 +443,7 @@ GB,Green Bay,Packers,DEF,,GB
 11257,Shedrick,Jackson,WR,Active,LV
 7103,Tavien,Feaster,RB,Active,ARI
 4930,Franko,House,TE,Active,CHI
+8181,Connor,Heyward,TE,Active,LV
 8151,Kenneth,Walker,RB,Active,KC
 10236,Dalton,Kincaid,TE,Active,BUF
 12383,John,Jiles,WR,Active,NE
@@ -539,6 +543,8 @@ PHI,Philadelphia,Eagles,DEF,,PHI
 8121,Romeo,Doubs,WR,Active,NE
 12705,Graham,Mertz,QB,Active,HOU
 7600,Pat,Freiermuth,TE,Active,PIT
+8527,Dareke,Young,WR,Active,LV
+11199,Emari,Demercado,RB,Active,KC
 12860,Theo,Wease,WR,Active,MIA
 331,Philip,Rivers,QB,Active,IND
 12688,Cam,Miller,QB,Active,MIA
@@ -605,6 +611,7 @@ TEN,Tennessee,Titans,DEF,,TEN
 650,Nick,Folk,K,Active,ATL
 9500,Josh,Downs,WR,Active,IND
 11762,Anthony,Gould,WR,Active,IND
+7602,Kylen,Granson,TE,Active,TEN
 12516,Kalel,Mullings,RB,Active,TEN
 12357,David,Martin-Robinson,TE,Active,TEN
 3668,Joshua,Perkins,TE,Active,NYJ
@@ -673,6 +680,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 11783,Ryan,Flournoy,WR,Active,DAL
 4683,Aaron,Bailey,QB,Active,BAL
 10871,Luke,Schoonmaker,TE,Active,DAL
+11435,Emanuel,Wilson,RB,Active,SEA
 12746,JP,Richardson,WR,Active,CHI
 2747,Jason,Myers,K,Active,SEA
 3257,Jacoby,Brissett,QB,Active,ARI
@@ -739,6 +747,7 @@ DEN,Denver,Broncos,DEF,,DEN
 11619,Ja'Lynn,Polk,WR,Active,NO
 9756,Jordan,Addison,WR,Active,MIN
 12799,Bryson,Green,WR,Active,ARI
+5849,Kyler,Murray,QB,Active,MIN
 5409,Tanner,Hudson,TE,Active,CIN
 12889,Beaux,Collins,WR,Active,NYG
 7233,Andre,Baccellia,WR,Active,ARI
@@ -771,6 +780,7 @@ MIN,Minnesota,Vikings,DEF,,MIN
 6865,Colby,Parkinson,TE,Active,LAR
 12515,Donovan,Edwards,RB,Active,MIA
 10216,Kenny,McIntosh,RB,Active,SEA
+7922,Riley,Patterson,K,Active,MIA
 12505,Jalen,Royals,WR,Active,KC
 12501,Matthew,Golden,WR,Active,GB
 3309,Wendell,Smallwood,RB,Active,WAS
