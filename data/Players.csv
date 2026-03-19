@@ -48,7 +48,7 @@ NE,New England,Patriots,DEF,,NE
 4943,Sam,Darnold,QB,Active,SEA
 10228,Charlie,Jones,WR,Active,CIN
 11598,Tanner,McLachlan,TE,Active,LAC
-829,Andy,Dalton,QB,Active,CAR
+829,Andy,Dalton,QB,Active,PHI
 10222,Jayden,Reed,WR,Active,GB
 11311,Jason,Brownlee,WR,Active,KC
 12532,Ja'Corey,Brooks,WR,Active,WAS
@@ -106,6 +106,7 @@ IND,Indianapolis,Colts,DEF,,IND
 8147,John,Metchie,WR,Active,CAR
 9483,Zack,Kuntz,TE,Active,MIA
 11592,Erick,All,TE,Active,CIN
+7496,Nick,Westbrook-Ikhine,WR,Active,IND
 3634,Kalif,Raymond,WR,Active,CHI
 4037,Chris,Godwin,WR,Active,TB
 5906,Dawson,Knox,TE,Active,BUF
@@ -317,6 +318,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 12533,Jacory,Croskey-Merritt,RB,Active,WAS
 3048,Chris,Manhertz,TE,Active,NYG
 12787,Josh,Williams,RB,Active,TB
+8227,Teagan,Quitoriano,TE,Active,ARI
 11565,J.J.,McCarthy,QB,Active,MIN
 11859,John Rhys,Plumlee,QB,Active,PIT
 8676,Rashid,Shaheed,WR,Active,SEA
@@ -376,6 +378,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 12478,Nick,Nash,WR,Active,WAS
 12457,Jaydon,Blue,RB,Active,DAL
 12548,Lenny,Krieg,K,Active,NYJ
+7039,Cody,White,WR,Active,SEA
 13001,Mario,Williams,WR,Active,LAR
 8112,Drake,London,WR,Active,ATL
 11632,Malik,Nabers,WR,Active,NYG
@@ -587,6 +590,7 @@ SF,San Francisco,49ers,DEF,,SF
 12479,Ja'Quinden,Jackson,RB,Active,JAX
 5012,Mark,Andrews,TE,Active,BAL
 12484,Jayden,Higgins,WR,Active,HOU
+7595,Tylan,Wallace,WR,Active,CLE
 11815,Cornelius,Johnson,WR,Active,BAL
 5282,Duplicate,Player,WR,Inactive,CHI
 11942,Colson,Yankoff,TE,Active,WAS
@@ -700,6 +704,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 4972,Mason,Rudolph,QB,Active,PIT
 9227,Israel,Abanikanda,RB,Active,DAL
 11113,Joel,Wilson,TE,Active,TEN
+5970,Greg,Dortch,WR,Active,DET
 12892,Da'Quan,Felton,WR,Active,NYG
 13075,Myles,Price,WR,Active,MIN
 DEN,Denver,Broncos,DEF,,DEN
@@ -779,6 +784,7 @@ KC,Kansas City,Chiefs,DEF,,KC
 6806,J.K.,Dobbins,RB,Active,DEN
 6813,Jonathan,Taylor,RB,Active,IND
 11564,Drake,Maye,QB,Active,NE
+6828,A.J.,Dillon,RB,Active,CAR
 11820,Devin,Culp,TE,Active,TB
 7588,Javonte,Williams,RB,Active,DAL
 MIN,Minnesota,Vikings,DEF,,MIN
