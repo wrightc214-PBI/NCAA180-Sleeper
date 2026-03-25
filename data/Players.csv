@@ -16,6 +16,7 @@ player_id,first_name,last_name,position,status,team
 7553,Kyle,Pitts,TE,Active,ATL
 5845,Dwayne,Haskins,QB,Active,PIT
 11304,E.J.,Jenkins,TE,Active,PHI
+19,Joe,Flacco,QB,Active,CIN
 4054,Mo,Alie-Cox,TE,Active,IND
 12848,Josh,Kelly,WR,Active,HOU
 8698,Jake,Tonges,TE,Active,SF
@@ -86,10 +87,12 @@ BAL,Baltimore,Ravens,DEF,,BAL
 5004,Ito,Smith,RB,Active,DAL
 12356,Jabari,Small,RB,Active,DET
 6904,Jalen,Hurts,QB,Active,PHI
+7538,Zach,Wilson,QB,Active,NO
 7561,Elijah,Mitchell,RB,Active,NE
 12898,Seth,Henigan,QB,Active,IND
 11635,Ladd,McConkey,WR,Active,LAC
 12475,Ricky,White,WR,Active,SEA
+8154,Brian,Robinson,RB,Active,ATL
 11806,Casey,Washington,WR,Active,ATL
 6111,Jake,Browning,QB,Active,TB
 13080,Deion,Hankins,RB,Active,CHI
@@ -217,6 +220,7 @@ DAL,Dallas,Cowboys,DEF,,DAL
 10215,Jake,Haener,QB,Active,KC
 11597,Theo,Johnson,TE,Active,NYG
 11576,Braelon,Allen,RB,Active,NYJ
+7596,Elijah,Moore,WR,Active,PHI
 8799,Zaire,Mitchell-Paden,TE,Active,NO
 8146,Garrett,Wilson,WR,Active,NYJ
 9511,Keaton,Mitchell,RB,Active,LAC
@@ -396,7 +400,6 @@ LAR,Los Angeles,Rams,DEF,,LAR
 11994,Kameron,Johnson,WR,Active,TB
 10227,Payne,Durham,TE,Active,TB
 10214,Davis,Allen,TE,Active,LAR
-4179,Joshua,Dobbs,QB,Active,NE
 10866,Aidan,O'Connell,QB,Active,LV
 12499,Elic,Ayomanor,WR,Active,TEN
 13013,Mark,Redman,TE,Active,LAR
@@ -543,6 +546,7 @@ MIA,Miami,Dolphins,DEF,,MIA
 6154,David,Sills,WR,Active,ATL
 6931,DeeJay,Dallas,RB,Active,JAX
 11623,Jordan,Whittington,WR,Active,LAR
+2549,Trevor,Siemian,QB,Active,ATL
 9225,Tank,Bigsby,RB,Active,PHI
 DET,Detroit,Lions,DEF,,DET
 11603,AJ,Barner,TE,Active,SEA
