@@ -199,7 +199,6 @@ LV,Las Vegas,Raiders,DEF,,LV
 13189,Luke,Floriea,WR,Active,CLE
 13744,Cam,Ross,WR,Active,DEN
 12868,Montrell,Johnson,RB,Active,CAR
-13782,Jadyn,Ott,RB,Active,KC
 11237,Jacob,Saylors,RB,Active,DET
 8414,Britain,Covey,WR,Active,PHI
 9501,DeMario,Douglas,WR,Active,NE
@@ -398,7 +397,6 @@ CLE,Cleveland,Browns,DEF,,CLE
 7523,Trevor,Lawrence,QB,Active,JAX
 12508,Jaxson,Dart,QB,Active,NYG
 13674,Chris,Hilton,WR,Active,WAS
-11605,Jaheim,Bell,TE,Active,PHI
 13839,Chase,Curtis,TE,Active,NYJ
 4066,Evan,Engram,TE,Active,DEN
 13670,Harrison,Wallace,WR,Active,ARI
@@ -835,6 +833,7 @@ CHI,Chicago,Bears,DEF,,CHI
 11834,Devaughn,Vele,WR,Active,NO
 11789,Joshua,Karty,K,Active,ARI
 13326,DT,Sheffield,WR,Active,NYJ
+6850,Harrison,Bryant,TE,Active,SEA
 13402,Skyler,Bell,WR,Active,BUF
 8127,Charlie,Kolar,TE,Active,LAC
 12883,Joshua,Simon,TE,Active,ATL
