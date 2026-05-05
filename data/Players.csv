@@ -131,6 +131,7 @@ BAL,Baltimore,Ravens,DEF,,BAL
 11620,Rome,Odunze,WR,Active,CHI
 10232,Michael,Wilson,WR,Active,ARI
 PIT,Pittsburgh,Steelers,DEF,,PIT
+13916,Xavier,Loyd,WR,Active,KC
 6804,Jordan,Love,QB,Active,GB
 13592,Chandler,Morris,QB,Active,TB
 7093,Adrian,Killins,RB,Inactive,DEN
@@ -226,6 +227,7 @@ NYJ,New York,Jets,DEF,,NYJ
 12941,Bryson,Nesbit,TE,Active,MIN
 9480,Brenton,Strange,TE,Active,JAX
 12545,Tyler,Shough,QB,Active,NO
+827,Tyrod,Taylor,QB,Active,GB
 6650,Chase,McLaughlin,K,Active,TB
 13667,Marcus,Burke,WR,Active,TEN
 13647,Ben,Patterson,WR,Active,JAX
@@ -281,7 +283,6 @@ DAL,Dallas,Cowboys,DEF,,DAL
 8135,Treylon,Burks,WR,Active,WAS
 7694,Tommy,Tremble,TE,Active,CAR
 9484,Tucker,Kraft,TE,Active,GB
-10215,Jake,Haener,QB,Active,KC
 11597,Theo,Johnson,TE,Active,NYG
 11576,Braelon,Allen,RB,Active,NYJ
 13325,Jordan,Hudson,WR,Active,DAL
@@ -309,6 +310,7 @@ WAS,Washington,Commanders,DEF,,WAS
 12474,Woody,Marks,RB,Active,HOU
 11644,Cody,Schrader,RB,Active,DEN
 6465,Thomas,Ives,WR,Inactive,CHI
+8206,Skylar,Thompson,QB,Active,BAL
 12171,British,Brooks,RB,Active,HOU
 8013,Tim,Jones,WR,Active,JAX
 13074,Isaiah,Neyor,WR,Active,GB
@@ -401,6 +403,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 7523,Trevor,Lawrence,QB,Active,JAX
 12508,Jaxson,Dart,QB,Active,NYG
 13674,Chris,Hilton,WR,Active,WAS
+11605,Jaheim,Bell,TE,Active,PIT
 13839,Chase,Curtis,TE,Active,NYJ
 4066,Evan,Engram,TE,Active,DEN
 13670,Harrison,Wallace,WR,Active,ARI
@@ -564,6 +567,7 @@ GB,Green Bay,Packers,DEF,,GB
 8423,Brittain,Brown,RB,Active,CHI
 11653,Charlie,Smyth,K,Active,NO
 8183,Brock,Purdy,QB,Active,SF
+13920,Jonathan,Brady,WR,Active,LV
 13320,Zachariah,Branch,WR,Active,ATL
 12541,Dont'e,Thornton,WR,Active,LV
 12732,Dominic,Lovett,WR,Active,DET
@@ -738,7 +742,7 @@ SF,San Francisco,49ers,DEF,,SF
 11626,Xavier,Legette,WR,Active,CAR
 11582,Carson,Steele,RB,Active,PHI
 11637,Keon,Coleman,WR,Active,BUF
-9489,Justin,Shorter,WR,Active,LV
+9489,Justin,Shorter,WR,Inactive,LV
 11573,Frank,Gore,RB,Active,BUF
 13408,Tanner,Koziol,TE,Active,JAX
 12817,Jake,Briningstool,TE,Active,KC
