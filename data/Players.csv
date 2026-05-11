@@ -33,7 +33,6 @@ player_id,first_name,last_name,position,status,team
 7585,Davis,Mills,QB,Active,HOU
 8025,Adam,Prentice,FB,Active,DEN
 5854,Drew,Lock,QB,Active,SEA
-12809,Mac,Dalena,WR,Active,NYJ
 11579,Audric,Estime,RB,Active,NO
 HOU,Houston,Texans,DEF,,HOU
 3294,Dak,Prescott,QB,Active,DAL
@@ -853,7 +852,6 @@ TEN,Tennessee,Titans,DEF,,TEN
 8489,Drew,Ogletree,TE,Active,IND
 8801,Dennis,Houston,WR,Active,TB
 12954,Kye,Robichaux,RB,Active,DET
-11943,Michael,Wiley,RB,Active,TB
 4451,Isaac,Whitney,WR,Inactive,ARI
 11851,Carter,Bradley,QB,Active,JAX
 6528,Joey,Slye,K,Active,TEN
