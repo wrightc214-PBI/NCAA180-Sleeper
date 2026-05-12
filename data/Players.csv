@@ -32,6 +32,7 @@ player_id,first_name,last_name,position,status,team
 13409,Donaven,McCulley,WR,Active,MIA
 7585,Davis,Mills,QB,Active,HOU
 8025,Adam,Prentice,FB,Active,DEN
+2359,Ameer,Abdullah,RB,Active,JAX
 5854,Drew,Lock,QB,Active,SEA
 11579,Audric,Estime,RB,Active,NO
 HOU,Houston,Texans,DEF,,HOU
@@ -260,6 +261,7 @@ NYJ,New York,Jets,DEF,,NYJ
 5947,Jakobi,Meyers,WR,Active,JAX
 12946,Dontae,Fleming,WR,Active,MIN
 11651,Isaac,Guerendo,RB,Active,SF
+14020,Dean,Patterson,WR,Active,TB
 13272,Carson,Beck,QB,Active,ARI
 8932,Lucas,Havrisik,K,Active,GB
 12700,Gavin,Bartholomew,TE,Active,MIN
@@ -351,6 +353,7 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 13835,Mekhi,Mews,WR,Active,NO
 12909,Eli,Pancol,WR,Active,IND
 13335,Cole,Payton,QB,Active,PHI
+9220,Evan,Hull,RB,Active,HOU
 11596,Ben,Sinnott,TE,Active,WAS
 1706,Jack,Doyle,TE,Active,IND
 3198,Derrick,Henry,RB,Active,BAL
@@ -447,6 +450,7 @@ ATL,Atlanta,Falcons,DEF,,ATL
 12849,Traeshon,Holden,WR,Active,DAL
 CAR,Carolina,Panthers,DEF,,CAR
 7436,Mason,Kinsey,WR,Active,TEN
+14031,Kyron,Hudson,WR,Active,CHI
 13042,Xavier,Guillory,WR,Active,BAL
 13414,Kaelon,Black,RB,Active,SF
 11082,Ben,Sims,TE,Active,MIA
@@ -705,6 +709,7 @@ MIA,Miami,Dolphins,DEF,,MIA
 11615,Ainias,Smith,WR,Active,CAR
 11306,Xavier,Gipson,WR,Active,NYG
 5927,Terry,McLaurin,WR,Active,WAS
+14029,Johnny,Pascuzzi,TE,Active,LAC
 4199,Aaron,Jones,RB,Active,MIN
 4950,Christian,Kirk,WR,Active,SF
 12472,Raheim,Sanders,RB,Active,CLE
@@ -778,7 +783,6 @@ SF,San Francisco,49ers,DEF,,SF
 13477,Colbie,Young,WR,Active,CIN
 12521,Elijah,Arroyo,TE,Active,SEA
 4914,Glen,Coffee,RB,Active,SF
-12479,Ja'Quinden,Jackson,RB,Active,JAX
 5012,Mark,Andrews,TE,Active,BAL
 12484,Jayden,Higgins,WR,Active,HOU
 7595,Tylan,Wallace,WR,Active,CLE
@@ -923,6 +927,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 3257,Jacoby,Brissett,QB,Active,ARI
 9758,C.J.,Stroud,QB,Active,HOU
 10231,Elijah,Higgins,TE,Active,ARI
+14021,Kadarius,Calloway,RB,Active,TB
 4972,Mason,Rudolph,QB,Active,PIT
 9227,Israel,Abanikanda,RB,Active,DAL
 13831,Kevorian,Barnes,RB,Active,NYG
@@ -1009,6 +1014,7 @@ DEN,Denver,Broncos,DEF,,DEN
 5374,Justin,Watson,WR,Active,HOU
 11619,Ja'Lynn,Polk,WR,Active,NO
 9756,Jordan,Addison,WR,Active,MIN
+4033,David,Njoku,TE,Active,LAC
 13621,Dillon,Bell,WR,Active,MIN
 12799,Bryson,Green,WR,Active,ARI
 13324,Matthew,Hibner,TE,Active,BAL
