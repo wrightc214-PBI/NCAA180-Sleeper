@@ -342,12 +342,9 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 7535,Hunter,Long,TE,Active,JAX
 12482,Savion,Williams,WR,Active,GB
 8088,Kalif,Jackson,TE,Active,MIA
-11384,Owen,Wright,RB,Active,TB
-13972,Brandon,Frazier,TE,Active,ATL
 13423,Eli,Heidenreich,RB,Active,PIT
 11959,Bryce,Oliver,WR,Active,TEN
 13424,Seth,McGowan,RB,Active,IND
-8253,Deven,Thompkins,WR,Active,ATL
 11964,Dayton,Wade,WR,Active,BAL
 8861,Irvin,Charles,WR,Active,NYJ
 13835,Mekhi,Mews,WR,Active,NO
@@ -616,7 +613,6 @@ GB,Green Bay,Packers,DEF,,GB
 11474,Dylan,Drummond,WR,Active,ATL
 13413,Cyrus,Allen,WR,Active,KC
 12829,Coleman,Owen,WR,Active,IND
-13677,Noah,Short,WR,Active,TB
 12773,DJ,Uiagalelei,QB,Active,LAC
 12718,Konata,Mumpfield,WR,Active,LAR
 9481,Luke,Musgrave,TE,Active,GB
@@ -682,7 +678,6 @@ GB,Green Bay,Packers,DEF,,GB
 2118,Eric,Ebron,TE,Inactive,PIT
 6290,Scotty,Miller,WR,Active,CHI
 13150,Darius,Cooper,WR,Active,PHI
-11186,Carlos,Washington,RB,Active,ATL
 11583,Jonathon,Brooks,RB,Active,CAR
 13710,Gabriel,Plascencia,K,Active,CHI
 5127,Kyle,Allen,QB,Active,BUF
@@ -772,7 +767,7 @@ SF,San Francisco,49ers,DEF,,SF
 12817,Jake,Briningstool,TE,Active,KC
 5857,Noah,Fant,TE,Active,NO
 13066,Ben,Sauls,K,Active,NYG
-12725,Luke,Lachey,TE,Active,HOU
+12725,Luke,Lachey,TE,Active,GB
 12500,Quinn,Ewers,QB,Active,MIA
 5154,Trent,Sherfield,WR,Active,BUF
 9224,Chase,Brown,RB,Active,CIN
@@ -838,8 +833,8 @@ TEN,Tennessee,Titans,DEF,,TEN
 6803,Brandon,Aiyuk,WR,Active,SF
 12544,LeQuint,Allen,RB,Active,JAX
 9997,Zay,Flowers,WR,Active,BAL
-13943,Squirrel,White,WR,Active,CHI
 8172,Greg,Dulcich,TE,Active,MIA
+14034,Brock,Rechsteiner,WR,Active,NO
 12506,Harold,Fannin,TE,Active,CLE
 13990,Paul,Geelen,K,Active,DEN
 13870,Quentin,Moore,TE,Active,WAS
@@ -909,6 +904,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 9490,Tyler,Scott,WR,Active,LAR
 4349,Taquan,Mizzell,RB,Inactive,NYG
 13698,Max,Tomczak,WR,Active,BUF
+8041,Shane,Zylstra,TE,Active,BUF
 4035,Alvin,Kamara,RB,Active,NO
 8756,Brandon,Johnson,WR,Active,PIT
 11569,Jarquez,Hunter,RB,Active,LAR
@@ -1017,7 +1013,7 @@ DEN,Denver,Broncos,DEF,,DEN
 4033,David,Njoku,TE,Active,LAC
 13621,Dillon,Bell,WR,Active,MIN
 12799,Bryson,Green,WR,Active,ARI
-13324,Matthew,Hibner,TE,Active,BAL
+13324,Matt,Hibner,TE,Active,BAL
 13298,KC,Concepcion,WR,Active,CLE
 13873,Sam,Scott,RB,Active,NYJ
 13861,Daniel,Sobkowicz,WR,Active,HOU
