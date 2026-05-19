@@ -98,6 +98,7 @@ BAL,Baltimore,Ravens,DEF,,BAL
 13400,Justin,Joly,TE,Active,DEN
 5870,Daniel,Jones,QB,Active,IND
 13421,Eli,Raridon,TE,Active,NE
+14044,Miles,Davis,RB,Active,CAR
 5844,T.J.,Hockenson,TE,Active,MIN
 12961,Ryan,Fitzgerald,K,Active,CAR
 10955,Chad,Ryland,K,Active,ARI
@@ -538,6 +539,7 @@ NO,New Orleans,Saints,DEF,,NO
 13313,Emmanuel,Henderson,WR,Active,SEA
 7568,Brevin,Jordan,TE,Active,HOU
 13776,Hank,Beatty,WR,Active,TEN
+14041,Anderson,Castle,RB,Active,IND
 5985,Foster,Moreau,TE,Active,HOU
 13410,Chase,Roberts,WR,Active,LV
 14040,Terrill,Davis,WR,Active,MIN
@@ -932,7 +934,6 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 13996,Trent,Howland,RB,Active,DEN
 DEN,Denver,Broncos,DEF,,DEN
 11433,Nate,Adkins,TE,Active,DEN
-13930,Jordon,Vaughn,RB,Active,IND
 9502,Tank,Dell,WR,Active,HOU
 2307,Marcus,Mariota,QB,Active,WAS
 11539,Jake,Bates,K,Active,DET
