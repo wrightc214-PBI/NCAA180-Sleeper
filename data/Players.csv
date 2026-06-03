@@ -64,7 +64,6 @@ NE,New England,Patriots,DEF,,NE
 829,Andy,Dalton,QB,Active,PHI
 10222,Jayden,Reed,WR,Active,GB
 11311,Jason,Brownlee,WR,Active,KC
-12532,Ja'Corey,Brooks,WR,Active,WAS
 11370,Chris,Brooks,RB,Active,GB
 11574,Dylan,Laube,RB,Active,LV
 6323,Andrew,Beck,RB,Active,NYJ
@@ -119,8 +118,8 @@ BAL,Baltimore,Ravens,DEF,,BAL
 6904,Jalen,Hurts,QB,Active,PHI
 13905,Omari,Evans,WR,Active,KC
 7538,Zach,Wilson,QB,Active,NO
+7561,Elijah,Mitchell,RB,Active,PHI
 13440,Damien,Alford,WR,Active,NO
-12898,Seth,Henigan,QB,Active,IND
 11635,Ladd,McConkey,WR,Active,LAC
 13347,Demond,Claiborne,RB,Active,MIN
 12475,Ricky,White,WR,Active,SEA
@@ -385,7 +384,6 @@ CLE,Cleveland,Browns,DEF,,CLE
 4866,Saquon,Barkley,RB,Active,PHI
 8170,James,Mitchell,TE,Active,CAR
 13110,Zach,Horton,TE,Active,DET
-5119,Jason,Sanders,K,Active,NYG
 5967,Tony,Pollard,RB,Active,TEN
 8076,Michael,Bandy,WR,Active,DEN
 12756,Stephen,Gosnell,WR,Active,BUF
@@ -869,6 +867,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 2020,Cairo,Santos,K,Active,CHI
 7042,Tyler,Bass,K,Active,BUF
 8800,Malik,Davis,RB,Active,DAL
+4435,Anthony,Firkser,TE,Active,WAS
 13278,Max,Klare,TE,Active,LAR
 12803,Luke,Grimm,WR,Active,LAC
 11558,Sam,Hartman,QB,Active,WAS
@@ -884,6 +883,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 6012,Travis,Homer,RB,Active,PIT
 9490,Tyler,Scott,WR,Active,LAR
 4349,Taquan,Mizzell,RB,Inactive,NYG
+6798,Jalen,Reagor,WR,Active,MIA
 8041,Shane,Zylstra,TE,Active,BUF
 4035,Alvin,Kamara,RB,Active,NO
 8756,Brandon,Johnson,WR,Active,PIT
