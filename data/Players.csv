@@ -68,6 +68,7 @@ NE,New England,Patriots,DEF,,NE
 11574,Dylan,Laube,RB,Active,LV
 6323,Andrew,Beck,RB,Active,NYJ
 6927,Quez,Watkins,WR,Active,PHI
+13246,Jaden,Smith,WR,Active,DAL
 8111,Cade,Otton,TE,Active,TB
 13957,Kenny,Fletcher,TE,Active,TB
 12374,Brenden,Bates,TE,Active,CLE
@@ -248,7 +249,6 @@ NYJ,New York,Jets,DEF,,NYJ
 9506,Sean,Tucker,RB,Active,TB
 7607,Michael,Carter,RB,Active,TEN
 8167,Christian,Watson,WR,Active,GB
-7599,Jermar,Jefferson,RB,Active,SF
 12897,Nathan,Carter,RB,Active,ATL
 5223,Caleb,Scott,WR,Active,TEN
 9999,Will,Levis,QB,Active,TEN
@@ -384,6 +384,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 4866,Saquon,Barkley,RB,Active,PHI
 8170,James,Mitchell,TE,Active,CAR
 13110,Zach,Horton,TE,Active,DET
+5119,Jason,Sanders,K,Active,NYJ
 5967,Tony,Pollard,RB,Active,TEN
 8076,Michael,Bandy,WR,Active,DEN
 12756,Stephen,Gosnell,WR,Active,BUF
@@ -443,6 +444,7 @@ CAR,Carolina,Panthers,DEF,,CAR
 13042,Xavier,Guillory,WR,Active,BAL
 13414,Kaelon,Black,RB,Active,SF
 11082,Ben,Sims,TE,Active,MIA
+14055,Louis,Hansen,TE,Active,HOU
 12495,Ollie,Gordon,RB,Active,MIA
 4189,Eric,Saubert,TE,Active,SEA
 12863,Andrew,Armstrong,WR,Active,KC
