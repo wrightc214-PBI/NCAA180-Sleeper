@@ -64,6 +64,7 @@ NE,New England,Patriots,DEF,,NE
 829,Andy,Dalton,QB,Active,PHI
 10222,Jayden,Reed,WR,Active,GB
 11311,Jason,Brownlee,WR,Active,KC
+12981,Gee,Scott,TE,Active,NYJ
 11370,Chris,Brooks,RB,Active,GB
 11574,Dylan,Laube,RB,Active,LV
 6323,Andrew,Beck,RB,Active,NYJ
@@ -94,7 +95,6 @@ BAL,Baltimore,Ravens,DEF,,BAL
 13939,Gabriel,Benyard,WR,Active,BUF
 2944,Matt,LaCosse,TE,Active,NE
 13400,Justin,Joly,TE,Active,DEN
-4666,Younghoe,Koo,K,Active,NYJ
 5870,Daniel,Jones,QB,Active,IND
 13421,Eli,Raridon,TE,Active,NE
 14044,Miles,Davis,RB,Active,CAR
@@ -379,6 +379,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 6699,Gunner,Olszewski,WR,Inactive,NYG
 4263,Elijah,McGuire,RB,Active,KC
 11940,JaQuae,Jackson,WR,Active,LAC
+14056,Kyre,Duplessis,WR,Active,DET
 7591,Justin,Fields,QB,Active,KC
 8258,Cade,York,K,Active,NYJ
 4866,Saquon,Barkley,RB,Active,PHI
@@ -446,6 +447,7 @@ CAR,Carolina,Panthers,DEF,,CAR
 11082,Ben,Sims,TE,Active,MIA
 14055,Louis,Hansen,TE,Active,HOU
 12495,Ollie,Gordon,RB,Active,MIA
+4602,Robert,Tonyan,TE,Active,PIT
 4189,Eric,Saubert,TE,Active,SEA
 12863,Andrew,Armstrong,WR,Active,KC
 5133,Tyler,Conklin,TE,Active,DET
@@ -491,7 +493,6 @@ LAR,Los Angeles,Rams,DEF,,LAR
 1945,Chris,Boswell,K,Active,PIT
 12478,Nick,Nash,WR,Active,WAS
 12457,Jaydon,Blue,RB,Active,DAL
-13859,Jalen,Walthall,WR,Active,HOU
 7039,Cody,White,WR,Active,SEA
 13001,Mario,Williams,WR,Active,LAR
 8112,Drake,London,WR,Active,ATL
@@ -565,7 +566,6 @@ GB,Green Bay,Packers,DEF,,GB
 12539,Arian,Smith,WR,Active,NYJ
 7357,Dan,Chisena,WR,Active,CAR
 6843,Albert,Okwuegbunam,TE,Active,LV
-12777,Joaquin,Davis,WR,Active,MIN
 14039,Mante,Morrow,WR,Active,LAC
 6147,Clayton,Thorson,QB,Active,NYG
 14008,Rodney,Hammond,RB,Active,DEN
@@ -651,6 +651,7 @@ GB,Green Bay,Packers,DEF,,GB
 11570,Rasheen,Ali,RB,Active,BAL
 12534,Kyle,Monangai,RB,Active,CHI
 8195,Ronnie,Rivers,RB,Active,LAR
+13890,Michael,Briscoe,WR,Active,MIN
 12154,Messiah,Swinson,TE,Active,GB
 1642,Levine,Toilolo,TE,Inactive,NYG
 13597,Matthew,Caldwell,QB,Active,LAR
@@ -869,6 +870,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 2020,Cairo,Santos,K,Active,CHI
 7042,Tyler,Bass,K,Active,BUF
 8800,Malik,Davis,RB,Active,DAL
+14038,Trayvon,Rudolph,WR,Active,MIN
 4435,Anthony,Firkser,TE,Active,WAS
 13278,Max,Klare,TE,Active,LAR
 12803,Luke,Grimm,WR,Active,LAC
