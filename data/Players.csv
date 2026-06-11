@@ -45,7 +45,7 @@ HOU,Houston,Texans,DEF,,HOU
 7828,Noah,Gray,TE,Active,KC
 NE,New England,Patriots,DEF,,NE
 11557,Joe,Milton,QB,Active,DAL
-13898,Corey,Rucker,WR,Active,LV
+13898,Corey,Rucker,WR,Inactive,LV
 5995,Justice,Hill,RB,Active,BAL
 12925,Jamaal,Pritchett,WR,Active,NYJ
 12517,Colston,Loveland,TE,Active,CHI
@@ -418,6 +418,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 12787,Josh,Williams,RB,Active,TB
 8227,Teagan,Quitoriano,TE,Active,ARI
 11565,J.J.,McCarthy,QB,Active,MIN
+8220,Sincere,McCormick,RB,Active,SF
 8676,Rashid,Shaheed,WR,Active,SEA
 13285,Malachi,Fields,WR,Active,NYG
 6271,Olamide,Zaccheaus,WR,Active,ATL
@@ -886,7 +887,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 6798,Jalen,Reagor,WR,Active,MIA
 8041,Shane,Zylstra,TE,Active,BUF
 4035,Alvin,Kamara,RB,Active,NO
-8756,Brandon,Johnson,WR,Active,PIT
+8756,Brandon,Johnson,WR,Active,LV
 11569,Jarquez,Hunter,RB,Active,LAR
 11320,Nikko,Remigio,WR,Active,KC
 13308,Bauer,Sharp,TE,Active,TB
