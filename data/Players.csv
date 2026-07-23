@@ -719,6 +719,7 @@ MIA,Miami,Dolphins,DEF,,MIA
 4995,Ian,Thomas,TE,Active,LV
 9225,Tank,Bigsby,RB,Active,PHI
 DET,Detroit,Lions,DEF,,DET
+13227,Mitch,Van Vooren,WR,Active,NE
 13411,Zavion,Thomas,WR,Active,CHI
 11603,AJ,Barner,TE,Active,SEA
 13407,Carson,Towt,TE,Active,IND
@@ -785,6 +786,7 @@ SF,San Francisco,49ers,DEF,,SF
 3202,Austin,Hooper,TE,Active,ATL
 6794,Justin,Jefferson,WR,Active,MIN
 11377,Tyrell,Shavers,WR,Active,BUF
+8202,Michael,Woods,WR,Inactive,DEN
 11600,Ja'Tavion,Sanders,TE,Active,CAR
 12713,Andy,Borregales,K,Active,NE
 9230,Tanner,McKee,QB,Active,PHI
@@ -857,7 +859,6 @@ CHI,Chicago,Bears,DEF,,CHI
 11508,Princeton,Fant,TE,Active,DAL
 11834,Devaughn,Vele,WR,Active,NO
 13326,DT,Sheffield,WR,Active,NYJ
-6850,Harrison,Bryant,TE,Active,SEA
 13402,Skyler,Bell,WR,Active,BUF
 8127,Charlie,Kolar,TE,Active,LAC
 12001,Lawrence,Keys,WR,Active,DET
