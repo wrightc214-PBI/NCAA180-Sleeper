@@ -62,6 +62,7 @@ NE,New England,Patriots,DEF,,NE
 13599,Kyron,Drones,QB,Active,GB
 4943,Sam,Darnold,QB,Active,SEA
 10228,Charlie,Jones,WR,Active,CIN
+11598,Tanner,McLachlan,TE,Active,SF
 829,Andy,Dalton,QB,Active,PHI
 10222,Jayden,Reed,WR,Active,GB
 11311,Jason,Brownlee,WR,Active,KC
@@ -950,7 +951,6 @@ DEN,Denver,Broncos,DEF,,DEN
 8210,Chig,Okonkwo,TE,Active,WAS
 12670,KeAndre,Lambert-Smith,WR,Active,LAC
 13306,Taylen,Green,QB,Active,CLE
-13034,Tyrone,Broden,WR,Active,SEA
 11256,Tyson,Bagent,QB,Active,CHI
 13770,J. Michael,Sturdivant,WR,Active,GB
 5086,Marquez,Valdes-Scantling,WR,Active,DAL
@@ -989,7 +989,7 @@ DEN,Denver,Broncos,DEF,,DEN
 12658,Jackson,Hawes,TE,Active,BUF
 13602,Jack,Strand,QB,Active,ATL
 12788,Will,Sheppard,WR,Active,GB
-13708,Kobe,Prentice,WR,Active,CAR
+13708,Kobe,Prentice,WR,Active,NE
 13617,Luke,Wysong,WR,Active,MIN
 11506,Jalen,Moreno-Cropper,WR,Active,NO
 12797,Ahmani,Marshall,RB,Active,CLE
