@@ -238,7 +238,6 @@ NYJ,New York,Jets,DEF,,NYJ
 13647,Ben,Patterson,WR,Active,JAX
 4892,Baker,Mayfield,QB,Active,TB
 4137,James,Conner,RB,Active,ARI
-13432,Khalil,Dinkins,TE,Active,SF
 8145,Jeremy,Ruckert,TE,Active,NYJ
 12068,Mason,Pline,TE,Active,KC
 12518,Tyler,Warren,TE,Active,IND
@@ -592,7 +591,7 @@ GB,Green Bay,Packers,DEF,,GB
 11593,Brevyn,Spann-Ford,TE,Active,DAL
 12512,Quinshon,Judkins,RB,Active,CLE
 12634,Jordan,Watkins,WR,Active,SF
-13124,Jeremiah,Webb,WR,Active,NE
+13124,Jeremiah,Webb,WR,Inactive,NE
 7565,Terrace,Marshall,WR,Active,MIA
 11257,Shedrick,Jackson,WR,Active,LV
 7103,Tavien,Feaster,RB,Active,ARI
