@@ -21,7 +21,6 @@ player_id,first_name,last_name,position,status,team
 5845,Dwayne,Haskins,QB,Active,PIT
 11304,E.J.,Jenkins,TE,Active,PHI
 19,Joe,Flacco,QB,Active,CIN
-13352,Lincoln,Pare,RB,Active,IND
 4054,Mo,Alie-Cox,TE,Active,IND
 12848,Josh,Kelly,WR,Active,HOU
 8698,Jake,Tonges,TE,Active,SF
@@ -143,7 +142,7 @@ PIT,Pittsburgh,Steelers,DEF,,PIT
 6083,Matt,Gay,K,Active,LV
 IND,Indianapolis,Colts,DEF,,IND
 8147,John,Metchie,WR,Active,CAR
-13342,John Michael,Gyllenborg,TE,Active,KC
+13342,John Michael,Gyllenborg,TE,Inactive,KC
 11592,Erick,All,TE,Active,CIN
 7496,Nick,Westbrook-Ikhine,WR,Active,IND
 13604,Sincere,Brown,WR,Active,LAC
@@ -471,6 +470,7 @@ JAX,Jacksonville,Jaguars,DEF,,JAX
 4993,Mike,Gesicki,TE,Active,CIN
 LAR,Los Angeles,Rams,DEF,,LAR
 12928,Amar,Johnson,RB,Active,LAC
+12113,Thomas,Yassmin,TE,Active,GB
 11627,Troy,Franklin,WR,Active,DEN
 13403,Jam,Miller,RB,Active,NE
 1592,Darren,Fells,TE,Active,TB
@@ -497,6 +497,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 12478,Nick,Nash,WR,Active,WAS
 12457,Jaydon,Blue,RB,Active,DAL
 13859,Jalen,Walthall,WR,Active,NYJ
+12548,Lenny,Krieg,K,Active,GB
 7039,Cody,White,WR,Active,SEA
 13001,Mario,Williams,WR,Active,LAR
 8112,Drake,London,WR,Active,ATL
@@ -581,7 +582,6 @@ GB,Green Bay,Packers,DEF,,GB
 8423,Brittain,Brown,RB,Active,CHI
 11653,Charlie,Smyth,K,Active,NO
 8183,Brock,Purdy,QB,Active,SF
-13920,Jonathan,Brady,WR,Active,LV
 14037,Rashad,Rochelle,WR,Active,SEA
 13320,Zachariah,Branch,WR,Active,ATL
 12541,Dont'e,Thornton,WR,Active,LV
@@ -935,6 +935,7 @@ DEN,Denver,Broncos,DEF,,DEN
 11056,Jared,Wayne,WR,Active,HOU
 1466,Travis,Kelce,TE,Active,KC
 12975,JJ,Galbreath,TE,Active,PIT
+11378,Jordan,Mims,RB,Active,MIN
 6149,Darius,Slayton,WR,Active,NYG
 8214,Cole,Turner,TE,Active,MIA
 4017,Deshaun,Watson,QB,Active,CLE
@@ -991,7 +992,6 @@ DEN,Denver,Broncos,DEF,,DEN
 13602,Jack,Strand,QB,Active,ATL
 12788,Will,Sheppard,WR,Active,GB
 13708,Kobe,Prentice,WR,Active,NE
-13617,Luke,Wysong,WR,Active,MIN
 11506,Jalen,Moreno-Cropper,WR,Active,NO
 12797,Ahmani,Marshall,RB,Active,CLE
 13813,Laith,Marjan,K,Active,PIT
@@ -1049,7 +1049,6 @@ MIN,Minnesota,Vikings,DEF,,MIN
 6865,Colby,Parkinson,TE,Active,LAR
 13294,Makai,Lemon,WR,Active,PHI
 12515,Donovan,Edwards,RB,Active,MIA
-10216,Kenny,McIntosh,RB,Active,SEA
 7922,Riley,Patterson,K,Active,MIA
 12505,Jalen,Royals,WR,Active,KC
 12501,Matthew,Golden,WR,Active,GB
