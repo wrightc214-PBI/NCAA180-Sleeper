@@ -9,6 +9,7 @@ player_id,first_name,last_name,position,status,team
 6783,Jerry,Jeudy,WR,Active,CLE
 13600,Tyren,Montgomery,WR,Active,TEN
 11616,Jacob,Cowing,WR,Active,SF
+4992,Dante,Pettis,WR,Active,BUF
 9504,Kayshon,Boutte,WR,Active,NE
 12507,Omarion,Hampton,RB,Active,LAC
 11439,Jaleel,McLaughlin,RB,Active,DEN
@@ -94,6 +95,7 @@ NE,New England,Patriots,DEF,,NE
 13318,Noah,Thomas,WR,Active,CIN
 BAL,Baltimore,Ravens,DEF,,BAL
 13380,Brenen,Thompson,WR,Active,LAC
+13939,Gabriel,Benyard,WR,Active,CAR
 2944,Matt,LaCosse,TE,Active,NE
 13400,Justin,Joly,TE,Active,DEN
 5870,Daniel,Jones,QB,Active,IND
@@ -214,6 +216,7 @@ LV,Las Vegas,Raiders,DEF,,LV
 9501,DeMario,Douglas,WR,Active,NE
 8180,Jalen,Nailor,WR,Active,LV
 1737,Case,Keenum,QB,Active,CHI
+14063,Liam,Clifford,WR,Active,IND
 12519,Luther,Burden,WR,Active,CHI
 9486,Dontayvion,Wicks,WR,Active,PHI
 NYJ,New York,Jets,DEF,,NYJ
@@ -231,6 +234,7 @@ NYJ,New York,Jets,DEF,,NYJ
 10983,Sean,Clifford,QB,Active,CIN
 2133,Davante,Adams,WR,Active,LAR
 96,Aaron,Rodgers,QB,Active,PIT
+5872,Deebo,Samuel,WR,Active,SF
 12941,Bryson,Nesbit,TE,Active,MIN
 9480,Brenton,Strange,TE,Active,JAX
 12545,Tyler,Shough,QB,Active,NO
@@ -273,6 +277,7 @@ DAL,Dallas,Cowboys,DEF,,DAL
 10221,Ronnie,Bell,WR,Active,NO
 5973,Josh,Oliver,TE,Active,MIN
 8408,Jordan,Mason,RB,Active,MIN
+12884,Quincy,Skinner,WR,Active,NYJ
 13603,Gregory,Desrosiers,RB,Active,LAC
 11650,Luke,McCaffrey,WR,Active,WAS
 4195,Jake,Elliott,K,Active,PHI
