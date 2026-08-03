@@ -83,6 +83,7 @@ NE,New England,Patriots,DEF,,NE
 13273,Josh,Cuevas,TE,Active,BAL
 13608,Jerand,Bradley,WR,Active,LAC
 13282,Jack,Endries,TE,Active,CIN
+7608,Khalil,Herbert,RB,Active,SF
 4227,Harrison,Butker,K,Active,KC
 8484,Ko,Kieft,TE,Active,TB
 2471,Michael,Burton,FB,Active,CLE
@@ -241,7 +242,6 @@ NYJ,New York,Jets,DEF,,NYJ
 12545,Tyler,Shough,QB,Active,NO
 827,Tyrod,Taylor,QB,Active,GB
 6650,Chase,McLaughlin,K,Active,TB
-13647,Ben,Patterson,WR,Active,JAX
 4892,Baker,Mayfield,QB,Active,TB
 4137,James,Conner,RB,Active,ARI
 8145,Jeremy,Ruckert,TE,Active,NYJ
@@ -691,7 +691,6 @@ GB,Green Bay,Packers,DEF,,GB
 5127,Kyle,Allen,QB,Active,BUF
 12497,Tory,Horton,WR,Active,SEA
 12469,Dylan,Sampson,RB,Active,CLE
-13291,Kejon,Owens,RB,Active,MIN
 13336,Dane,Key,WR,Active,DEN
 12933,Caden,Prieskorn,TE,Active,CAR
 4274,David,Moore,WR,Active,CAR
@@ -955,6 +954,7 @@ DEN,Denver,Broncos,DEF,,DEN
 13630,Evan,Svoboda,TE,Active,LAC
 13778,EJ,Smith,RB,Active,KC
 12510,Jalen,Milroe,QB,Active,SEA
+11963,Chris,Collier,RB,Inactive,LV
 11034,Jalen,Brooks,WR,Active,ARI
 12045,Jack,Westover,TE,Active,NE
 6451,Stephen,Carlson,TE,Active,CHI
