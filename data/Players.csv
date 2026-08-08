@@ -53,6 +53,7 @@ NE,New England,Patriots,DEF,,NE
 13906,Jaden,Nixon,RB,Active,GB
 7262,Jalen,Morton,QB,Active,IND
 8119,Jahan,Dotson,WR,Active,ATL
+8194,Jashaun,Corbin,RB,Active,DAL
 11145,Tanner,Brown,K,Active,NO
 13418,Robert,Henry,RB,Active,WAS
 12542,Efton,Chism,WR,Active,NE
@@ -176,7 +177,7 @@ IND,Indianapolis,Colts,DEF,,IND
 8110,Jake,Ferguson,TE,Active,DAL
 7842,Luke,Farrell,TE,Active,SF
 13975,Le'Meke,Brockington,WR,Active,ATL
-11046,Colton,Dowell,WR,Active,SF
+11046,Colton,Dowell,WR,Active,PIT
 7048,Benny,LeMay,RB,Active,CLE
 3239,Bronson,Kaufusi,TE,Active,GB
 11280,Brady,Russell,TE,Active,SEA
@@ -306,6 +307,7 @@ DAL,Dallas,Cowboys,DEF,,DAL
 13311,Chris,Bell,WR,Active,MIA
 7521,Chris,Blair,WR,Active,ATL
 12543,Tahj,Brooks,RB,Active,CIN
+7438,Kristian,Wilkerson,WR,Active,ATL
 13299,Nate,Boerkircher,TE,Active,JAX
 4233,Zane,Gonzalez,K,Active,MIA
 13213,Lucas,Scott,FB,Active,BAL
@@ -393,6 +395,7 @@ CLE,Cleveland,Browns,DEF,,CLE
 4263,Elijah,McGuire,RB,Active,KC
 12721,Kaden,Prather,WR,Active,GB
 11940,JaQuae,Jackson,WR,Active,LAC
+14056,Kyre,Duplessis,WR,Active,DEN
 7591,Justin,Fields,QB,Active,KC
 8258,Cade,York,K,Active,NYJ
 4866,Saquon,Barkley,RB,Active,PHI
@@ -669,7 +672,6 @@ GB,Green Bay,Packers,DEF,,GB
 6001,Drew,Sample,TE,Active,CIN
 7757,Ben,Skowronek,WR,Active,PIT
 8583,Stone,Smartt,TE,Active,PHI
-14062,Tyler,Moore,TE,Active,NYG
 13343,Vinny,Anthony,WR,Active,ATL
 6109,Alec,Ingold,FB,Active,LAC
 11260,Robert,Burns,FB,Active,CHI
@@ -718,8 +720,7 @@ MIA,Miami,Dolphins,DEF,,MIA
 13120,Jacoby,Jones,WR,Active,WAS
 12210,Cole,Burgess,WR,Inactive,PIT
 13577,Dallen,Bentley,TE,Active,DEN
-13357,Lance,Mason,TE,Active,SEA
-11615,Ainias,Smith,WR,Inactive,CAR
+13357,Lance,Mason,TE,Active,PIT
 11306,Xavier,Gipson,WR,Active,NYG
 5927,Terry,McLaurin,WR,Active,WAS
 14029,Johnny,Pascuzzi,TE,Active,LAC
@@ -885,7 +886,6 @@ CHI,Chicago,Bears,DEF,,CHI
 13326,DT,Sheffield,WR,Active,NYJ
 13402,Skyler,Bell,WR,Active,BUF
 8127,Charlie,Kolar,TE,Active,LAC
-12001,Lawrence,Keys,WR,Inactive,DET
 12883,Joshua,Simon,TE,Active,ATL
 6175,Kerrith,Whyte,RB,Active,GB
 4718,Dare,Ogunbowale,RB,Active,LV
@@ -1031,7 +1031,7 @@ DEN,Denver,Broncos,DEF,,DEN
 13783,Raylen,Sharpe,WR,Active,IND
 5409,Tanner,Hudson,TE,Active,CIN
 13663,Wesley,Grimes,WR,Active,SF
-12889,Beaux,Collins,WR,Inactive,DAL
+12889,Beaux,Collins,WR,Inactive,NYG
 6960,Tyler,Johnson,WR,Active,DAL
 11068,Mitch,Tinsley,WR,Active,CIN
 6819,Michael,Pittman,WR,Active,PIT
