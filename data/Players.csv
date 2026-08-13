@@ -99,6 +99,7 @@ BAL,Baltimore,Ravens,DEF,,BAL
 13380,Brenen,Thompson,WR,Active,LAC
 2944,Matt,LaCosse,TE,Active,NE
 13400,Justin,Joly,TE,Active,DEN
+11931,Austin,Reed,QB,Active,BAL
 5870,Daniel,Jones,QB,Active,IND
 13421,Eli,Raridon,TE,Active,NE
 14044,Miles,Davis,RB,Active,CAR
@@ -107,7 +108,6 @@ BAL,Baltimore,Ravens,DEF,,BAL
 10955,Chad,Ryland,K,Active,ARI
 12529,TreVeyon,Henderson,RB,Active,NE
 7933,Alex,Kessman,K,Active,CAR
-13431,Miles,Kitselman,TE,Inactive,DET
 13310,Miller,Moss,QB,Active,CHI
 5957,Isaac,Nauta,TE,Inactive,GB
 13268,Elijah,Sarratt,WR,Active,BAL
@@ -123,7 +123,6 @@ BAL,Baltimore,Ravens,DEF,,BAL
 6904,Jalen,Hurts,QB,Active,PHI
 13905,Omari,Evans,WR,Active,KC
 7538,Zach,Wilson,QB,Active,NO
-7561,Elijah,Mitchell,RB,Inactive,PHI
 11635,Ladd,McConkey,WR,Active,LAC
 13347,Demond,Claiborne,RB,Active,MIN
 12475,Ricky,White,WR,Active,SEA
@@ -258,6 +257,7 @@ NYJ,New York,Jets,DEF,,NYJ
 9506,Sean,Tucker,RB,Active,TB
 7607,Michael,Carter,RB,Active,TEN
 8167,Christian,Watson,WR,Active,GB
+7599,Jermar,Jefferson,RB,Active,MIN
 12897,Nathan,Carter,RB,Active,ATL
 5223,Caleb,Scott,WR,Active,TEN
 9999,Will,Levis,QB,Active,TEN
@@ -326,7 +326,7 @@ WAS,Washington,Commanders,DEF,,WAS
 11644,Cody,Schrader,RB,Active,DEN
 6465,Thomas,Ives,WR,Inactive,CHI
 4040,JuJu,Smith-Schuster,WR,Active,NYG
-8206,Skylar,Thompson,QB,Active,BAL
+8206,Skylar,Thompson,QB,Inactive,BAL
 12171,British,Brooks,RB,Active,HOU
 14061,Jeremiah,Franklin,TE,Active,MIA
 8013,Tim,Jones,WR,Active,JAX
@@ -376,6 +376,7 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 13968,Drew,Stevens,K,Active,WAS
 10226,Andrei,Iosivas,WR,Active,CIN
 13116,Tre,Watson,TE,Active,KC
+6996,JaMycal,Hasty,RB,Active,NE
 12765,Keleki,Latu,TE,Active,BUF
 11617,Malachi,Corley,WR,Active,CLE
 TB,Tampa Bay,Buccaneers,DEF,,TB
@@ -419,7 +420,6 @@ CLE,Cleveland,Browns,DEF,,CLE
 7536,Quintin,Morris,TE,Active,JAX
 13339,Davon,Booth,RB,Active,CLE
 8142,Alec,Pierce,WR,Active,IND
-13309,Aaron,Anderson,WR,Inactive,CLE
 6964,Sean,McKeon,TE,Inactive,IND
 11648,Kedon,Slovis,QB,Active,ARI
 3214,Hunter,Henry,TE,Active,NE
@@ -543,7 +543,6 @@ LAR,Los Angeles,Rams,DEF,,LAR
 11201,Blake,Whiteheart,TE,Active,CLE
 13595,Cash,Jones,RB,Active,ATL
 11299,Zavier,Scott,RB,Active,MIN
-14068,Drew,Biber,TE,Active,GB
 9221,Jahmyr,Gibbs,RB,Active,DET
 3163,Jared,Goff,QB,Active,DET
 4039,Cooper,Kupp,WR,Active,SEA
@@ -562,7 +561,6 @@ NO,New Orleans,Saints,DEF,,NO
 GB,Green Bay,Packers,DEF,,GB
 13429,Seydou,Traore,TE,Active,MIA
 13904,Jacob,De Jesus,WR,Active,KC
-7989,DJ,Turner,WR,Active,HOU
 3702,Andy,Jones,WR,Inactive,NYG
 10234,Derius,Davis,WR,Active,LAC
 7531,Feleipe,Franks,TE,Active,CAR
@@ -758,6 +756,7 @@ BUF,Buffalo,Bills,DEF,,BUF
 8150,Kyren,Williams,RB,Active,LAR
 PHI,Philadelphia,Eagles,DEF,,PHI
 8121,Romeo,Doubs,WR,Active,NE
+8123,Hassan,Haskins,RB,Active,NE
 3161,Carson,Wentz,QB,Active,MIN
 12705,Graham,Mertz,QB,Active,HOU
 7600,Pat,Freiermuth,TE,Active,PIT
@@ -965,10 +964,12 @@ DEN,Denver,Broncos,DEF,,DEN
 4464,Nick,Mullens,QB,Active,JAX
 13011,Brennan,Presley,WR,Active,LAR
 13329,Malik,Benson,WR,Active,LV
+8139,Zamir,White,RB,Active,SF
 11588,Jawhar,Jordan,RB,Active,HOU
 13630,Evan,Svoboda,TE,Active,LAC
 13778,EJ,Smith,RB,Active,KC
 12510,Jalen,Milroe,QB,Active,SEA
+2505,Darren,Waller,TE,Active,CAR
 11963,Chris,Collier,RB,Inactive,LV
 11034,Jalen,Brooks,WR,Active,ARI
 12045,Jack,Westover,TE,Active,NE
