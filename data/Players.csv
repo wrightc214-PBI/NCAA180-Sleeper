@@ -164,7 +164,6 @@ IND,Indianapolis,Colts,DEF,,IND
 12908,Chandler,Brayboy,WR,Active,JAX
 7066,K.J.,Osborn,WR,Active,TEN
 1979,Blake,Bortles,QB,Active,NO
-8475,Montrell,Washington,WR,Active,HOU
 11921,Xavier,Weaver,WR,Active,ARI
 260,Josh,Johnson,QB,Active,CIN
 13557,Athan,Kaliakmanis,QB,Active,WAS
@@ -212,7 +211,6 @@ LV,Las Vegas,Raiders,DEF,,LV
 812,Lee,Smith,TE,Active,ATL
 8921,Maurice,Alexander,WR,Active,CHI
 11633,Jamari,Thrash,WR,Inactive,CLE
-13964,Myles,Montgomery,RB,Active,NE
 13189,Luke,Floriea,WR,Active,CLE
 13744,Cameron,Ross,WR,Active,DEN
 4443,Pharaoh,Brown,TE,Active,IND
@@ -642,7 +640,6 @@ GB,Green Bay,Packers,DEF,,GB
 13303,Cade,Klubnik,QB,Active,NYJ
 13962,Cameron,Dorner,WR,Active,NE
 4147,Samaje,Perine,RB,Active,CIN
-14058,Malick,Meiga,WR,Inactive,CAR
 12538,Brady,Cook,QB,Active,NYJ
 13010,Jordan,Waters,RB,Active,LAR
 7720,Kene,Nwangwu,RB,Active,NYJ
@@ -787,7 +784,6 @@ SF,San Francisco,49ers,DEF,,SF
 12817,Jake,Briningstool,TE,Active,KC
 5857,Noah,Fant,TE,Active,NO
 13066,Ben,Sauls,K,Active,NYG
-12725,Luke,Lachey,TE,Inactive,GB
 12500,Quinn,Ewers,QB,Active,MIA
 5154,Trent,Sherfield,WR,Active,BUF
 9224,Chase,Brown,RB,Active,CIN
@@ -896,7 +892,7 @@ CHI,Chicago,Bears,DEF,,CHI
 7559,Ihmir,Smith-Marsette,WR,Active,ARI
 11748,Bub,Means,WR,Active,NO
 5744,Eldridge,Massington,WR,Active,NO
-12412,Terrell,Jennings,RB,Active,NE
+12412,Terrell,Jennings,RB,Inactive,NE
 8200,Kevin,Austin,WR,Active,NO
 CIN,Cincinnati,Bengals,DEF,,CIN
 8745,Lance,McCutcheon,WR,Active,TEN
@@ -913,7 +909,6 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 11558,Sam,Hartman,QB,Active,WAS
 11969,Xavier,Johnson,WR,Active,CIN
 10235,Roschon,Johnson,RB,Active,CHI
-12743,Junior,Bergen,WR,Active,SF
 3451,Ka'imi,Fairbairn,K,Active,HOU
 3155,Laquon,Treadwell,WR,Active,IND
 8162,Sam,Howell,QB,Active,DAL
@@ -957,7 +952,6 @@ DEN,Denver,Broncos,DEF,,DEN
 11539,Jake,Bates,K,Active,DET
 11056,Jared,Wayne,WR,Active,HOU
 1466,Travis,Kelce,TE,Active,KC
-11378,Jordan,Mims,RB,Active,MIN
 6149,Darius,Slayton,WR,Active,NYG
 8214,Cole,Turner,TE,Active,MIA
 4017,Deshaun,Watson,QB,Active,CLE
