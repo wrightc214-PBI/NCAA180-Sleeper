@@ -203,7 +203,6 @@ LV,Las Vegas,Raiders,DEF,,LV
 8117,Jalen,Tolbert,WR,Active,MIA
 6797,Justin,Herbert,QB,Active,LAC
 6849,Denzel,Mims,WR,Active,DAL
-13764,Chris,Freeman,K,Active,HOU
 5781,Malik,Turner,WR,Active,SF
 6801,Tee,Higgins,WR,Active,CIN
 10859,Sam,LaPorta,TE,Active,DET
@@ -268,6 +267,7 @@ NYJ,New York,Jets,DEF,,NYJ
 12700,Gavin,Bartholomew,TE,Active,MIN
 3271,Tyler,Higbee,TE,Active,LAR
 12761,Jordan,Moore,WR,Active,CIN
+12940,Tre,Stewart,RB,Active,ARI
 11638,Ricky,Pearsall,WR,Inactive,SF
 12514,Emeka,Egbuka,WR,Active,TB
 7605,Kyle,Trask,QB,Active,CAR
@@ -497,7 +497,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 11654,Dante,Miller,RB,Active,NYG
 6869,Adam,Trautman,TE,Active,DEN
 13830,Kyle,Dixon,WR,Active,NE
-13923,Joshua,Pitsenberger,RB,Active,HOU
+13923,Joshua,Pitsenberger,RB,Inactive,HOU
 9509,Bijan,Robinson,RB,Active,ATL
 7525,DeVonta,Smith,WR,Active,PHI
 12530,Travis,Hunter,WR,Active,JAX
@@ -535,6 +535,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 10214,Davis,Allen,TE,Active,LAR
 4179,Joshua,Dobbs,QB,Active,DET
 10866,Aidan,O'Connell,QB,Active,LV
+6037,Brett,Rypien,QB,Active,HOU
 12499,Elic,Ayomanor,WR,Active,TEN
 13013,Mark,Redman,TE,Active,LAR
 13967,Jimmy,Kibble,WR,Inactive,NE
@@ -756,7 +757,7 @@ PHI,Philadelphia,Eagles,DEF,,PHI
 8121,Romeo,Doubs,WR,Active,NE
 8123,Hassan,Haskins,RB,Active,NE
 3161,Carson,Wentz,QB,Active,MIN
-12705,Graham,Mertz,QB,Active,HOU
+12705,Graham,Mertz,QB,Inactive,HOU
 7600,Pat,Freiermuth,TE,Active,PIT
 8527,Dareke,Young,WR,Active,LV
 11199,Emari,Demercado,RB,Active,KC
@@ -1028,7 +1029,7 @@ DEN,Denver,Broncos,DEF,,DEN
 13783,Raylen,Sharpe,WR,Active,IND
 5409,Tanner,Hudson,TE,Active,CIN
 13663,Wesley,Grimes,WR,Active,SF
-12889,Beaux,Collins,WR,Inactive,NYG
+12256,Baylor,Cupp,TE,Active,ARI
 6960,Tyler,Johnson,WR,Active,DAL
 11068,Mitch,Tinsley,WR,Active,CIN
 6819,Michael,Pittman,WR,Active,PIT
@@ -1041,7 +1042,7 @@ DEN,Denver,Broncos,DEF,,DEN
 12738,Phil,Mafah,RB,Active,DAL
 5846,DK,Metcalf,WR,Active,PIT
 8155,Breece,Hall,RB,Active,NYJ
-13879,Jameson,Geers,TE,Active,ARI
+13879,Jameson,Geers,TE,Inactive,ARI
 13437,Noah,Whittington,RB,Active,HOU
 12935,Jakobie,Keeney-James,WR,Active,PIT
 KC,Kansas City,Chiefs,DEF,,KC
