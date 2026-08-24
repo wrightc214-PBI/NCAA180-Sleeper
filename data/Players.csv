@@ -79,6 +79,7 @@ NE,New England,Patriots,DEF,,NE
 13270,CJ,Daniels,WR,Active,LAR
 13805,E.J.,Williams,WR,Active,LV
 11647,Kimani,Vidal,RB,Active,LAC
+6045,Gary,Jennings,WR,Active,LAC
 13273,Josh,Cuevas,TE,Active,BAL
 13608,Jerand,Bradley,WR,Active,LAC
 13282,Jack,Endries,TE,Active,CIN
@@ -515,7 +516,6 @@ LAR,Los Angeles,Rams,DEF,,LAR
 12478,Nick,Nash,WR,Active,WAS
 12457,Jaydon,Blue,RB,Active,DAL
 7039,Cody,White,WR,Active,SEA
-13001,Mario,Williams,WR,Inactive,LAR
 8112,Drake,London,WR,Active,ATL
 11632,Malik,Nabers,WR,Active,NYG
 4177,Mack,Hollins,WR,Active,NE
@@ -902,6 +902,7 @@ CHI,Chicago,Bears,DEF,,CHI
 8200,Kevin,Austin,WR,Active,NO
 7528,Najee,Harris,RB,Active,NYG
 CIN,Cincinnati,Bengals,DEF,,CIN
+13725,Dominic,Richardson,RB,Active,NYJ
 8745,Lance,McCutcheon,WR,Active,TEN
 12711,Tyler,Loop,K,Active,BAL
 8255,Raheem,Blackshear,RB,Active,DET
