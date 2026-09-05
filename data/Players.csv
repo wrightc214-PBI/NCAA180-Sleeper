@@ -123,7 +123,6 @@ IND,Indianapolis,Colts,DEF,,IND
 13342,John Michael,Gyllenborg,TE,Inactive,KC
 11592,Erick,All,TE,Active,CIN
 7496,Nick,Westbrook-Ikhine,WR,Active,IND
-13604,Sincere,Brown,WR,Inactive,LAC
 3634,Kalif,Raymond,WR,Active,CHI
 5773,KhaDarel,Hodge,WR,Active,SF
 11520,Lucky,Jackson,WR,Active,DET
@@ -222,7 +221,6 @@ NYJ,New York,Jets,DEF,,NYJ
 5223,Caleb,Scott,WR,Active,TEN
 12509,Tre',Harris,WR,Active,LAC
 5947,Jakobi,Meyers,WR,Active,JAX
-12946,Dontae,Fleming,WR,Inactive,MIN
 11651,Isaac,Guerendo,RB,Active,SF
 14020,Dean,Patterson,WR,Active,TB
 13272,Carson,Beck,QB,Active,ARI
@@ -423,9 +421,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 13830,Kyle,Dixon,WR,Active,NE
 9509,Bijan,Robinson,RB,Active,ATL
 7525,DeVonta,Smith,WR,Active,PHI
-12530,Travis,Hunter,WR,Active,JAX
 11292,Tommy,DeVito,QB,Active,NE
-12476,Devin,Neal,RB,Inactive,NO
 12511,Will,Howard,QB,Active,PIT
 8002,Shane,Buechele,QB,Active,BUF
 13355,DJ,Rogers,TE,Inactive,DAL
@@ -500,7 +496,6 @@ GB,Green Bay,Packers,DEF,,GB
 13705,Ty,Pezza,TE,Active,BAL
 13545,Trey,Smack,K,Active,GB
 12539,Arian,Smith,WR,Active,NYJ
-6843,Albert,Okwuegbunam,TE,Active,LV
 6147,Clayton,Thorson,QB,Active,NYG
 13275,Ty,Simpson,QB,Active,LAR
 7087,Jonathan,Ward,RB,Active,BAL
@@ -521,7 +516,7 @@ GB,Green Bay,Packers,DEF,,GB
 7103,Tavien,Feaster,RB,Active,ARI
 4930,Franko,House,TE,Active,CHI
 13405,Kaytron,Allen,RB,Active,WAS
-8181,Connor,Heyward,TE,Active,LV
+8181,Connor,Heyward,RB,Active,LV
 8151,Kenneth,Walker,RB,Active,KC
 10236,Dalton,Kincaid,TE,Active,BUF
 2078,Odell,Beckham,WR,Active,NYG
@@ -621,7 +616,6 @@ MIA,Miami,Dolphins,DEF,,MIA
 4995,Ian,Thomas,TE,Active,LV
 9225,Tank,Bigsby,RB,Active,PHI
 DET,Detroit,Lions,DEF,,DET
-13227,Mitch,Van Vooren,WR,Active,DAL
 13411,Zavion,Thomas,WR,Active,CHI
 11603,AJ,Barner,TE,Active,SEA
 13407,Carson,Towt,TE,Inactive,IND
@@ -758,7 +752,6 @@ CHI,Chicago,Bears,DEF,,CHI
 8200,Kevin,Austin,WR,Active,NO
 7528,Najee,Harris,RB,Active,NYG
 CIN,Cincinnati,Bengals,DEF,,CIN
-13725,Dominic,Richardson,RB,Inactive,NYJ
 12711,Tyler,Loop,K,Active,BAL
 9482,Michael,Mayer,TE,Active,LV
 138,Ben,Roethlisberger,QB,Active,PIT
