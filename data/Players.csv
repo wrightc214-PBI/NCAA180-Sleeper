@@ -331,7 +331,7 @@ TB,Tampa Bay,Buccaneers,DEF,,TB
 12540,Chimere,Dike,WR,Active,TEN
 CLE,Cleveland,Browns,DEF,,CLE
 13307,Marlin,Klein,TE,Active,HOU
-5859,A.J.,Brown,WR,Active,NE
+5859,A.J.,Brown,WR,Inactive,NE
 4034,Christian,McCaffrey,RB,Active,SF
 6699,Gunner,Olszewski,WR,Inactive,NYG
 4263,Elijah,McGuire,RB,Active,KC
@@ -353,7 +353,6 @@ CLE,Cleveland,Browns,DEF,,CLE
 7536,Quintin,Morris,TE,Active,JAX
 13339,Davon,Booth,RB,Active,IND
 8142,Alec,Pierce,WR,Active,IND
-6964,Sean,McKeon,TE,Inactive,IND
 11648,Kedon,Slovis,QB,Active,GB
 3214,Hunter,Henry,TE,Active,NE
 3976,Mitchell,Trubisky,QB,Active,TEN
@@ -389,7 +388,6 @@ ATL,Atlanta,Falcons,DEF,,ATL
 CAR,Carolina,Panthers,DEF,,CAR
 13042,Xavier,Guillory,WR,Active,BAL
 13414,Kaelon,Black,RB,Active,SF
-11082,Ben,Sims,TE,Inactive,MIA
 8755,Kaden,Davis,WR,Active,CHI
 12495,Ollie,Gordon,RB,Active,MIA
 4602,Robert,Tonyan,TE,Active,PIT
@@ -596,6 +594,7 @@ MIA,Miami,Dolphins,DEF,,MIA
 7571,Rashod,Bateman,WR,Active,BAL
 13577,Dallen,Bentley,TE,Active,DEN
 8924,Thomas,Odukoya,TE,Active,KC
+11306,Xavier,Gipson,WR,Active,PHI
 5927,Terry,McLaurin,WR,Active,WAS
 4199,Aaron,Jones,RB,Active,MIN
 4950,Christian,Kirk,WR,Inactive,SF
