@@ -32,7 +32,7 @@ player_id,first_name,last_name,position,status,team
 2359,Ameer,Abdullah,RB,Active,JAX
 5854,Drew,Lock,QB,Active,SEA
 7593,Trey,Sermon,RB,Inactive,ATL
-11579,Audric,Estime,RB,Active,NO
+11579,Audric,Estime,RB,Inactive,NO
 HOU,Houston,Texans,DEF,,HOU
 3294,Dak,Prescott,QB,Active,DAL
 13301,Antonio,Williams,WR,Active,WAS
@@ -91,6 +91,7 @@ BAL,Baltimore,Ravens,DEF,,BAL
 10955,Chad,Ryland,K,Active,ARI
 12529,TreVeyon,Henderson,RB,Active,NE
 7933,Alex,Kessman,K,Active,CAR
+13310,Miller,Moss,QB,Active,CHI
 5957,Isaac,Nauta,TE,Inactive,GB
 13268,Elijah,Sarratt,WR,Active,BAL
 12535,Isaac,TeSlaa,WR,Active,DET
@@ -175,7 +176,6 @@ LV,Las Vegas,Raiders,DEF,,LV
 10859,Sam,LaPorta,TE,Active,DET
 12792,Garrett,Greene,QB,Active,TB
 812,Lee,Smith,TE,Active,ATL
-11633,Jamari,Thrash,WR,Inactive,CLE
 13964,Myles,Montgomery,RB,Inactive,NE
 6386,Alex,Bachman,WR,Active,LAR
 4443,Pharaoh,Brown,TE,Active,IND
@@ -193,7 +193,7 @@ NYJ,New York,Jets,DEF,,NYJ
 4881,Lamar,Jackson,QB,Active,BAL
 10937,Jake,Moody,K,Active,BAL
 13428,Joey,Aguilar,QB,Active,JAX
-13349,Eli,Stowers,TE,Active,PHI
+13349,Eli,Stowers,TE,Inactive,PHI
 11618,Jalen,McMillan,WR,Active,TB
 4219,Jeremy,McNichols,RB,Inactive,WAS
 10983,Sean,Clifford,QB,Active,CIN
@@ -216,7 +216,6 @@ NYJ,New York,Jets,DEF,,NYJ
 9506,Sean,Tucker,RB,Active,TB
 7607,Michael,Carter,RB,Active,TEN
 8167,Christian,Watson,WR,Active,GB
-7599,Jermar,Jefferson,RB,Inactive,MIN
 12897,Nate,Carter,RB,Active,KC
 5223,Caleb,Scott,WR,Active,TEN
 12509,Tre',Harris,WR,Active,LAC
@@ -302,7 +301,7 @@ LAC,Los Angeles,Chargers,DEF,,LAC
 13424,Seth,McGowan,RB,Active,IND
 8253,Deven,Thompkins,WR,Active,LV
 8861,Irv,Charles,WR,Inactive,SEA
-4351,Tim,Patrick,WR,Active,NYJ
+4351,Tim,Patrick,WR,Inactive,NYJ
 13335,Cole,Payton,QB,Active,PHI
 9220,Evan,Hull,RB,Active,ARI
 11596,Ben,Sinnott,TE,Active,WAS
@@ -749,7 +748,7 @@ CIN,Cincinnati,Bengals,DEF,,CIN
 138,Ben,Roethlisberger,QB,Active,PIT
 2020,Cairo,Santos,K,Active,CHI
 7042,Tyler,Bass,K,Active,BUF
-8800,Malik,Davis,RB,Active,DAL
+8800,Malik,Davis,RB,Inactive,DAL
 14038,Trayvon,Rudolph,WR,Active,MIN
 13278,Max,Klare,TE,Active,LAR
 11558,Sam,Hartman,QB,Active,WAS
