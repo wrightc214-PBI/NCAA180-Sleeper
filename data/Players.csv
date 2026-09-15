@@ -136,6 +136,7 @@ IND,Indianapolis,Colts,DEF,,IND
 13516,Max,Bredeson,RB,Active,MIN
 5906,Dawson,Knox,TE,Active,BUF
 7812,Simi,Fehoko,WR,Active,ARI
+12908,Chandler,Brayboy,WR,Active,NE
 7066,K.J.,Osborn,WR,Active,TEN
 1979,Blake,Bortles,QB,Active,NO
 260,Josh,Johnson,QB,Active,CIN
@@ -431,7 +432,7 @@ LAR,Los Angeles,Rams,DEF,,LAR
 11632,Malik,Nabers,WR,Active,NYG
 4177,Mack,Hollins,WR,Active,NE
 13825,Malik,McClain,WR,Active,NYJ
-12983,Brock,Lampe,FB,Inactive,SEA
+12983,Brock,Lampe,FB,Active,SEA
 5848,Marquise,Brown,WR,Active,PHI
 11371,Julian,Hill,TE,Inactive,NE
 8250,Tay,Martin,WR,Active,DET
@@ -859,6 +860,7 @@ DEN,Denver,Broncos,DEF,,DEN
 13981,Kolbe,Katsis,WR,Active,DEN
 13541,Lewis,Bond,WR,Active,HOU
 13913,Patrick,Gurd,TE,Active,LV
+12738,Phil,Mafah,RB,Active,NYG
 5846,DK,Metcalf,WR,Active,PIT
 8155,Breece,Hall,RB,Active,NYJ
 13879,Jameson,Geers,TE,Inactive,ARI
