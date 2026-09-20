@@ -545,7 +545,7 @@ GB,Green Bay,Packers,DEF,,GB
 6826,Cole,Kmet,TE,Active,CHI
 12526,Tetairoa,McMillan,WR,Active,CAR
 11058,Blake,Grupe,K,Active,NYJ
-13276,Omar,Cooper,WR,Active,NYJ
+13276,Omar,Cooper,WR,Inactive,NYJ
 11210,Malik,Heath,WR,Active,ATL
 13121,Ben,Yurosek,TE,Inactive,MIN
 3678,Wil,Lutz,K,Active,DEN
@@ -838,7 +838,6 @@ DEN,Denver,Broncos,DEF,,DEN
 12015,Harrison,Mevis,K,Active,LAR
 12185,Spencer,Shrader,K,Active,IND
 13314,Luke,Altmyer,QB,Active,DET
-8176,Danny,Gray,WR,Active,PHI
 5001,Dalton,Schultz,TE,Active,HOU
 11643,Jaylen,Wright,RB,Active,MIA
 13827,Tanner,Arkin,TE,Active,NE
