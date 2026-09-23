@@ -95,8 +95,8 @@ for idx, row in league_df.iterrows():
                     "PointsAgainst": points_against,
                     "Outcome": outcome,
                     "IsRegularSeason": week <= 11,
-                    "StarterPoints": sum(t.get('starters_points', [])) if t.get('starters_points') else None,
-                    "BenchPoints": points_for - sum(t.get('starters_points', [])) if t.get('starters_points') else None
+                    "StarterPoints": round(sum(t.get('starters_points', [])), 2) if t.get('starters_points') else None,
+                    "BenchPoints": round(points_for - sum(t.get('starters_points', [])), 2) if t.get('starters_points') else None
                 })
 
         time.sleep(0.5)
