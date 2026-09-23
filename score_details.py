@@ -182,6 +182,20 @@ print(f"\n✅ Scores.csv updated for {CURRENT_YEAR}")
 print(f"📊 Total rows after update: {len(combined_df)}")
 
 # -------------------------
+# THISWEEK SIDECAR
+# -------------------------
+current_week = args.week
+if current_week is None:
+    week_totals = combined_df.groupby("weekNum")["starter_points"].sum()
+    played_weeks = week_totals[week_totals > 0].index.astype(int)
+    current_week = played_weeks.max() if len(played_weeks) else None
+
+if current_week is not None:
+    this_week_df = combined_df[combined_df["weekNum"].astype(int) == int(current_week)]
+    this_week_df.to_csv("data/Scores_ThisWeek.csv", index=False)
+    print(f"📄 Saved {len(this_week_df)} rows for week {current_week} to data/Scores_ThisWeek.csv")
+
+# -------------------------
 # UPDATE TRACKER
 # -------------------------
 try:
