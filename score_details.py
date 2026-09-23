@@ -192,7 +192,7 @@ if current_week is None:
 
 if current_week is not None:
     this_week_df = combined_df[combined_df["weekNum"].astype(int) == int(current_week)]
-    this_week_df.to_csv("data/Scores_ThisWeek.csv", index=False)
+    this_week_df.to_csv("data/Scores_Week.csv", index=False)
     print(f"📄 Saved {len(this_week_df)} rows for week {current_week} to data/Scores_ThisWeek.csv")
 
 # -------------------------
