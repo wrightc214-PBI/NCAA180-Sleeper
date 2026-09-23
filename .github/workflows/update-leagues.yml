@@ -40,6 +40,9 @@ jobs:
           if [ "$SCRIPT_TO_RUN" = "freeze_historic" ]; then
               python freeze_historic.py
           fi
+          if [ "$SCRIPT_TO_RUN" = "rebuild_scores_historic" ]; then
+              python rebuild_scores_historic.py
+          fi
           if [ "$SCRIPT_TO_RUN" = "league_ids" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python league_ids.py
           fi
