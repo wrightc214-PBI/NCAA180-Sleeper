@@ -15,11 +15,6 @@ on:
 
   # Manual trigger
   workflow_dispatch:
-    inputs:
-      force_refresh:
-        description: "Force Power BI refresh even if no games are active"
-        required: false
-        default: "false"
 
 permissions:
   contents: write
@@ -144,69 +139,19 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet --exit-code data/Scores.csv data/LastUpdate.csv; then
+          if git diff --quiet --exit-code data/Scores.csv data/Scores_ThisWeek.csv data/LastUpdate.csv; then
             echo "No data changes detected."
             echo "DATA_CHANGED=false" >> $GITHUB_ENV
           else
             echo "📈 New data detected — committing update."
-            git add data/Scores.csv data/LastUpdate.csv || true
+            git add data/Scores.csv data/Scores_ThisWeek.csv data/LastUpdate.csv || true
             git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
             git push || echo "Nothing to push"
             echo "DATA_CHANGED=true" >> $GITHUB_ENV
           fi
 
       # --------------------------------------------------------
-      # 🚀 Step 8: Trigger Power BI dataset refresh (final version)
-      # --------------------------------------------------------
-      - name: Trigger Power BI dataset refresh
-        if: (env.GAMES_ACTIVE == 'true' && env.DATA_CHANGED == 'true') || github.event.inputs.force_refresh == 'true'
-        env:
-          TENANT_ID: ${{ secrets.PBI_TENANT_ID }}
-          CLIENT_ID: ${{ secrets.PBI_CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.PBI_CLIENT_SECRET }}
-          WORKSPACE_ID: ${{ secrets.PBI_WORKSPACE_ID }}
-          DATASET_ID: ${{ secrets.PBI_DATASET_ID }}
-        run: |
-          set -e
-          echo "🔐 Requesting Power BI access token..."
-          TOKEN_URL="https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token"
-          TOKEN=$(curl -s -X POST "$TOKEN_URL" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&scope=https://analysis.windows.net/powerbi/api/.default" \
-            | jq -r '.access_token')
-
-          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
-            echo "❌ Failed to obtain Power BI access token"
-            exit 1
-          fi
-
-          echo "✅ Access token received — triggering dataset refresh..."
-          REFRESH_URL="https://api.powerbi.com/v1.0/myorg/groups/$WORKSPACE_ID/datasets/$DATASET_ID/refreshes"
-
-          MAX_RETRIES=3
-          for ((i=1; i<=MAX_RETRIES; i++)); do
-            RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
-              -H "Authorization: Bearer $TOKEN" \
-              -H "Content-Type: application/json" \
-              --data '{}' \
-              -X POST "$REFRESH_URL")
-
-            echo "Attempt $i: HTTP $RESPONSE"
-            if [ "$RESPONSE" = "202" ]; then
-              echo "🎉 Refresh successfully queued."
-              break
-            elif [ "$RESPONSE" = "429" ]; then
-              echo "⏳ Rate-limited. Waiting 120 seconds before retry..."
-              sleep 120
-            else
-              echo "⚠️ Unexpected status $RESPONSE"
-              cat response.json || true
-              exit 1
-            fi
-          done
-
-      # --------------------------------------------------------
-      # 📋 Step 9: Run summary
+      # 📋 Step 8: Run summary
       # --------------------------------------------------------
       - name: Run summary
         if: always()
