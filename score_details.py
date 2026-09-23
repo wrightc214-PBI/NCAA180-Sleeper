@@ -7,7 +7,7 @@ import argparse
 # -------------------------
 # CONFIG
 # -------------------------
-CSV_PATH = "data/Scores.csv"
+CSV_PATH = "data/Scores_Season.csv"
 LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
