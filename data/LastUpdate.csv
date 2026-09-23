@@ -1,26 +1,27 @@
 FileName,LastModified
-Colors - Leagues.csv,2026-09-22 21:44:27
-Colors - Teams.csv,2026-09-22 21:44:27
-Divisions.csv,2026-09-22 21:44:27
-DraftPicks_AllYears.csv,2026-09-22 21:44:27
-Drafts_AllYears.csv,2026-09-22 21:44:27
-LastUpdate.csv,2026-09-22 21:44:27
-LeagueIDs_AllYears.csv,2026-09-22 21:44:27
-LeagueShortNames.csv,2026-09-22 21:44:27
-Lineup.csv,2026-09-22 21:44:27
-Matchups_AllYears.csv,2026-09-22 21:44:27
-Matchups_Historic.csv,2026-09-22 21:44:42
-Matchups_Season.csv,2026-09-22 21:44:27
-Matchups_Week.csv,2026-09-22 21:44:27
-Players.csv,2026-09-22 21:44:27
-Results_RegularSeason.csv,2026-09-22 21:44:27
-Rosters_Current.csv,2026-09-22 21:44:27
-Rosters_Players_AllYears.csv,2026-09-22 21:44:27
-Scores.csv,2026-09-22 21:45:10
-Scores_Historic.csv,2026-09-22 21:44:42
-ScoringSettings.csv,2026-09-22 21:44:27
-Standings_Historic.csv,2026-09-22 21:44:42
-Teams.csv,2026-09-22 21:44:27
-Transactions_AllYears.csv,2026-09-22 21:44:27
-Users_AllYears.csv,2026-09-22 21:44:27
-Weeks.csv,2026-09-22 21:44:27
+Colors - Leagues.csv,2026-09-22 22:10:00
+Colors - Teams.csv,2026-09-22 22:10:00
+Divisions.csv,2026-09-22 22:10:00
+DraftPicks_AllYears.csv,2026-09-22 22:10:00
+Drafts_AllYears.csv,2026-09-22 22:10:00
+LastUpdate.csv,2026-09-22 22:10:00
+LeagueIDs_AllYears.csv,2026-09-22 22:10:00
+LeagueShortNames.csv,2026-09-22 22:10:00
+Lineup.csv,2026-09-22 22:10:00
+Matchups_AllYears.csv,2026-09-22 22:10:00
+Matchups_Historic.csv,2026-09-22 22:10:09
+Matchups_Season.csv,2026-09-22 22:10:00
+Matchups_Week.csv,2026-09-22 22:10:00
+Players.csv,2026-09-22 22:10:00
+Results_RegularSeason.csv,2026-09-22 22:10:00
+Rosters_Current.csv,2026-09-22 22:10:00
+Rosters_Players_AllYears.csv,2026-09-22 22:10:00
+Scores.csv,2026-09-22 22:11:47
+Scores_Historic.csv,2026-09-22 22:10:00
+ScoringSettings.csv,2026-09-22 22:10:00
+Standings_Historic.csv,2026-09-22 22:10:00
+Teams.csv,2026-09-22 22:10:00
+Transactions_AllYears.csv,2026-09-22 22:10:00
+Users_AllYears.csv,2026-09-22 22:10:00
+Weeks.csv,2026-09-22 22:10:00
+rebuild_scores_historic.py,2026-09-22 22:10:00
