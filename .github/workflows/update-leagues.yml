@@ -36,7 +36,10 @@ jobs:
           fi
 
           echo "Selected script: $SCRIPT_TO_RUN"
-          
+
+          if [ "$SCRIPT_TO_RUN" = "rebuild_standings_historic" ]; then
+              python rebuild_standings_historic.py
+          fi          
           if [ "$SCRIPT_TO_RUN" = "freeze_historic" ]; then
               python freeze_historic.py
           fi
