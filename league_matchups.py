@@ -97,6 +97,19 @@ for idx, row in league_df.iterrows():
 
         time.sleep(0.5)  # be polite with API requests
 
+# --- ThisWeek sidecar (small file for the webpage, avoids reading the AllYears file) ---
+completed_weeks = [m["Week"] for m in all_matchups if m["Outcome"] != ""]
+if completed_weeks:
+    current_week = max(completed_weeks)
+    this_week = [m for m in all_matchups if m["Week"] == current_week]
+    pd.DataFrame(this_week).to_csv("data/Matchups_ThisWeek.csv", index=False)
+    print(f"Saved {len(this_week)} rows for week {current_week} to data/Matchups_ThisWeek.csv")
+
+# Save CSV
+out_file = "data/Matchups_AllYears.csv"
+pd.DataFrame(all_matchups).to_csv(out_file, index=False)
+print(f"Saved {len(all_matchups)} matchup rows to {out_file}")
+
 # Save CSV
 out_file = "data/Matchups_AllYears.csv"
 pd.DataFrame(all_matchups).to_csv(out_file, index=False)
