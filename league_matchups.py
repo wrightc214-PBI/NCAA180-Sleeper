@@ -1,12 +1,20 @@
 import pandas as pd
-from sleeper_wrapper import League
+import datetime
 import time
 from collections import defaultdict
+from sleeper_wrapper import League
 
-# Load league IDs
+# -------------------------
+# CURRENT YEAR (season rollover: Jan/Feb still counts as prior season)
+# -------------------------
+today = datetime.date.today()
+CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
+
+# Load league IDs, restricted to current year only
 league_df = pd.read_csv("data/LeagueIDs_AllYears.csv")
+league_df = league_df[league_df["Year"] == CURRENT_YEAR]
 
-all_matchups = []
+season_matchups = []
 
 OBSERVER_IDS = [731808894699028480]  # Optional: exclude observer accounts
 
@@ -26,7 +34,6 @@ for idx, row in league_df.iterrows():
         print(f"  ERROR fetching rosters/users for {league_id}: {e}")
         continue
 
-    # Map roster_id -> owner_id
     roster_map = {r['roster_id']: r.get('owner_id') for r in rosters}
     user_map = {u['user_id']: u['display_name'] for u in users if u['user_id'] in roster_map.values()}
 
@@ -40,14 +47,12 @@ for idx, row in league_df.iterrows():
         if not weekly_matchups:
             continue
 
-        # Group by matchup_id to find opponents
         matchups_by_id = defaultdict(list)
         for m in weekly_matchups:
             matchups_by_id[m['matchup_id']].append(m)
 
         for matchup_id, teams in matchups_by_id.items():
             if len(teams) != 2:
-                # Handle bye weeks / missing opponent
                 teams.append({'roster_id': None, 'points': 0, 'starters': [], 'starters_points': [], 'players_points': {}})
 
             team1, team2 = teams
@@ -71,13 +76,12 @@ for idx, row in league_df.iterrows():
                 points_for = t.get('points', 0)
                 points_against = opp.get('points', 0)
 
-                # Outcome logic: blank for 0-0 games
                 if points_for == 0 and points_against == 0:
                     outcome = ""
                 else:
                     outcome = "Win" if points_for > points_against else ("Loss" if points_for < points_against else "Tie")
 
-                all_matchups.append({
+                season_matchups.append({
                     "Year": year,
                     "LeagueID": league_id,
                     "LeagueName": league_name,
@@ -95,22 +99,23 @@ for idx, row in league_df.iterrows():
                     "BenchPoints": points_for - sum(t.get('starters_points', [])) if t.get('starters_points') else None
                 })
 
-        time.sleep(0.5)  # be polite with API requests
+        time.sleep(0.5)
 
-# --- ThisWeek sidecar (small file for the webpage, avoids reading the AllYears file) ---
-completed_weeks = [m["Week"] for m in all_matchups if m["Outcome"] != ""]
+# -------------------------
+# SAVE SEASON FILE (current year, all weeks played so far)
+# -------------------------
+season_df = pd.DataFrame(season_matchups)
+season_df.to_csv("data/Matchups_Season.csv", index=False)
+print(f"Saved {len(season_df)} matchup rows to data/Matchups_Season.csv")
+
+# -------------------------
+# SAVE WEEK FILE (current week only)
+# -------------------------
+completed_weeks = [m["Week"] for m in season_matchups if m["Outcome"] != ""]
 if completed_weeks:
     current_week = max(completed_weeks)
-    this_week = [m for m in all_matchups if m["Week"] == current_week]
-    pd.DataFrame(this_week).to_csv("data/Matchups_ThisWeek.csv", index=False)
-    print(f"Saved {len(this_week)} rows for week {current_week} to data/Matchups_ThisWeek.csv")
-
-# Save CSV
-out_file = "data/Matchups_AllYears.csv"
-pd.DataFrame(all_matchups).to_csv(out_file, index=False)
-print(f"Saved {len(all_matchups)} matchup rows to {out_file}")
-
-# Save CSV
-out_file = "data/Matchups_AllYears.csv"
-pd.DataFrame(all_matchups).to_csv(out_file, index=False)
-print(f"Saved {len(all_matchups)} matchup rows to {out_file}")
+    week_df = season_df[season_df["Week"] == current_week]
+    week_df.to_csv("data/Matchups_Week.csv", index=False)
+    print(f"Saved {len(week_df)} rows for week {current_week} to data/Matchups_Week.csv")
+else:
+    print("No completed weeks yet — skipping Matchups_Week.csv")
