@@ -1,27 +1,28 @@
 FileName,LastModified
-Colors - Leagues.csv,2026-09-22 22:10:00
-Colors - Teams.csv,2026-09-22 22:10:00
-Divisions.csv,2026-09-22 22:10:00
-DraftPicks_AllYears.csv,2026-09-22 22:10:00
-Drafts_AllYears.csv,2026-09-22 22:10:00
-LastUpdate.csv,2026-09-22 22:10:00
-LeagueIDs_AllYears.csv,2026-09-22 22:10:00
-LeagueShortNames.csv,2026-09-22 22:10:00
-Lineup.csv,2026-09-22 22:10:00
-Matchups_AllYears.csv,2026-09-22 22:10:00
-Matchups_Historic.csv,2026-09-22 22:10:09
-Matchups_Season.csv,2026-09-22 22:10:00
-Matchups_Week.csv,2026-09-22 22:10:00
-Players.csv,2026-09-22 22:10:00
-Results_RegularSeason.csv,2026-09-22 22:10:00
-Rosters_Current.csv,2026-09-22 22:10:00
-Rosters_Players_AllYears.csv,2026-09-22 22:10:00
-Scores.csv,2026-09-22 22:11:47
-Scores_Historic.csv,2026-09-22 22:10:00
-ScoringSettings.csv,2026-09-22 22:10:00
-Standings_Historic.csv,2026-09-22 22:10:00
-Teams.csv,2026-09-22 22:10:00
-Transactions_AllYears.csv,2026-09-22 22:10:00
-Users_AllYears.csv,2026-09-22 22:10:00
-Weeks.csv,2026-09-22 22:10:00
-rebuild_scores_historic.py,2026-09-22 22:10:00
+Colors - Leagues.csv,2026-09-22 22:18:23
+Colors - Teams.csv,2026-09-22 22:18:23
+Divisions.csv,2026-09-22 22:18:23
+DraftPicks_AllYears.csv,2026-09-22 22:18:23
+Drafts_AllYears.csv,2026-09-22 22:18:23
+LastUpdate.csv,2026-09-22 22:18:23
+LeagueIDs_AllYears.csv,2026-09-22 22:18:23
+LeagueShortNames.csv,2026-09-22 22:18:23
+Lineup.csv,2026-09-22 22:18:23
+Matchups_AllYears.csv,2026-09-22 22:18:23
+Matchups_Historic.csv,2026-09-22 22:18:23
+Matchups_Season.csv,2026-09-22 22:18:23
+Matchups_Week.csv,2026-09-22 22:18:23
+Players.csv,2026-09-22 22:18:23
+Results_RegularSeason.csv,2026-09-22 22:18:23
+Rosters_Current.csv,2026-09-22 22:18:23
+Rosters_Players_AllYears.csv,2026-09-22 22:18:23
+Scores.csv,2026-09-22 22:20:30
+Scores_Historic.csv,2026-09-22 22:18:23
+ScoringSettings.csv,2026-09-22 22:18:23
+Standings_Historic.csv,2026-09-22 22:18:23
+Standings_Season.csv,2026-09-22 22:18:44
+Teams.csv,2026-09-22 22:18:23
+Transactions_AllYears.csv,2026-09-22 22:18:23
+Users_AllYears.csv,2026-09-22 22:18:23
+Weeks.csv,2026-09-22 22:18:23
+rebuild_scores_historic.py,2026-09-22 22:18:23
