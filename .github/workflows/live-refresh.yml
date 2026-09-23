@@ -139,12 +139,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet --exit-code data/Scores_Season.csv data/Scores_TWeek.csv data/LastUpdate.csv; then
+          if git diff --quiet --exit-code data/Scores_Season.csv data/Scores_Week.csv data/LastUpdate.csv; then
             echo "No data changes detected."
             echo "DATA_CHANGED=false" >> $GITHUB_ENV
           else
             echo "📈 New data detected — committing update."
-            git add data/Scores_Season.csv data/Scores_TWeek.csv data/LastUpdate.csv || true
+            git add data/Scores_Season.csv data/Scores_Week.csv data/LastUpdate.csv || true
             git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
             git push || echo "Nothing to push"
             echo "DATA_CHANGED=true" >> $GITHUB_ENV
