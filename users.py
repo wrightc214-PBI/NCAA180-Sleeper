@@ -7,7 +7,8 @@ user_id = 731808894699028480
 
 # Automatically include all years from 2020 through the current year
 start_year = 2020
-current_year = datetime.datetime.now().year
+today = datetime.date.today()
+current_year = today.year - 1 if today.month < 3 else today.year
 years = list(range(start_year, current_year + 1))
 
 
@@ -65,3 +66,11 @@ df = pd.DataFrame(all_rosters)
 out_file = "data/Users_AllYears.csv"
 df.to_csv(out_file, index=False)
 print(f"Saved {len(df)} roster rows to {out_file}")
+
+
+# -------------------------
+# CURRENT-YEAR SIDECAR
+# -------------------------
+current_df = df[df["Year"] == current_year]
+current_df.to_csv("data/Standings_Current.csv", index=False)
+print(f"Saved {len(current_df)} rows for {current_year} to data/Standings_Current.csv")
