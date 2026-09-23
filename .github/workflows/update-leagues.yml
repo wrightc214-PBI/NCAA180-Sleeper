@@ -49,6 +49,9 @@ jobs:
           if [ "$SCRIPT_TO_RUN" = "rosters" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python rosters.py
           fi
+          if [ "$SCRIPT_TO_RUN" = "matchups" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
+              python league_matchups.py
+          fi          
           if [ "$SCRIPT_TO_RUN" = "users" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python users.py
           fi
@@ -57,9 +60,6 @@ jobs:
           fi
           if [ "$SCRIPT_TO_RUN" = "rosterhistory" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python rosterhistory.py
-          fi
-          if [ "$SCRIPT_TO_RUN" = "matchups" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python league_matchups.py
           fi
           if [ "$SCRIPT_TO_RUN" = "transactions" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python league_transactions.py
