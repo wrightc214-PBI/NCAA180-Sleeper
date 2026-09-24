@@ -17,6 +17,15 @@ league_df = league_df[league_df["Year"] == CURRENT_YEAR]
 season_matchups = []
 
 OBSERVER_IDS = [731808894699028480]  # Optional: exclude observer accounts
+LINKOFTIME_ID = "460518714907815936"
+LINKOFTIME_REAL_LEAGUE = "NCAA BIG 10"
+
+def resolve_owner_name(owner_id, roster_id, league_name, user_map):
+    if owner_id is None or owner_id in OBSERVER_IDS:
+        return "Vacant"
+    if str(owner_id) == LINKOFTIME_ID and league_name != LINKOFTIME_REAL_LEAGUE:
+        return f"{league_name} Orphan #{roster_id}"
+    return user_map.get(owner_id, "Unknown")
 
 for idx, row in league_df.iterrows():
     league_id = row['LeagueID']
@@ -60,18 +69,13 @@ for idx, row in league_df.iterrows():
             for t, opp in [(team1, team2), (team2, team1)]:
                 r_id = t['roster_id']
                 owner_id = roster_map.get(r_id)
+                owner_name = resolve_owner_name(owner_id, r_id, league_name, user_map)
                 if owner_id is None or owner_id in OBSERVER_IDS:
                     owner_id = 0
-                    owner_name = "Vacant"
-                else:
-                    owner_name = user_map.get(owner_id, "Unknown")
 
                 opp_rid = opp.get('roster_id')
                 opp_owner_id = roster_map.get(opp_rid)
-                if opp_owner_id is None or opp_owner_id in OBSERVER_IDS:
-                    opp_name = "Vacant"
-                else:
-                    opp_name = user_map.get(opp_owner_id, "Unknown")
+                opp_name = resolve_owner_name(opp_owner_id, opp_rid, league_name, user_map)
 
                 points_for = t.get('points', 0)
                 points_against = opp.get('points', 0)
@@ -101,16 +105,10 @@ for idx, row in league_df.iterrows():
 
         time.sleep(0.5)
 
-# -------------------------
-# SAVE SEASON FILE (current year, all weeks played so far)
-# -------------------------
 season_df = pd.DataFrame(season_matchups)
 season_df.to_csv("data/Matchups_Season.csv", index=False)
 print(f"Saved {len(season_df)} matchup rows to data/Matchups_Season.csv")
 
-# -------------------------
-# SAVE WEEK FILE (current week only)
-# -------------------------
 completed_weeks = [m["Week"] for m in season_matchups if m["Outcome"] != ""]
 if completed_weeks:
     current_week = max(completed_weeks)
