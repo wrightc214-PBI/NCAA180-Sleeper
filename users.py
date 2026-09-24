@@ -7,6 +7,16 @@ user_id = 731808894699028480
 today = datetime.date.today()
 CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
 
+LINKOFTIME_ID = "460518714907815936"
+LINKOFTIME_REAL_LEAGUE = "NCAA BIG 10"
+
+def resolve_owner_name(owner_id, roster_id, league_name, user_map):
+    if owner_id is None:
+        return "Unknown"
+    if str(owner_id) == LINKOFTIME_ID and league_name != LINKOFTIME_REAL_LEAGUE:
+        return f"{league_name} Orphan #{roster_id}"
+    return user_map.get(owner_id, "Unknown")
+
 # -------------------------
 # REGULAR-SEASON RECORD (weeks 1-11 only) FROM MATCHUPS DATA
 # -------------------------
@@ -48,13 +58,14 @@ for league in leagues:
         else:
             division_name = None
 
+        owner_id = r.get("owner_id")
         all_rosters.append({
             "Year": CURRENT_YEAR,
             "LeagueID": league_id,
             "LeagueName": league_name,
             "RosterID": str(r["roster_id"]),
-            "OwnerID": r.get("owner_id"),
-            "OwnerName": user_map.get(r.get("owner_id"), "Unknown"),
+            "OwnerID": owner_id,
+            "OwnerName": resolve_owner_name(owner_id, r["roster_id"], league_name, user_map),
             "Division": division_num,
             "DivisionName": division_name
         })
