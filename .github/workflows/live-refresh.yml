@@ -88,7 +88,7 @@ jobs:
       - name: Check if games are active
         if: env.IN_SEASON == 'true'
         id: gamestatus
-        run: python NFLgameStatus.py
+        run: python scripts/NFLgameStatus.py
         continue-on-error: true
 
       - name: Parse NFL status JSON
@@ -121,14 +121,14 @@ jobs:
       # --------------------------------------------------------
       - name: Refresh Scores for active week
         if: env.GAMES_ACTIVE == 'true'
-        run: python score_details.py --week $WEEK_NUM
+        run: python scripts/score_details.py --week $WEEK_NUM
 
       # --------------------------------------------------------
       # 🕒 Step 6: Update LastUpdate.csv timestamps
       # --------------------------------------------------------
       - name: Update LastUpdate.csv
         if: env.GAMES_ACTIVE == 'true'
-        run: python update_lastmodified.py
+        run: python scripts/update_lastmodified.py
 
       # --------------------------------------------------------
       # 💾 Step 7: Commit updated CSV + timestamp
@@ -139,12 +139,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet --exit-code data/Scores.csv data/Scores_ThisWeek.csv data/LastUpdate.csv; then
+          if git diff --quiet --exit-code data/Scores_Season.csv data/Scores_Week.csv data/LastUpdate.csv; then
             echo "No data changes detected."
             echo "DATA_CHANGED=false" >> $GITHUB_ENV
           else
             echo "📈 New data detected — committing update."
-            git add data/Scores.csv data/Scores_ThisWeek.csv data/LastUpdate.csv || true
+            git add data/Scores_Season.csv data/Scores_Week.csv data/LastUpdate.csv || true
             git commit -m "Auto update live scores (Week $WEEK_NUM)" || echo "No changes to commit"
             git push || echo "Nothing to push"
             echo "DATA_CHANGED=true" >> $GITHUB_ENV
