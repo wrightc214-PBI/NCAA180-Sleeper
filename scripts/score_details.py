@@ -4,6 +4,7 @@ import datetime
 import os
 import sys
 import time
+import json
 import argparse
 
 # -------------------------
@@ -22,6 +23,22 @@ PLAYERS_FILE = "data/Players.csv"
 # of retried, and one bad week could throw off the "current week" pick for
 # every league at once.
 ESPN_SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
+
+# When live-refresh.yml runs, NFLgameStatus.py (an earlier step in the same
+# job, same runner) already hit ESPN and wrote this. Reuse it instead of
+# hitting ESPN a second time in the same job. update-leagues.yml never runs
+# NFLgameStatus.py first, so this file won't exist there and we fall back
+# to calling ESPN directly.
+NFL_STATUS_FILE = "nfl_status.json"
+
+# How many trailing weeks to (re)fetch, including the current one. The NFL
+# issues stat corrections (reassigned fumbles/TDs, etc.) for up to a couple
+# days after a game, so the current week alone isn't enough — but refetching
+# the ENTIRE season to date every run (the old behavior) is pure waste once
+# you're a few weeks in, and it's what turned 15 leagues into 270 requests
+# a run. 2 covers "this week + last week" and is cheap to widen if a later
+# correction window turns out to need it.
+CORRECTION_WINDOW_WEEKS = 2
 
 EXPECTED_COLUMNS = [
     "LeagueYear", "league_id", "weekNum", "roster_id", "lookupID",
@@ -51,6 +68,17 @@ print(f"Current NFL Year: {CURRENT_YEAR}")
 def get_current_nfl_week():
     if args.week:
         return args.week
+
+    if os.path.exists(NFL_STATUS_FILE):
+        try:
+            with open(NFL_STATUS_FILE) as f:
+                week = json.load(f).get("week_number")
+            if week:
+                print(f"Using week from {NFL_STATUS_FILE} (written earlier in this job) — skipping a redundant ESPN call")
+                return int(week)
+        except Exception as e:
+            print(f"Could not read {NFL_STATUS_FILE} ({e}) — falling back to ESPN directly")
+
     try:
         resp = requests.get(ESPN_SCOREBOARD_URL, timeout=10)
         resp.raise_for_status()
@@ -63,7 +91,9 @@ def get_current_nfl_week():
         sys.exit(1)
 
 CURRENT_WEEK = get_current_nfl_week()
-print(f"Current NFL Week: {CURRENT_WEEK} (fetching weeks 1-{CURRENT_WEEK})")
+FETCH_FROM_WEEK = max(1, CURRENT_WEEK - CORRECTION_WINDOW_WEEKS + 1)
+print(f"Current NFL Week: {CURRENT_WEEK} (fetching weeks {FETCH_FROM_WEEK}-{CURRENT_WEEK}; "
+      f"earlier weeks are assumed final and are left untouched)")
 
 # -------------------------
 # LOAD PLAYERS DATA
@@ -145,11 +175,11 @@ def fetch_matchups(league_id, week_num):
     print(f"  FAILED league {league_id}, week {week_num} after {MAX_RETRIES} attempts: {last_err}")
     return None  # distinguish "failed" from "fetched, genuinely empty"
 
-def get_weekly_scores(league_id, league_year, up_to_week):
+def get_weekly_scores(league_id, league_year, from_week, up_to_week):
     results = []
     failures = []
 
-    for week_num in range(1, up_to_week + 1):
+    for week_num in range(from_week, up_to_week + 1):
         matchups = fetch_matchups(league_id, week_num)
         if matchups is None:
             failures.append(week_num)
@@ -193,7 +223,9 @@ all_data = []
 all_failures = {}  # league_id -> [week_num, ...]
 for league_id in current_leagues:
     print(f"Fetching scores for league {league_id}")
-    league_scores, failures = get_weekly_scores(league_id, league_year=CURRENT_YEAR, up_to_week=CURRENT_WEEK)
+    league_scores, failures = get_weekly_scores(
+        league_id, league_year=CURRENT_YEAR, from_week=FETCH_FROM_WEEK, up_to_week=CURRENT_WEEK
+    )
     print(f"   -> {len(league_scores)} rows fetched")
     all_data.extend(league_scores)
     if failures:
@@ -249,7 +281,10 @@ print(f"Final cleanup removed {before - after:,} exact duplicates")
 # haven't happened yet — pure bloat with no player-level content, unlike
 # Matchups_Season.csv which intentionally keeps them for the schedule view.
 # CURRENT_WEEK now comes from ESPN (see top of file), not a heuristic over
-# this same data, so this drop is no longer self-referential.
+# this same data, so this drop is no longer self-referential. Note this
+# ceiling is independent of FETCH_FROM_WEEK above: weeks older than the
+# fetch window are simply never re-fetched, and existing_df rows for them
+# pass through this filter untouched since they're still <= CURRENT_WEEK.
 # -------------------------
 combined_df["weekNum"] = combined_df["weekNum"].astype(int)
 dropped = combined_df[combined_df["weekNum"] > CURRENT_WEEK]
