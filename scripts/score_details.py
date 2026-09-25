@@ -2,6 +2,8 @@ import pandas as pd
 import requests
 import datetime
 import os
+import sys
+import time
 import argparse
 
 # -------------------------
@@ -11,16 +13,29 @@ CSV_PATH = "data/Scores_Season.csv"
 LEAGUE_FILE = "data/LeagueIDs_AllYears.csv"
 PLAYERS_FILE = "data/Players.csv"
 
+# Same source NFLgameStatus.py uses for live-refresh — the one authoritative
+# "what NFL week is it" signal in this repo. score_details.py used to guess
+# the current week from its own fetched player points (whichever week had
+# any nonzero total); that heuristic silently broke whenever a handful of
+# the 270 (15 leagues x 18 weeks) requests it fired every run got
+# rate-limited or timed out, since a failed fetch just got skipped instead
+# of retried, and one bad week could throw off the "current week" pick for
+# every league at once.
+ESPN_SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
+
 EXPECTED_COLUMNS = [
     "LeagueYear", "league_id", "weekNum", "roster_id", "lookupID",
     "player_id", "is_starter", "lineup_slot", "points", "label",
 ]
 
+MAX_RETRIES = 3
+RETRY_BACKOFF_SECONDS = 2
+
 # -------------------------
 # ARGUMENT PARSER
 # -------------------------
 parser = argparse.ArgumentParser(description="Fetch Sleeper league scores.")
-parser.add_argument("--week", type=int, help="Specify NFL week number to fetch (1–18)")
+parser.add_argument("--week", type=int, help="Specify NFL week number to fetch (1-18)")
 args = parser.parse_args()
 
 # -------------------------
@@ -29,8 +44,26 @@ args = parser.parse_args()
 today = datetime.date.today()
 CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
 print(f"Current NFL Year: {CURRENT_YEAR}")
-if args.week:
-    print(f"Limiting update to Week {args.week}")
+
+# -------------------------
+# DETERMINE CURRENT NFL WEEK (authoritative, from ESPN — not guessed)
+# -------------------------
+def get_current_nfl_week():
+    if args.week:
+        return args.week
+    try:
+        resp = requests.get(ESPN_SCOREBOARD_URL, timeout=10)
+        resp.raise_for_status()
+        week = resp.json().get("week", {}).get("number")
+        if not week:
+            raise ValueError("ESPN response had no week.number")
+        return int(week)
+    except Exception as e:
+        print(f"FATAL: could not determine current NFL week from ESPN: {e}")
+        sys.exit(1)
+
+CURRENT_WEEK = get_current_nfl_week()
+print(f"Current NFL Week: {CURRENT_WEEK} (fetching weeks 1-{CURRENT_WEEK})")
 
 # -------------------------
 # LOAD PLAYERS DATA
@@ -66,6 +99,13 @@ if os.path.exists(CSV_PATH):
             print("Existing file uses an old schema (pre bench-points fix) — discarding it. "
                   "Scores_Season.csv is fully refetched from the API every run, so nothing is lost.")
             existing_df = pd.DataFrame()
+        else:
+            # Loaded with dtype=str for safe key handling below, but "points"
+            # needs to be numeric before it's concatenated with new_df's
+            # numeric column — otherwise a mixed str/float object column
+            # makes any later groupby().sum() on it silently do string
+            # concatenation instead of addition.
+            existing_df["points"] = pd.to_numeric(existing_df["points"], errors="coerce").fillna(0)
     except pd.errors.EmptyDataError:
         print(f"{CSV_PATH} exists but is empty. Starting fresh.")
         existing_df = pd.DataFrame()
@@ -90,20 +130,31 @@ def normalize_keys(df):
 # points can never be derived from Matchups_*.csv — they only exist here,
 # per player, from players_points.
 # -------------------------
-def get_weekly_scores(league_id, league_year, week=None):
-    results = []
-    weeks_to_pull = [week] if week else range(1, 19)
-
-    for week_num in weeks_to_pull:
-        url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week_num}"
+def fetch_matchups(league_id, week_num):
+    url = f"https://api.sleeper.app/v1/league/{league_id}/matchups/{week_num}"
+    last_err = None
+    for attempt in range(1, MAX_RETRIES + 1):
         try:
             resp = requests.get(url, timeout=10)
             resp.raise_for_status()
+            return resp.json() or []
         except Exception as e:
-            print(f"Error fetching league {league_id}, week {week_num}: {e}")
+            last_err = e
+            if attempt < MAX_RETRIES:
+                time.sleep(RETRY_BACKOFF_SECONDS * attempt)
+    print(f"  FAILED league {league_id}, week {week_num} after {MAX_RETRIES} attempts: {last_err}")
+    return None  # distinguish "failed" from "fetched, genuinely empty"
+
+def get_weekly_scores(league_id, league_year, up_to_week):
+    results = []
+    failures = []
+
+    for week_num in range(1, up_to_week + 1):
+        matchups = fetch_matchups(league_id, week_num)
+        if matchups is None:
+            failures.append(week_num)
             continue
 
-        matchups = resp.json() or []
         print(f"  Week {week_num}: {len(matchups)} matchups")
 
         for matchup in matchups:
@@ -129,7 +180,7 @@ def get_weekly_scores(league_id, league_year, week=None):
                     "points": points,
                     "label": player_label_map.get(pid, ""),
                 })
-    return results
+    return results, failures
 
 # -------------------------
 # FETCH DATA FOR CURRENT YEAR ONLY
@@ -139,11 +190,21 @@ if not current_leagues:
     raise ValueError(f"No leagues found for {CURRENT_YEAR} in {LEAGUE_FILE}")
 
 all_data = []
+all_failures = {}  # league_id -> [week_num, ...]
 for league_id in current_leagues:
     print(f"Fetching scores for league {league_id}")
-    league_scores = get_weekly_scores(league_id, league_year=CURRENT_YEAR, week=args.week)
+    league_scores, failures = get_weekly_scores(league_id, league_year=CURRENT_YEAR, up_to_week=CURRENT_WEEK)
     print(f"   -> {len(league_scores)} rows fetched")
     all_data.extend(league_scores)
+    if failures:
+        all_failures[league_id] = failures
+
+if all_failures:
+    print("\nWARNING: the following league/week fetches failed even after retries "
+          "and were skipped this run (existing data for them, if any, is left as-is "
+          "rather than being overwritten with zeros):")
+    for lid, weeks in all_failures.items():
+        print(f"  league {lid}: weeks {weeks}")
 
 if not all_data:
     print("No new data fetched. Exiting without changes.")
@@ -161,6 +222,11 @@ if not existing_df.empty:
 
 # -------------------------
 # MERGE & DEDUPLICATE BY KEY
+# Concat order matters: existing_df first, new_df second, keep="last" so a
+# freshly fetched row always wins over a stale one for the same key. Rows
+# that failed to fetch this run (see all_failures above) simply have no
+# corresponding new_df entry, so their existing_df row survives untouched
+# instead of being dropped or zeroed.
 # -------------------------
 combined_df = pd.concat([existing_df, new_df], ignore_index=True)
 combined_df.drop_duplicates(
@@ -178,27 +244,18 @@ after = len(combined_df)
 print(f"Final cleanup removed {before - after:,} exact duplicates")
 
 # -------------------------
-# DETERMINE CURRENT (PLAYED) WEEK
-# A week counts as played once any player in it has nonzero points.
-# -------------------------
-combined_df["weekNum"] = combined_df["weekNum"].astype(int)
-current_week = args.week
-if current_week is None:
-    week_totals = combined_df.groupby("weekNum")["points"].sum()
-    played_weeks = week_totals[week_totals > 0].index
-    current_week = int(played_weeks.max()) if len(played_weeks) else None
-
-# -------------------------
 # DROP UNPLAYED FUTURE WEEKS before saving Scores_Season.csv.
 # These are pre-generated zero-point placeholder rows for weeks that
 # haven't happened yet — pure bloat with no player-level content, unlike
 # Matchups_Season.csv which intentionally keeps them for the schedule view.
+# CURRENT_WEEK now comes from ESPN (see top of file), not a heuristic over
+# this same data, so this drop is no longer self-referential.
 # -------------------------
-if current_week is not None:
-    dropped = combined_df[combined_df["weekNum"] > current_week]
-    if len(dropped):
-        print(f"Dropping {len(dropped):,} unplayed future-week rows (weeks > {current_week})")
-    combined_df = combined_df[combined_df["weekNum"] <= current_week].copy()
+combined_df["weekNum"] = combined_df["weekNum"].astype(int)
+dropped = combined_df[combined_df["weekNum"] > CURRENT_WEEK]
+if len(dropped):
+    print(f"Dropping {len(dropped):,} unplayed future-week rows (weeks > {CURRENT_WEEK})")
+combined_df = combined_df[combined_df["weekNum"] <= CURRENT_WEEK].copy()
 
 # -------------------------
 # SORT & SAVE
@@ -216,7 +273,6 @@ print(f"Total rows after update: {len(combined_df)}")
 # -------------------------
 # WEEK SIDECAR
 # -------------------------
-if current_week is not None:
-    this_week_df = combined_df[combined_df["weekNum"] == current_week]
-    this_week_df.to_csv("data/Scores_Week.csv", index=False)
-    print(f"Saved {len(this_week_df)} rows for week {current_week} to data/Scores_Week.csv")
+this_week_df = combined_df[combined_df["weekNum"] == CURRENT_WEEK]
+this_week_df.to_csv("data/Scores_Week.csv", index=False)
+print(f"Saved {len(this_week_df)} rows for week {CURRENT_WEEK} to data/Scores_Week.csv")
