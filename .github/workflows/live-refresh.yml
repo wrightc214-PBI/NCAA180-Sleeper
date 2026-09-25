@@ -88,7 +88,7 @@ jobs:
       - name: Check if games are active
         if: env.IN_SEASON == 'true'
         id: gamestatus
-        run: python NFLgameStatus.py
+        run: python scripts/NFLgameStatus.py
         continue-on-error: true
 
       - name: Parse NFL status JSON
@@ -121,14 +121,14 @@ jobs:
       # --------------------------------------------------------
       - name: Refresh Scores for active week
         if: env.GAMES_ACTIVE == 'true'
-        run: python score_details.py --week $WEEK_NUM
+        run: python scripts/score_details.py --week $WEEK_NUM
 
       # --------------------------------------------------------
       # 🕒 Step 6: Update LastUpdate.csv timestamps
       # --------------------------------------------------------
       - name: Update LastUpdate.csv
         if: env.GAMES_ACTIVE == 'true'
-        run: python update_lastmodified.py
+        run: python scripts/update_lastmodified.py
 
       # --------------------------------------------------------
       # 💾 Step 7: Commit updated CSV + timestamp
