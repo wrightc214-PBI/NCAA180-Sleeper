@@ -1,12 +1,22 @@
 import pandas as pd
+import datetime
 
 # Combined cross-league weekly awards (NCAA180-wide superlatives).
 # Each of the 15 individual leagues already gets its own recap via Sleeper,
 # so this only needs to crown one winner per award across all 180 teams.
+#
+# Output accumulates across the season (like Matchups_Season.csv /
+# Scores_Season.csv) rather than being overwritten each run, so the full
+# season's award history builds up week over week. When previous seasons
+# get backfilled later, that becomes WeeklyAwards_Historic.csv following
+# the same Historic/Season/Week split as the rest of the pipeline.
+
+today = datetime.date.today()
+CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
 
 INPUT_PATH = "data/Matchups_Week.csv"
 SCORES_PATH = "data/Scores_Week.csv"
-OUTPUT_PATH = "data/WeeklyAwards.csv"
+OUTPUT_PATH = "data/WeeklyAwards_Season.csv"
 
 df = pd.read_csv(INPUT_PATH, dtype=str)
 df["PointsFor"] = df["PointsFor"].astype(float)
@@ -26,6 +36,7 @@ awards = []
 
 def add_award(name, row, value, value_label):
     awards.append({
+        "Year": CURRENT_YEAR,
         "Week": week,
         "Award": name,
         "Team": row["OwnerName"],
@@ -101,7 +112,22 @@ if not played.empty:
             tragedy = enriched.loc[enriched["BenchPoints"].idxmax()]
             add_award("BenchTragedy", tragedy, tragedy["BenchPoints"], "bench points left on the bench")
 
-awards_df = pd.DataFrame(awards)
-awards_df.to_csv(OUTPUT_PATH, index=False)
-print(f"Week {week}: wrote {len(awards_df)} awards to {OUTPUT_PATH}")
-print(awards_df.to_string(index=False))
+new_awards_df = pd.DataFrame(awards)
+
+# Merge with existing season history instead of overwriting it. Keyed on
+# (Year, Week, Award) so rerunning the same week (e.g. a late score
+# correction from Sleeper) updates that week's row rather than duplicating it.
+try:
+    existing_df = pd.read_csv(OUTPUT_PATH)
+except FileNotFoundError:
+    existing_df = pd.DataFrame()
+
+combined_df = pd.concat([existing_df, new_awards_df], ignore_index=True)
+if not combined_df.empty:
+    combined_df.drop_duplicates(subset=["Year", "Week", "Award"], keep="last", inplace=True)
+    combined_df.sort_values(by=["Year", "Week", "Award"], inplace=True)
+
+combined_df.to_csv(OUTPUT_PATH, index=False)
+print(f"Week {week}: wrote/updated {len(new_awards_df)} awards. "
+      f"{OUTPUT_PATH} now has {len(combined_df)} rows total across the season.")
+print(new_awards_df.to_string(index=False))
