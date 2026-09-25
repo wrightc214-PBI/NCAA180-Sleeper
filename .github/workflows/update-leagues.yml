@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       script_to_run:
-        description: 'Specify which Python script to run (league_ids, rosters, users, rosterhistory, matchups, scores, players, transactions, drafts, Results_RegularSeason, all)'
+        description: 'Specify which Python script to run (league_ids, rosters, users, rosterhistory, matchups, scores, weekly_awards, players, transactions, drafts, Results_RegularSeason, all)'
         required: true
         default: 'all'
   schedule:
@@ -38,43 +38,43 @@ jobs:
           echo "Selected script: $SCRIPT_TO_RUN"
           
           if [ "$SCRIPT_TO_RUN" = "patch_linkoftime_orphans" ]; then
-              python patch_linkoftime_orphans.py
+              python scripts/patch_linkoftime_orphans.py
           fi
 
           if [ "$SCRIPT_TO_RUN" = "league_ids" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python league_ids.py
+              python scripts/league_ids.py
           fi
           if [ "$SCRIPT_TO_RUN" = "rosters" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python rosters.py
+              python scripts/rosters.py
           fi
           if [ "$SCRIPT_TO_RUN" = "matchups" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python league_matchups.py
+              python scripts/league_matchups.py
           fi          
           if [ "$SCRIPT_TO_RUN" = "users" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python users.py
+              python scripts/users.py
           fi
           if [ "$SCRIPT_TO_RUN" = "players" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python players.py
+              python scripts/players.py
           fi
           if [ "$SCRIPT_TO_RUN" = "rosterhistory" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python rosterhistory.py
+              python scripts/rosterhistory.py
           fi
           if [ "$SCRIPT_TO_RUN" = "transactions" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python league_transactions.py
+              python scripts/league_transactions.py
           fi
           if [ "$SCRIPT_TO_RUN" = "drafts" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python league_drafts.py
+              python scripts/league_drafts.py
           fi
           if [ "$SCRIPT_TO_RUN" = "scores" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python score_details.py
+              python scripts/score_details.py
+          fi
+          if [ "$SCRIPT_TO_RUN" = "weekly_awards" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
+              python scripts/weekly_awards.py
           fi
 
           if [ "$SCRIPT_TO_RUN" = "Results_RegularSeason" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
-              python Results_RegularSeason.py
+              python scripts/Results_RegularSeason.py
           fi
-
-          # Finally, update the timestamp tracker
-          python $GITHUB_WORKSPACE/update_tracker.py
 
       - name: Commit and push CSVs
         env:
@@ -90,7 +90,7 @@ jobs:
         run: ls -l data/
 
       - name: Record last modified times
-        run: python update_lastmodified.py
+        run: python scripts/update_lastmodified.py
 
       - name: Commit and push CSV modifieds
         env:
@@ -101,4 +101,3 @@ jobs:
           git add data/*.csv
           git commit -m "Auto-update CSVs" || echo "No changes to commit"
           git push
-
