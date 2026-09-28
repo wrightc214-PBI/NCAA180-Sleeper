@@ -41,7 +41,9 @@ jobs:
           if [ "$SCRIPT_TO_RUN" = "conference_championships" ]; then
               python scripts/conference_championships.py
           fi       
-
+          if [ "$SCRIPT_TO_RUN" = "playoff_field" ]; then
+              python scripts/playoff_field.py
+          fi
           if [ "$SCRIPT_TO_RUN" = "league_ids" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python scripts/league_ids.py
           fi
