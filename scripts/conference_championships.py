@@ -4,11 +4,11 @@ import argparse
 import os
 import sys
 
+from _postseason_common import load_regular_season_standings, week_points_lookup
+
 # -------------------------
 # CONFIG
 # -------------------------
-MATCHUPS_FILE = "data/Matchups_Season.csv"
-TEAMS_FILE = "data/Teams.csv"
 OUTPUT_PATH = "data/Postseason_Season.csv"
 
 CCG_WEEK = 12  # first postseason week; division winners from weeks 1-11 meet here.
@@ -26,62 +26,16 @@ CURRENT_YEAR = args.year or (today.year - 1 if today.month < 3 else today.year)
 print(f"Season: {CURRENT_YEAR}")
 
 # -------------------------
-# LOAD DATA
-# -------------------------
-if not os.path.exists(MATCHUPS_FILE):
-    raise FileNotFoundError(f"Missing {MATCHUPS_FILE}")
-if not os.path.exists(TEAMS_FILE):
-    raise FileNotFoundError(f"Missing {TEAMS_FILE}")
-
-matchups_df = pd.read_csv(MATCHUPS_FILE, dtype=str)
-matchups_df["Year"] = matchups_df["Year"].astype(str)
-matchups_df["Week"] = matchups_df["Week"].astype(int)
-matchups_df["PointsFor"] = matchups_df["PointsFor"].astype(float)
-matchups_df["IsRegularSeason"] = matchups_df["IsRegularSeason"].astype(str).str.lower() == "true"
-
-teams_df = pd.read_csv(TEAMS_FILE, dtype=str)
-# Teams.csv Division Name casing is inconsistent with Divisions.csv (title case vs
-# all-caps) but that doesn't matter here — we only need to group by division WITHIN
-# a league, not match against Divisions.csv's own spelling.
-teams_df["DivisionKey"] = teams_df["Division Name"].str.strip().str.upper()
-
-season_matchups = matchups_df[matchups_df["Year"] == str(CURRENT_YEAR)].copy()
-if season_matchups.empty:
-    raise ValueError(f"No matchup data found for {CURRENT_YEAR} in {MATCHUPS_FILE}")
-
-# -------------------------
 # STEP 1: REGULAR SEASON STANDINGS (weeks 1-11), PER LEAGUE
-# Sleeper's default tiebreaker per the commissioner: Wins, then PointsFor.
-# No known tiebreaker beyond that (H2H is explicitly NOT used) -- a genuine tie on
-# both is flagged rather than guessed at.
 # -------------------------
-regular = season_matchups[season_matchups["IsRegularSeason"]].copy()
-if regular.empty:
-    raise ValueError("No regular-season rows found -- has season data been collected yet?")
-
-regular["Win"] = (regular["Outcome"] == "Win").astype(int)
-
-standings = (
-    regular.groupby(["LeagueID", "LeagueName", "RosterID", "OwnerName"], as_index=False)
-    .agg(Wins=("Win", "sum"), PointsFor=("PointsFor", "sum"))
-)
-
-# Join division from Teams.csv (LeagueName + RosterID -> Division). Teams.csv is the
-# CURRENT season's roster assignment, which is what we want for this season's CCG.
-teams_lookup = teams_df.rename(columns={"League": "LeagueName", "Roster ID": "RosterID"})[
-    ["LeagueName", "RosterID", "DivisionKey", "Team"]
-]
-standings = standings.merge(teams_lookup, on=["LeagueName", "RosterID"], how="left")
-
-missing_division = standings[standings["DivisionKey"].isna()]
-if not missing_division.empty:
-    print("WARNING: could not find a Teams.csv division for these League/RosterID rows "
-          "(they'll be excluded from division-winner selection):")
-    print(missing_division[["LeagueName", "RosterID", "OwnerName"]].to_string(index=False))
+standings, season_matchups = load_regular_season_standings(CURRENT_YEAR)
 standings = standings.dropna(subset=["DivisionKey"])
 
 # -------------------------
 # STEP 2: PICK DIVISION WINNERS
+# Sleeper's default tiebreaker per the commissioner: Wins, then PointsFor.
+# No known tiebreaker beyond that (H2H is explicitly NOT used) -- a genuine tie on
+# both is flagged rather than guessed at.
 # -------------------------
 division_winners = []
 unresolved_ties = []
@@ -125,8 +79,7 @@ if division_winners_df.empty:
 # next round-robin slot, not the real CCG opponent. We only trust each division
 # winner's own PointsFor for week 12, then compare the two winners directly.
 # -------------------------
-week12 = season_matchups[season_matchups["Week"] == CCG_WEEK][["LeagueID", "RosterID", "PointsFor"]]
-week12 = week12.rename(columns={"PointsFor": "Week12Points"})
+week12 = week_points_lookup(season_matchups, CCG_WEEK)
 
 results = []
 for league_id, group in division_winners_df.groupby("LeagueID"):
