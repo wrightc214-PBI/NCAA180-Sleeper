@@ -36,13 +36,7 @@ jobs:
           fi
 
           echo "Selected script: $SCRIPT_TO_RUN"
-          
-          if [ "$SCRIPT_TO_RUN" = "patch_linkoftime_orphans" ]; then
-              python scripts/patch_linkoftime_orphans.py
-          fi
-          if [ "$SCRIPT_TO_RUN" = "debug_players_points" ]; then
-              python scripts/debug_players_points.py
-          fi          
+       
 
           if [ "$SCRIPT_TO_RUN" = "league_ids" ] || [ "$SCRIPT_TO_RUN" = "all" ]; then
               python scripts/league_ids.py
