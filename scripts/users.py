@@ -7,15 +7,27 @@ user_id = 731808894699028480
 today = datetime.date.today()
 CURRENT_YEAR = today.year - 1 if today.month < 3 else today.year
 
+OBSERVER_IDS = {"731808894699028480"}
 LINKOFTIME_ID = "460518714907815936"
 LINKOFTIME_REAL_LEAGUE = "NCAA BIG 10"
 
-def resolve_owner_name(owner_id, roster_id, league_name, user_map):
-    if owner_id is None:
-        return "Unknown"
+ORPHAN = "Orphan"
+
+def resolve_owner(owner_id, league_name, user_map):
+    """Returns (OwnerID, OwnerName). Every roster without a real, active coach is
+    collapsed to ("Orphan", "Orphan") so coach-level stats lump them together:
+      - no owner / observer account
+      - linkoftime1 caretaker rosters (any league except his real Big Ten team)
+      - deleted Sleeper accounts (display name starts with "DELETED")
+    Team-level identity stays on LeagueID + RosterID, so orphan teams never merge."""
+    if owner_id is None or str(owner_id) in OBSERVER_IDS:
+        return ORPHAN, ORPHAN
     if str(owner_id) == LINKOFTIME_ID and league_name != LINKOFTIME_REAL_LEAGUE:
-        return f"{league_name} Orphan #{roster_id}"
-    return user_map.get(owner_id, "Unknown")
+        return ORPHAN, ORPHAN
+    name = user_map.get(owner_id, "Unknown")
+    if str(name).upper().startswith("DELETED"):
+        return ORPHAN, ORPHAN
+    return owner_id, name
 
 # -------------------------
 # REGULAR-SEASON RECORD (weeks 1-11 only) FROM MATCHUPS DATA
@@ -58,14 +70,14 @@ for league in leagues:
         else:
             division_name = None
 
-        owner_id = r.get("owner_id")
+        owner_id, owner_name = resolve_owner(r.get("owner_id"), league_name, user_map)
         all_rosters.append({
             "Year": CURRENT_YEAR,
             "LeagueID": league_id,
             "LeagueName": league_name,
             "RosterID": str(r["roster_id"]),
             "OwnerID": owner_id,
-            "OwnerName": resolve_owner_name(owner_id, r["roster_id"], league_name, user_map),
+            "OwnerName": owner_name,
             "Division": division_num,
             "DivisionName": division_name
         })

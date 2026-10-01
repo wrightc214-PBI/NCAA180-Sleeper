@@ -1,7 +1,7 @@
 """
 standings.py -- NCAA 180 season-to-date standings across all 180 teams.
 
-Writes data/Standings_Season.csv (overwritten each run; also feeds columns A:K
+Writes data/OverallStandings_Season.csv (overwritten each run; also feeds columns A:K
 of the poll Google Sheet):
   Playoff Rank, User ID, Team, League, Points, Wins, Losses, Ties,
   Exp Wins, Luck, Division Place
@@ -25,7 +25,7 @@ import pandas as pd
 
 MATCHUPS_FILE = "data/Matchups_Season.csv"
 TEAMS_FILE = "data/Teams.csv"
-OUTPUT_FILE = "data/Standings_Season.csv"
+OUTPUT_FILE = "data/OverallStandings_Season.csv"
 LAST_REGULAR_WEEK = 11
 
 LEAGUE_DISPLAY = {
@@ -105,7 +105,7 @@ def main():
     s["Exp Wins"] = s["ExpWins"].round(2)
     s["Luck"] = (s["WinVal"] - s["ExpWins"]).round(2)
     s["League"] = s["LeagueName"].map(LEAGUE_DISPLAY).fillna(s["LeagueName"])
-    s["User ID"] = s["OwnerName"]
+    s["User ID"] = s["OwnerName"]  # already "Orphan" for orphan rosters (league_matchups.py)
 
     out = s[["Playoff Rank", "User ID", "Team", "League", "Points", "Wins", "Losses",
              "Ties", "Exp Wins", "Luck", "Division Place"]]

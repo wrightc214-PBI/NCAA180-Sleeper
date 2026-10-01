@@ -16,16 +16,27 @@ league_df = league_df[league_df["Year"] == CURRENT_YEAR]
 
 season_matchups = []
 
-OBSERVER_IDS = [731808894699028480]  # Optional: exclude observer accounts
+OBSERVER_IDS = {"731808894699028480"}  # observer accounts never count as owners
 LINKOFTIME_ID = "460518714907815936"
 LINKOFTIME_REAL_LEAGUE = "NCAA BIG 10"
 
-def resolve_owner_name(owner_id, roster_id, league_name, user_map):
-    if owner_id is None or owner_id in OBSERVER_IDS:
-        return "Vacant"
+ORPHAN = "Orphan"
+
+def resolve_owner(owner_id, league_name, user_map):
+    """Returns (OwnerID, OwnerName). Every roster without a real, active coach is
+    collapsed to ("Orphan", "Orphan") so coach-level stats lump them together:
+      - no owner / observer account
+      - linkoftime1 caretaker rosters (any league except his real Big Ten team)
+      - deleted Sleeper accounts (display name starts with "DELETED")
+    Team-level identity stays on LeagueID + RosterID, so orphan teams never merge."""
+    if owner_id is None or str(owner_id) in OBSERVER_IDS:
+        return ORPHAN, ORPHAN
     if str(owner_id) == LINKOFTIME_ID and league_name != LINKOFTIME_REAL_LEAGUE:
-        return f"{league_name} Orphan #{roster_id}"
-    return user_map.get(owner_id, "Unknown")
+        return ORPHAN, ORPHAN
+    name = user_map.get(owner_id, "Unknown")
+    if str(name).upper().startswith("DELETED"):
+        return ORPHAN, ORPHAN
+    return owner_id, name
 
 for idx, row in league_df.iterrows():
     league_id = row['LeagueID']
@@ -69,13 +80,11 @@ for idx, row in league_df.iterrows():
             for t, opp in [(team1, team2), (team2, team1)]:
                 r_id = t['roster_id']
                 owner_id = roster_map.get(r_id)
-                owner_name = resolve_owner_name(owner_id, r_id, league_name, user_map)
-                if owner_id is None or owner_id in OBSERVER_IDS:
-                    owner_id = 0
+                owner_id, owner_name = resolve_owner(owner_id, league_name, user_map)
 
                 opp_rid = opp.get('roster_id')
                 opp_owner_id = roster_map.get(opp_rid)
-                opp_name = resolve_owner_name(opp_owner_id, opp_rid, league_name, user_map)
+                _, opp_name = resolve_owner(opp_owner_id, league_name, user_map)
 
                 points_for = t.get('points', 0)
                 points_against = opp.get('points', 0)
