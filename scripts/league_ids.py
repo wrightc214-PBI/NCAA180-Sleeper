@@ -35,7 +35,8 @@ for year in range(START_YEAR, END_YEAR + 1):
             "LeagueID": league.get("league_id"),
             "LeagueName": league.get("name"),
             "Division1": league.get("metadata", {}).get("division_1"),
-            "Division2": league.get("metadata", {}).get("division_2")
+            "Division2": league.get("metadata", {}).get("division_2"),
+            "RosterPositions": ",".join(league.get("roster_positions") or []),
         })
 
     # polite pause to avoid hitting rate limits
