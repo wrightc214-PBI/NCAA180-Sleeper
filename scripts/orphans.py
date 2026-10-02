@@ -29,8 +29,12 @@ Team names come from the current-season Teams.csv.
 CWD must be repo root. No API calls -- reads only files the pipeline already wrote,
 so run it after `matchups`.
 """
+import sys
 import os
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from week_status import current_week as cw  # noqa: E402
 
 HIST = "data/Matchups_Historic.csv"
 SEASON = "data/Matchups_Season.csv"
@@ -60,9 +64,7 @@ def season_owners(df):
 
 
 def current_week(season):
-    done = season.groupby(season["Week"].astype(int))["Outcome"].apply(lambda s: s.notna().all())
-    pending = [w for w, ok in done.items() if not ok]
-    return str(min(pending)) if pending else str(max(done.index))
+    return str(cw(season["Year"].iloc[0]))
 
 
 def team_lookup():

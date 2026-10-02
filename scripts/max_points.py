@@ -17,8 +17,13 @@ Rules (confirmed by the commissioner):
 
 CWD must be repo root.
 """
+import sys
+import os
 import datetime
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from week_status import completed_weeks as finished_weeks  # noqa: E402
 
 SCORES_FILE = "data/Scores_Season.csv"
 MATCHUPS_FILE = "data/Matchups_Season.csv"
@@ -89,8 +94,7 @@ def main():
 
     m = pd.read_csv(MATCHUPS_FILE, dtype=str)
     m = m[m["Year"] == YEAR]
-    done = m.groupby("Week")["Outcome"].apply(lambda s: s.notna().all())
-    done_weeks = set(done[done].index)
+    done_weeks = {str(w) for w in finished_weeks(YEAR)} & set(m["Week"])
 
     slots = load_slots()
     rows = []

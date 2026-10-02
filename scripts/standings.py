@@ -21,7 +21,12 @@ Rules:
 
 CWD must be repo root, same as every other script.
 """
+import sys
+import os
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from week_status import completed_weeks as finished_weeks  # noqa: E402
 
 MATCHUPS_FILE = "data/Matchups_Season.csv"
 TEAMS_FILE = "data/Teams.csv"
@@ -54,8 +59,7 @@ def main():
 
     # Completed regular-season weeks only: every row in the week has an Outcome.
     reg = m[m["Week"] <= LAST_REGULAR_WEEK]
-    done = reg.groupby("Week")["Outcome"].apply(lambda s: s.notna().all() and (s != "").all())
-    weeks = sorted(done[done].index)
+    weeks = sorted(set(finished_weeks(m["Year"].iloc[0])) & set(reg["Week"]))
     if not weeks:
         raise SystemExit("No completed regular-season weeks yet.")
     reg = reg[reg["Week"].isin(weeks)].copy()

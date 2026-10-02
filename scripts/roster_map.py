@@ -33,6 +33,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from site_common import nav_html, page_head  # noqa: E402
+from week_status import completed_weeks as finished_weeks  # noqa: E402
 
 ROSTERS = "data/Rosters_Current.csv"
 VALUES = "data/PlayerValues_Current.csv"
@@ -182,7 +183,7 @@ def main():
     m = pd.read_csv(MATCHUPS, dtype=str)
     m["Week"] = m["Week"].astype(int)
     m["P"] = m["PointsFor"].astype(float)
-    reg = m[(m["Week"] <= LAST_REGULAR_WEEK) & m["Outcome"].notna()]
+    reg = m[m["Week"].isin([w for w in finished_weeks(year) if w <= LAST_REGULAR_WEEK])]
     rec = reg.groupby(["LeagueID", "RosterID"]).agg(
         Owner=("OwnerName", "last"), G=("P", "size"), PPG=("P", "mean"),
         W=("Outcome", lambda x: int((x == "Win").sum())),

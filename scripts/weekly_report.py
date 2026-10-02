@@ -37,6 +37,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from site_common import nav_html  # noqa: E402
+from week_status import completed_weeks as finished_weeks  # noqa: E402
 
 MATCHUPS = "data/Matchups_Season.csv"
 SCORES = "data/Scores_Season.csv"
@@ -83,9 +84,8 @@ def load():
 
 
 def completed_weeks(m):
-    reg = m[m["Week"] <= LAST_REGULAR_WEEK]
-    done = reg.groupby("Week")["Outcome"].apply(lambda s: s.notna().all())
-    return sorted(int(w) for w, ok in done.items() if ok)
+    have = set(m["Week"])
+    return [w for w in finished_weeks(m["Year"].iloc[0]) if w <= LAST_REGULAR_WEEK and w in have]
 
 
 def standings(m, upto):
@@ -114,7 +114,7 @@ def upset(m, W):
     Teams with fewer than SIM_MIN_GAMES prior games use the league-wide sd. None for week 1."""
     if W < UPSET_FIRST_WEEK:
         return None
-    prior = m[(m["Week"] < W) & m["Outcome"].notna()]
+    prior = m[m["Week"].isin([w for w in finished_weeks(m["Year"].iloc[0]) if w < W])]
     if prior.empty:
         return None
     pooled = prior["P"].std()

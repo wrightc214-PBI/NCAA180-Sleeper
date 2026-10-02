@@ -23,6 +23,9 @@ import re
 import sys
 
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from week_status import current_week as cw  # noqa: E402
 import requests
 
 URL = "https://api.fantasycalc.com/values/current"
@@ -37,9 +40,7 @@ MATCHUPS = "data/Matchups_Season.csv"
 def current_week():
     """First week without final results = the week in progress / about to start."""
     m = pd.read_csv(MATCHUPS, dtype=str)
-    done = m.groupby(m["Week"].astype(int))["Outcome"].apply(lambda s: s.notna().all())
-    pending = [w for w, ok in done.items() if not ok]
-    return min(pending) if pending else max(done.index)
+    return cw(m["Year"].iloc[0])
 
 
 def main():

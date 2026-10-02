@@ -16,8 +16,13 @@ right now, so a streak through that week means the coach hasn't touched it yet t
 Orphans (OwnerName "Orphan") are included so they're easy to filter in or out.
 CWD must be repo root. Reads only pipeline files; run after `scores` and `matchups`.
 """
+import sys
+import os
 import datetime
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from week_status import completed_weeks as finished_weeks  # noqa: E402
 
 SCORES = "data/Scores_Season.csv"
 MATCHUPS = "data/Matchups_Season.csv"
@@ -56,8 +61,7 @@ def main():
 
     m = pd.read_csv(MATCHUPS, dtype=str)
     m = m[m["Year"] == YEAR]
-    done = m.groupby(m["Week"].astype(int))["Outcome"].apply(lambda s: s.notna().all())
-    last_done = max([w for w, ok in done.items() if ok], default=None)
+    last_done = max(finished_weeks(YEAR), default=None)
     owners = m.drop_duplicates(["LeagueID", "RosterID"])[["LeagueID", "LeagueName", "RosterID", "OwnerID", "OwnerName"]]
 
     t = pd.read_csv(TEAMS, dtype=str, encoding="utf-8-sig").rename(
