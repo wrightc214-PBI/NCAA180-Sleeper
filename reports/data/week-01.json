@@ -12,6 +12,7 @@
    "Owner": "DaMagic436",
    "Rec": "1-0",
    "Pts": 203.3,
+   "Luck": 0.0,
    "Move": null
   },
   {
@@ -21,6 +22,7 @@
    "Owner": "Frankeen",
    "Rec": "1-0",
    "Pts": 198.52,
+   "Luck": 0.01,
    "Move": null
   },
   {
@@ -30,6 +32,7 @@
    "Owner": "Orphan",
    "Rec": "1-0",
    "Pts": 195.6,
+   "Luck": 0.01,
    "Move": null
   },
   {
@@ -39,6 +42,7 @@
    "Owner": "ethansherwood22",
    "Rec": "1-0",
    "Pts": 190.36,
+   "Luck": 0.02,
    "Move": null
   },
   {
@@ -48,6 +52,7 @@
    "Owner": "Resolhjk",
    "Rec": "1-0",
    "Pts": 188.16,
+   "Luck": 0.02,
    "Move": null
   },
   {
@@ -57,6 +62,7 @@
    "Owner": "CodeKhaos",
    "Rec": "1-0",
    "Pts": 187.8,
+   "Luck": 0.03,
    "Move": null
   },
   {
@@ -66,6 +72,7 @@
    "Owner": "EerieHush",
    "Rec": "1-0",
    "Pts": 187.1,
+   "Luck": 0.03,
    "Move": null
   },
   {
@@ -75,6 +82,7 @@
    "Owner": "egbdf",
    "Rec": "1-0",
    "Pts": 185.66,
+   "Luck": 0.04,
    "Move": null
   },
   {
@@ -84,6 +92,7 @@
    "Owner": "StrikerS091",
    "Rec": "1-0",
    "Pts": 184.76,
+   "Luck": 0.04,
    "Move": null
   },
   {
@@ -93,6 +102,7 @@
    "Owner": "bkoldham",
    "Rec": "1-0",
    "Pts": 182.86,
+   "Luck": 0.05,
    "Move": null
   },
   {
@@ -102,6 +112,7 @@
    "Owner": "JustTouchdown1221",
    "Rec": "1-0",
    "Pts": 181.76,
+   "Luck": 0.06,
    "Move": null
   },
   {
@@ -111,6 +122,7 @@
    "Owner": "jtheadrick98",
    "Rec": "1-0",
    "Pts": 180.96,
+   "Luck": 0.06,
    "Move": null
   },
   {
@@ -120,6 +132,7 @@
    "Owner": "yoboihawks",
    "Rec": "1-0",
    "Pts": 179.62,
+   "Luck": 0.07,
    "Move": null
   },
   {
@@ -129,6 +142,7 @@
    "Owner": "ThomasHarris",
    "Rec": "1-0",
    "Pts": 179.6,
+   "Luck": 0.07,
    "Move": null
   },
   {
@@ -138,6 +152,7 @@
    "Owner": "keppin",
    "Rec": "1-0",
    "Pts": 179.32,
+   "Luck": 0.08,
    "Move": null
   },
   {
@@ -147,6 +162,7 @@
    "Owner": "GRIDIRONGANG81",
    "Rec": "1-0",
    "Pts": 179.0,
+   "Luck": 0.08,
    "Move": null
   },
   {
@@ -156,6 +172,7 @@
    "Owner": "Dunebuggy619",
    "Rec": "1-0",
    "Pts": 178.88,
+   "Luck": 0.09,
    "Move": null
   },
   {
@@ -165,6 +182,7 @@
    "Owner": "alicho",
    "Rec": "1-0",
    "Pts": 174.34,
+   "Luck": 0.09,
    "Move": null
   },
   {
@@ -174,6 +192,7 @@
    "Owner": "Vitus",
    "Rec": "1-0",
    "Pts": 174.26,
+   "Luck": 0.1,
    "Move": null
   },
   {
@@ -183,6 +202,7 @@
    "Owner": "CousinMose15",
    "Rec": "1-0",
    "Pts": 173.66,
+   "Luck": 0.11,
    "Move": null
   },
   {
@@ -192,6 +212,7 @@
    "Owner": "Firephool",
    "Rec": "1-0",
    "Pts": 172.96,
+   "Luck": 0.11,
    "Move": null
   },
   {
@@ -201,6 +222,7 @@
    "Owner": "PhantomXX",
    "Rec": "1-0",
    "Pts": 171.46,
+   "Luck": 0.12,
    "Move": null
   },
   {
@@ -210,6 +232,7 @@
    "Owner": "lmerkouSaints",
    "Rec": "1-0",
    "Pts": 171.36,
+   "Luck": 0.12,
    "Move": null
   },
   {
@@ -219,6 +242,7 @@
    "Owner": "RicochetRay",
    "Rec": "1-0",
    "Pts": 170.86,
+   "Luck": 0.13,
    "Move": null
   },
   {
@@ -228,6 +252,7 @@
    "Owner": "chzhead412",
    "Rec": "1-0",
    "Pts": 170.0,
+   "Luck": 0.13,
    "Move": null
   },
   {
@@ -237,6 +262,7 @@
    "Owner": "ChrisW21",
    "Rec": "1-0",
    "Pts": 166.06,
+   "Luck": 0.14,
    "Move": null
   },
   {
@@ -246,6 +272,7 @@
    "Owner": "edgeofdefeat",
    "Rec": "1-0",
    "Pts": 164.36,
+   "Luck": 0.15,
    "Move": null
   },
   {
@@ -255,6 +282,7 @@
    "Owner": "Mo00",
    "Rec": "1-0",
    "Pts": 164.3,
+   "Luck": 0.15,
    "Move": null
   },
   {
@@ -264,6 +292,7 @@
    "Owner": "Yarby",
    "Rec": "1-0",
    "Pts": 162.96,
+   "Luck": 0.17,
    "Move": null
   },
   {
@@ -273,6 +302,7 @@
    "Owner": "BrynJ9618",
    "Rec": "1-0",
    "Pts": 162.72,
+   "Luck": 0.17,
    "Move": null
   },
   {
@@ -282,6 +312,7 @@
    "Owner": "vinceA762",
    "Rec": "1-0",
    "Pts": 160.32,
+   "Luck": 0.18,
    "Move": null
   },
   {
@@ -291,6 +322,7 @@
    "Owner": "JMullen175",
    "Rec": "1-0",
    "Pts": 160.16,
+   "Luck": 0.19,
    "Move": null
   }
  ],

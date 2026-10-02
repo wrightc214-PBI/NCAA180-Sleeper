@@ -12,6 +12,7 @@
    "Owner": "linkoftime1",
    "Rec": "3-0",
    "Pts": 567.04,
+   "Luck": 0.38,
    "Move": 0
   },
   {
@@ -21,6 +22,7 @@
    "Owner": "RicochetRay",
    "Rec": "3-0",
    "Pts": 556.34,
+   "Luck": 0.31,
    "Move": 0
   },
   {
@@ -30,6 +32,7 @@
    "Owner": "robertlouis7",
    "Rec": "3-0",
    "Pts": 528.74,
+   "Luck": 0.3,
    "Move": 4
   },
   {
@@ -39,6 +42,7 @@
    "Owner": "dilbennett",
    "Rec": "3-0",
    "Pts": 519.38,
+   "Luck": 0.47,
    "Move": 9
   },
   {
@@ -48,6 +52,7 @@
    "Owner": "egbdf",
    "Rec": "3-0",
    "Pts": 517.68,
+   "Luck": 0.24,
    "Move": 5
   },
   {
@@ -57,6 +62,7 @@
    "Owner": "Beastchewy15",
    "Rec": "3-0",
    "Pts": 513.28,
+   "Luck": 0.39,
    "Move": 5
   },
   {
@@ -66,6 +72,7 @@
    "Owner": "Frankeen",
    "Rec": "3-0",
    "Pts": 513.06,
+   "Luck": 0.3,
    "Move": -1
   },
   {
@@ -75,6 +82,7 @@
    "Owner": "GRIDIRONGANG81",
    "Rec": "3-0",
    "Pts": 509.96,
+   "Luck": 0.51,
    "Move": 15
   },
   {
@@ -84,6 +92,7 @@
    "Owner": "mssullivan2022",
    "Rec": "3-0",
    "Pts": 507.88,
+   "Luck": 0.37,
    "Move": 3
   },
   {
@@ -93,6 +102,7 @@
    "Owner": "arandrea",
    "Rec": "3-0",
    "Pts": 502.08,
+   "Luck": 0.51,
    "Move": -1
   },
   {
@@ -102,6 +112,7 @@
    "Owner": "jtheadrick98",
    "Rec": "3-0",
    "Pts": 479.04,
+   "Luck": 0.44,
    "Move": 6
   },
   {
@@ -111,6 +122,7 @@
    "Owner": "keppin",
    "Rec": "3-0",
    "Pts": 478.6,
+   "Luck": 0.68,
    "Move": 16
   },
   {
@@ -120,6 +132,7 @@
    "Owner": "chzhead412",
    "Rec": "3-0",
    "Pts": 477.84,
+   "Luck": 0.44,
    "Move": 7
   },
   {
@@ -129,6 +142,7 @@
    "Owner": "KlondikeBar",
    "Rec": "3-0",
    "Pts": 474.28,
+   "Luck": 0.71,
    "Move": 19
   },
   {
@@ -138,6 +152,7 @@
    "Owner": "Yarby",
    "Rec": "3-0",
    "Pts": 465.24,
+   "Luck": 0.63,
    "Move": -1
   },
   {
@@ -147,6 +162,7 @@
    "Owner": "Orphan",
    "Rec": "3-0",
    "Pts": 457.5,
+   "Luck": 0.79,
    "Move": 2
   },
   {
@@ -156,6 +172,7 @@
    "Owner": "denvermanning",
    "Rec": "3-0",
    "Pts": 452.82,
+   "Luck": 0.74,
    "Move": 17
   },
   {
@@ -165,6 +182,7 @@
    "Owner": "spendawg",
    "Rec": "3-0",
    "Pts": 443.66,
+   "Luck": 0.75,
    "Move": 13
   },
   {
@@ -174,6 +192,7 @@
    "Owner": "olddominion2020",
    "Rec": "3-0",
    "Pts": 442.74,
+   "Luck": 1.12,
    "Move": -3
   },
   {
@@ -183,6 +202,7 @@
    "Owner": "krichknowsbest",
    "Rec": "3-0",
    "Pts": 434.18,
+   "Luck": 0.82,
    "Move": 15
   },
   {
@@ -192,6 +212,7 @@
    "Owner": "PhantomXX",
    "Rec": "3-0",
    "Pts": 432.94,
+   "Luck": 0.92,
    "Move": 3
   },
   {
@@ -201,6 +222,7 @@
    "Owner": "vinceA762",
    "Rec": "3-0",
    "Pts": 431.32,
+   "Luck": 0.86,
    "Move": 5
   },
   {
@@ -210,6 +232,7 @@
    "Owner": "charlielol",
    "Rec": "3-0",
    "Pts": 429.34,
+   "Luck": 0.88,
    "Move": 7
   },
   {
@@ -219,6 +242,7 @@
    "Owner": "Mo00",
    "Rec": "3-0",
    "Pts": 425.84,
+   "Luck": 1.02,
    "Move": 1
   },
   {
@@ -228,6 +252,7 @@
    "Owner": "Claser",
    "Rec": "3-0",
    "Pts": 417.64,
+   "Luck": 1.05,
    "Move": 17
   },
   {
@@ -237,6 +262,7 @@
    "Owner": "CrownMeKing",
    "Rec": "3-0",
    "Pts": 417.6,
+   "Luck": 1.18,
    "Move": 3
   },
   {
@@ -246,6 +272,7 @@
    "Owner": "YikesOnBikes",
    "Rec": "3-0",
    "Pts": 407.1,
+   "Luck": 1.16,
    "Move": 9
   },
   {
@@ -255,6 +282,7 @@
    "Owner": "alecgagnon2001",
    "Rec": "3-0",
    "Pts": 400.94,
+   "Luck": 1.23,
    "Move": 13
   },
   {
@@ -264,6 +292,7 @@
    "Owner": "Stumpy44",
    "Rec": "3-0",
    "Pts": 397.2,
+   "Luck": 1.3,
    "Move": 17
   },
   {
@@ -273,6 +302,7 @@
    "Owner": "TheScorer",
    "Rec": "3-0",
    "Pts": 353.0,
+   "Luck": 1.91,
    "Move": 18
   },
   {
@@ -282,6 +312,7 @@
    "Owner": "Justahippo",
    "Rec": "3-0",
    "Pts": 352.64,
+   "Luck": 1.87,
    "Move": 13
   },
   {
@@ -291,6 +322,7 @@
    "Owner": "LanceBoneau",
    "Rec": "2-1",
    "Pts": 529.54,
+   "Luck": -0.16,
    "Move": 26
   }
  ],
