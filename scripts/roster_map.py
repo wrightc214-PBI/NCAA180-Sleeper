@@ -19,7 +19,8 @@ Axes
   (draft_picks.py), each pick valued at FantasyCalc's round value for that season
   (PickValues_Current.csv). A season FantasyCalc doesn't list uses its latest listed
   season for that round; a round it doesn't list counts 0. All picks in a round are
-  valued the same (no early/late adjustment yet).
+  valued the same until week 6; then the next draft's picks get an Early/Late bump
+  (see pick_tier / pick_values).
 
 Needs data/PlayerValues_Current.csv (player_values.py); exits cleanly without it.
 CWD must be repo root.
@@ -76,27 +77,69 @@ def best_lineup(players, slots):
     return total
 
 
-def pick_values():
-    """Per (LeagueID, RosterID): total pick value and a short holdings summary."""
+TIER_START_WEEK = 6   # before this, every pick uses the plain round value
+TIER_FULL_WEEK = 11   # end of regular season: thresholds and bump at full strength
+
+
+def pick_tier(win_val, games):
+    """Early / Late / '' for the original team's NEXT-draft pick.
+    Week 6 rule (commissioner): 0-1 wins -> Early, 5-6 wins -> Late, else plain.
+    Scaled by games played, with the band toward 'plain' narrowing from 1/6..5/6 of
+    games at week 6 to 1/3..2/3 by week 11 (bias toward the middle fades)."""
+    if games < TIER_START_WEEK:
+        return ""
+    f = min(1.0, (games - TIER_START_WEEK) / (TIER_FULL_WEEK - TIER_START_WEEK))
+    pct = win_val / games
+    if pct <= 1 / 6 + f * (1 / 3 - 1 / 6) + 1e-9:
+        return "Early"
+    if pct >= 5 / 6 - f * (5 / 6 - 2 / 3) - 1e-9:
+        return "Late"
+    return ""
+
+
+def pick_values(rec):
+    """Per (LeagueID, OwnerRosterID): (total pick value, holdings summary).
+    rec: {(LeagueID, RosterID): (win_value, games)} for the original teams.
+    Only the next draft season can get an Early/Late bump; later seasons are plain.
+    Bumped value = plain + s * (tier - plain), s from 0.5 at week 6 to 1.0 by week 11."""
     if not (os.path.exists(PICKS) and os.path.exists(PICK_VALUES)):
         print("Pick files missing; dynasty value excludes picks this run.")
         return {}
     fp = pd.read_csv(PICKS, dtype=str)
     pv = pd.read_csv(PICK_VALUES)
-    val = {(int(r.Season), int(r.Round)): float(r.Value) for r in pv.itertuples()}
+    val, tierv = {}, {}
+    for r in pv.itertuples():
+        k = (int(r.Season), int(r.Round))
+        val[k] = float(r.Value)
+        for t in ("Early", "Late"):
+            v = getattr(r, t, None)
+            if v is not None and pd.notna(v) and str(v) != "":
+                tierv[(k, t)] = float(v)
     latest = {}
     for (se, rd), v in sorted(val.items()):
-        latest[rd] = v  # last (highest) season seen per round
+        latest[rd] = v
+    next_season = int(fp["Season"].astype(int).min()) if len(fp) else None
     ords = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}
     out = {}
     for (lid, owner), g in fp.groupby(["LeagueID", "OwnerRosterID"]):
         total, parts = 0.0, []
         for se, gs in g.groupby("Season"):
-            cnt = gs["Round"].astype(int).value_counts().sort_index()
-            for rd, n in cnt.items():
-                total += n * val.get((int(se), rd), latest.get(rd, 0.0))
-            parts.append(f"{se}: " + ", ".join(f"{ords.get(rd, rd)}" + (f"×{n}" if n > 1 else "")
-                                              for rd, n in cnt.items()))
+            se = int(se)
+            labels = []
+            for rd in sorted(gs["Round"].astype(int).unique()):
+                for orig in gs[gs["Round"].astype(int) == rd]["OriginalRosterID"]:
+                    base = val.get((se, rd), latest.get(rd, 0.0))
+                    v, tag = base, ""
+                    if se == next_season and (lid, orig) in rec:
+                        wv, games = rec[(lid, orig)]
+                        tier = pick_tier(wv, games)
+                        if tier and ((se, rd), tier) in tierv:
+                            f = min(1.0, (games - TIER_START_WEEK) / (TIER_FULL_WEEK - TIER_START_WEEK))
+                            v = base + (0.5 + 0.5 * f) * (tierv[((se, rd), tier)] - base)
+                            tag = f" ({tier})"
+                    total += v
+                    labels.append(f"{ords.get(rd, rd)}{tag}")
+            parts.append(f"{se}: " + ", ".join(labels))
         out[(lid, owner)] = (round(total), " · ".join(parts))
     return out
 
@@ -135,11 +178,6 @@ def main():
                      "LineupRedraft": round(best_lineup(list(zip(g["RedraftValue"], g["Pos"])),
                                                         slots.get(lid, DEFAULT_SLOTS)))})
     t = pd.DataFrame(rows)
-    pk = pick_values()
-    t["PlayerDynasty"] = t["DynastyTotal"]
-    t["PickValue"] = [pk.get((a, b), (0, ""))[0] for a, b in zip(t.LeagueID, t.RosterID)]
-    t["Picks"] = [pk.get((a, b), (0, ""))[1] for a, b in zip(t.LeagueID, t.RosterID)]
-    t["DynastyTotal"] = t["PlayerDynasty"] + t["PickValue"]
 
     m = pd.read_csv(MATCHUPS, dtype=str)
     m["Week"] = m["Week"].astype(int)
@@ -154,6 +192,11 @@ def main():
     owners = m.drop_duplicates(["LeagueID", "RosterID"]).set_index(["LeagueID", "RosterID"])["OwnerName"]
     t["Owner"] = t["Owner"].fillna(pd.Series([owners.get(k, "") for k in zip(t.LeagueID, t.RosterID)], index=t.index))
     t[["G", "W", "L", "T"]] = t[["G", "W", "L", "T"]].fillna(0).astype(int)
+    pk = pick_values({(r.LeagueID, r.RosterID): (r.W + 0.5 * r.T, r.G) for r in t.itertuples()})
+    t["PlayerDynasty"] = t["DynastyTotal"]
+    t["PickValue"] = [pk.get((a, b), (0, ""))[0] for a, b in zip(t.LeagueID, t.RosterID)]
+    t["Picks"] = [pk.get((a, b), (0, ""))[1] for a, b in zip(t.LeagueID, t.RosterID)]
+    t["DynastyTotal"] = t["PlayerDynasty"] + t["PickValue"]
     games = int(t["G"].max()) if len(t) else 0
     w = min(games, FADE_GAMES) / FADE_GAMES
     t["PPG"] = t["PPG"].fillna(t["PPG"].mean() if games else 0)
@@ -250,7 +293,7 @@ MAP_BODY = """
   <div class="chartwrap"><svg class="map" id="map" viewBox="0 0 800 560" role="img" aria-label="Scatter of dynasty value against contender score"></svg></div>
   <p class="note">Right = more total dynasty value (FantasyCalc: whole roster plus future rookie picks). Up = stronger contender:
   a blend of the best lineup's redraft value and actual points per game. Results count {{WPCT}}% this week
-  and take over fully by week 6. Dashed lines are the NCAA 180 medians. All picks in a round count the same.</p>
+  and take over fully by week 6. Dashed lines are the NCAA 180 medians. From week 6, next year's picks from clearly bad or good teams get an early/late bump.</p>
 </section>
 <section id="card" aria-live="polite"><p class="hint">Hover or tap a team to see its numbers.</p></section>
 <footer>Values: FantasyCalc (1 QB, 12 teams, PPR). Results: Sleeper, via the NCAA180-Sleeper pipeline.</footer>
