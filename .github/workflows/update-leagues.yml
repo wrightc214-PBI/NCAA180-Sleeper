@@ -81,12 +81,39 @@ jobs:
 
           echo "$FAILED" > /tmp/failed_scripts.txt
 
-      - name: Render report image
+      # Image only when the latest week's numbers changed (or the template/no image yet).
+      - name: Check if report image needs rendering
+        id: needpng
         if: always() && hashFiles('reports/index.html') != ''
-        continue-on-error: true
+        run: |
+          if [ ! -f reports/latest.png ] || ! git diff --quiet HEAD -- reports/data templates || [ -n "$(git ls-files --others --exclude-standard reports/data)" ]; then
+            echo "render=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "render=false" >> "$GITHUB_OUTPUT"
+            echo "Report data unchanged; skipping image."
+          fi
+
+      - name: Install Playwright
+        id: pw
+        if: always() && steps.needpng.outputs.render == 'true'
         run: |
           pip install playwright
-          python -m playwright install --with-deps chromium
+          echo "version=$(python -c 'import importlib.metadata as m; print(m.version("playwright"))')" >> "$GITHUB_OUTPUT"
+
+      # Browser is cached per Playwright version: downloaded once, then reused.
+      - name: Cache Playwright browser
+        if: always() && steps.needpng.outputs.render == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-shell-${{ runner.os }}-${{ steps.pw.outputs.version }}
+
+      - name: Render report image
+        if: always() && steps.needpng.outputs.render == 'true'
+        continue-on-error: true
+        run: |
+          python -m playwright install-deps chromium
+          python -m playwright install --only-shell chromium
           python scripts/report_png.py
 
       - name: Commit and push CSVs

@@ -47,6 +47,7 @@ LOGO_DIR = "assets/logos/teams"
 LAST_REGULAR_WEEK = 11
 LEAGUE_COLORS = "data/Colors - Leagues.csv"
 N_LEAGUES = 15
+UPSET_FIRST_WEEK = 5  # earlier weeks have too few games for a meaningful pregame estimate
 SIM_MIN_GAMES = 3  # below this, a team's own std dev is replaced by the league-wide one
 
 LEAGUE_DISPLAY = {
@@ -108,6 +109,8 @@ def upset(m, W):
     Pregame model (the commissioner's sim): each team's score ~ Normal(mean, sd) of its
     regular-season scores BEFORE week W; P(A beats B) = Phi((muA - muB) / sqrt(sdA^2 + sdB^2)).
     Teams with fewer than SIM_MIN_GAMES prior games use the league-wide sd. None for week 1."""
+    if W < UPSET_FIRST_WEEK:
+        return None
     prior = m[(m["Week"] < W) & m["Outcome"].notna()]
     if prior.empty:
         return None
