@@ -8,8 +8,8 @@ How ownership is built (per league):
   1. Default: every roster owns its own pick in each round (settings.draft_rounds).
   2. Sleeper's /traded_picks lists every pick that changed hands: roster_id = original
      team, owner_id = current owner (both roster IDs). Those override the default.
-  3. Seasons counted: every season Sleeper reports in traded_picks, plus the standard
-     current..current+2 tradable window -- minus any season whose rookie draft is
+  3. Seasons counted: every season Sleeper reports in traded_picks, plus the league's
+     current..current+3 tradable window -- minus any season whose rookie draft is
      already complete (traded_picks keeps listing those after the draft).
 
 Fails per league without stopping the others; a failed league keeps last run's rows,
@@ -25,7 +25,7 @@ import requests
 BASE = "https://api.sleeper.app/v1"
 LEAGUES = "data/LeagueIDs_AllYears.csv"
 OUT = "data/FuturePicks_Current.csv"
-WINDOW = 3  # Sleeper's default: picks tradable for the current season + 2 more
+WINDOW = 4  # NCAA 180 allows trading picks for the current season + 3 more (confirmed: 2029 tradable in 2026)
 
 s = requests.Session()
 s.headers.update({"User-Agent": "NCAA180-Sleeper/1.0"})
