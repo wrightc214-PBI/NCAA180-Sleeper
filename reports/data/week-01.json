@@ -514,6 +514,17 @@
    "Max": 209.66,
    "Left": 103.84,
    "Count": 55
+  },
+  "coach": {
+   "Team": "Indiana",
+   "Lg": "Big 10",
+   "Owner": "ChAiNSmOkErTk",
+   "P": 140.2,
+   "Opp": "Michigan State",
+   "PA": 130.76,
+   "Margin": 9.44,
+   "Max": 143.5,
+   "Eff": 0.977
   }
  },
  "players": [

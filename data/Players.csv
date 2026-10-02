@@ -180,6 +180,7 @@ LV,Las Vegas,Raiders,DEF,,LV
 7839,Evan,McPherson,K,Active,CIN
 8117,Jalen,Tolbert,WR,Active,MIA
 6797,Justin,Herbert,QB,Active,LAC
+5781,Malik,Turner,WR,Active,SF
 6801,Tee,Higgins,WR,Active,CIN
 10859,Sam,LaPorta,TE,Active,DET
 12792,Garrett,Greene,QB,Active,TB
@@ -466,7 +467,6 @@ LAR,Los Angeles,Rams,DEF,,LAR
 9221,Jahmyr,Gibbs,RB,Active,DET
 13779,Al-Jay,Henderson,RB,Active,NYJ
 3163,Jared,Goff,QB,Active,DET
-12151,Julian,Hicks,WR,Active,SEA
 4039,Cooper,Kupp,WR,Active,SEA
 7610,Trey,Lance,QB,Active,LAC
 12483,Jack,Bech,WR,Inactive,LV
@@ -520,7 +520,6 @@ GB,Green Bay,Packers,DEF,,GB
 12512,Quinshon,Judkins,RB,Active,CLE
 12634,Jordan,Watkins,WR,Active,SF
 13124,Jeremiah,Webb,WR,Inactive,NE
-11257,Shedrick,Jackson,WR,Active,BAL
 7103,Tavien,Feaster,RB,Active,ARI
 4930,Franko,House,TE,Active,CHI
 13405,Kaytron,Allen,RB,Active,WAS
@@ -553,6 +552,7 @@ GB,Green Bay,Packers,DEF,,GB
 12492,Pat,Bryant,WR,Active,DEN
 6826,Cole,Kmet,TE,Active,CHI
 12526,Tetairoa,McMillan,WR,Active,CAR
+11058,Blake,Grupe,K,Active,NYJ
 13276,Omar,Cooper,WR,Inactive,NYJ
 11210,Malik,Heath,WR,Active,ATL
 13121,Ben,Yurosek,TE,Inactive,MIN
@@ -563,7 +563,7 @@ GB,Green Bay,Packers,DEF,,GB
 2449,Stefon,Diggs,WR,Active,WAS
 7567,Kenny,Gainwell,RB,Active,TB
 6540,DeAndre,Thompkins,WR,Inactive,GB
-7543,Travis,Etienne,RB,Active,NO
+7543,Travis,Etienne,RB,Inactive,NO
 12217,Shawn,Bowman,TE,Active,ARI
 13804,Kansei,Matsuzawa,K,Active,LV
 6001,Drew,Sample,TE,Active,CIN
@@ -835,7 +835,7 @@ DEN,Denver,Broncos,DEF,,DEN
 7865,Brandon,Smith,WR,Active,PIT
 13580,Carsen,Ryan,TE,Active,CLE
 5850,Josh,Jacobs,RB,Active,GB
-9753,Zach,Charbonnet,RB,Active,SEA
+9753,Zach,Charbonnet,RB,Inactive,SEA
 12267,Qadir,Ismail,WR,Active,CHI
 4314,Johnny,Mundt,TE,Active,PHI
 7527,Mac,Jones,QB,Active,SF
@@ -843,6 +843,7 @@ DEN,Denver,Broncos,DEF,,DEN
 13491,Kaden,Wetjen,WR,Active,PIT
 13289,Drew,Allar,QB,Active,PIT
 11604,Brock,Bowers,TE,Active,LV
+12826,Ulysses,Bentley,RB,Active,NO
 11566,Jayden,Daniels,QB,Active,WAS
 6588,Tom,Kennedy,WR,Active,DET
 13338,Kevin,Coleman,WR,Active,MIA

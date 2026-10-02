@@ -514,6 +514,17 @@
    "Max": 182.34,
    "Left": 82.16,
    "Count": 65
+  },
+  "coach": {
+   "Team": "NC State",
+   "Lg": "ACC",
+   "Owner": "EerieHush",
+   "P": 149.4,
+   "Opp": "Louisville",
+   "PA": 117.56,
+   "Margin": 31.84,
+   "Max": 154.6,
+   "Eff": 0.9664
   }
  },
  "players": [

@@ -514,6 +514,17 @@
    "Max": 194.28,
    "Left": 116.3,
    "Count": 50
+  },
+  "coach": {
+   "Team": "Ohio State",
+   "Lg": "Big 10",
+   "Owner": "Klashified",
+   "P": 173.48,
+   "Opp": "Indiana",
+   "PA": 71.06,
+   "Margin": 102.42,
+   "Max": 176.98,
+   "Eff": 0.9802
   }
  },
  "players": [
