@@ -322,6 +322,9 @@ let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTime
 });
 function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); (parent || svg).appendChild(e); return e; }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c])); }
+function paleHex(h) { const m = /^#?([0-9a-f]{6})$/i.exec(String(h).trim()); if (!m) return false;
+  const n = parseInt(m[1], 16), r = n >> 16 & 255, g = n >> 8 & 255, b = n & 255;
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.82; }
 function fmt(n) { return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n); }
 
 function draw() {
@@ -331,10 +334,11 @@ function draw() {
   if (lsel) lsel.value = view;
   svg.textContent = '';
   const all = view === 'All 180', ts = all ? D.teams : D.teams.filter(t => t.lg === view);
-  const xs = ts.map(t => t.dyn).concat([mx]), ys = ts.map(t => t.con).concat([my]);
+  const fx = v => v;  // linear: real dynasty totals are near-symmetric (sqrt tested, no gain)
+  const xs = ts.map(t => fx(t.dyn)).concat([fx(mx)]), ys = ts.map(t => t.con).concat([my]);
   let x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
   const px = (x1 - x0) * 0.1 || 1, py = (y1 - y0) * 0.16 || 0.1; x0 -= px; x1 += px; y0 -= py; y1 += py;
-  const X = v => M.l + (v - x0) / (x1 - x0) * (W - M.l - M.r), Y = v => H - M.b - (v - y0) / (y1 - y0) * (H - M.t - M.b);
+  const X = v => M.l + (fx(v) - x0) / (x1 - x0) * (W - M.l - M.r), Y = v => H - M.b - (v - y0) / (y1 - y0) * (H - M.t - M.b);
   el('line', {x1: X(mx), x2: X(mx), y1: M.t, y2: H - M.b, class: 'mid'});
   el('line', {x1: M.l, x2: W - M.r, y1: Y(my), y2: Y(my), class: 'mid'});
   el('line', {x1: M.l, x2: M.l, y1: M.t, y2: H - M.b, class: 'ax'});
@@ -353,9 +357,13 @@ function draw() {
       el('image', {href: encodeURI(t.logo), x: cx - r, y: cy - r, width: r * 2, height: r * 2, preserveAspectRatio: 'xMidYMid meet'}, g);
     } else {
       const tc = D.tcolors[t.team];  // two-tone: school primary fill, secondary ring
+      // Near-white secondaries overwhelm the chart in dark mode: give those a hairline neutral ring instead.
+      const pale = !tc || paleHex(tc[1]);
+      const ring = pale ? 'var(--mute)' : tc[1];
       el('circle', {cx, cy, r: all ? r : 10, fill: tc ? tc[0] : (D.colors[t.lg] || '#888'),
-                    stroke: tc ? tc[1] : 'var(--panel)', 'stroke-width': all ? 2.2 : 3, class: 'pt'}, g);
+                    stroke: ring, 'stroke-width': all ? (pale ? 0.8 : 1.6) : 2.5, class: 'pt'}, g);
     }
+    el('circle', {cx, cy, r: all ? 11 : r + 4, fill: 'transparent'}, g);  // larger tap target
     if (!all) { const lb = el('text', {x: cx, y: cy + r + (narrow ? 12 : 15), class: 'tlab', 'font-size': narrow ? 9 : 11}, g); lb.textContent = t.team; }
     const pick = () => { sel = t; show(t); draw(); };
     g.addEventListener('mouseenter', () => show(t));
