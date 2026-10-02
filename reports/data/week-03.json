@@ -1,0 +1,563 @@
+{
+ "week": 3,
+ "avg": 128.61,
+ "median": 127.6,
+ "unbeaten": 31,
+ "winless": 33,
+ "top32": [
+  {
+   "Rank": 1,
+   "Team": "Minnesota",
+   "Lg": "Big 10",
+   "Owner": "linkoftime1",
+   "Rec": "3-0",
+   "Pts": 567.04,
+   "Move": 0
+  },
+  {
+   "Rank": 2,
+   "Team": "Hawaii",
+   "Lg": "Mountain West",
+   "Owner": "RicochetRay",
+   "Rec": "3-0",
+   "Pts": 556.34,
+   "Move": 0
+  },
+  {
+   "Rank": 3,
+   "Team": "Baylor",
+   "Lg": "Big 12",
+   "Owner": "robertlouis7",
+   "Rec": "3-0",
+   "Pts": 528.74,
+   "Move": 4
+  },
+  {
+   "Rank": 4,
+   "Team": "Clemson",
+   "Lg": "ACC",
+   "Owner": "dilbennett",
+   "Rec": "3-0",
+   "Pts": 519.38,
+   "Move": 9
+  },
+  {
+   "Rank": 5,
+   "Team": "Auburn",
+   "Lg": "SEC",
+   "Owner": "egbdf",
+   "Rec": "3-0",
+   "Pts": 517.68,
+   "Move": 5
+  },
+  {
+   "Rank": 6,
+   "Team": "William & Mary",
+   "Lg": "Big Sky",
+   "Owner": "Beastchewy15",
+   "Rec": "3-0",
+   "Pts": 513.28,
+   "Move": 5
+  },
+  {
+   "Rank": 7,
+   "Team": "Kansas State",
+   "Lg": "Big 12",
+   "Owner": "Frankeen",
+   "Rec": "3-0",
+   "Pts": 513.06,
+   "Move": -1
+  },
+  {
+   "Rank": 8,
+   "Team": "South Alabama",
+   "Lg": "CUSA",
+   "Owner": "GRIDIRONGANG81",
+   "Rec": "3-0",
+   "Pts": 509.96,
+   "Move": 15
+  },
+  {
+   "Rank": 9,
+   "Team": "Youngstown State",
+   "Lg": "Big Sky",
+   "Owner": "mssullivan2022",
+   "Rec": "3-0",
+   "Pts": 507.88,
+   "Move": 3
+  },
+  {
+   "Rank": 10,
+   "Team": "Middle Tennessee State",
+   "Lg": "CUSA",
+   "Owner": "arandrea",
+   "Rec": "3-0",
+   "Pts": 502.08,
+   "Move": -1
+  },
+  {
+   "Rank": 11,
+   "Team": "Dartmouth",
+   "Lg": "Ivy",
+   "Owner": "jtheadrick98",
+   "Rec": "3-0",
+   "Pts": 479.04,
+   "Move": 6
+  },
+  {
+   "Rank": 12,
+   "Team": "Colorado",
+   "Lg": "Pac 12",
+   "Owner": "keppin",
+   "Rec": "3-0",
+   "Pts": 478.6,
+   "Move": 16
+  },
+  {
+   "Rank": 13,
+   "Team": "Washington State",
+   "Lg": "Pac 12",
+   "Owner": "chzhead412",
+   "Rec": "3-0",
+   "Pts": 477.84,
+   "Move": 7
+  },
+  {
+   "Rank": 14,
+   "Team": "BYU",
+   "Lg": "Mountain West",
+   "Owner": "KlondikeBar",
+   "Rec": "3-0",
+   "Pts": 474.28,
+   "Move": 19
+  },
+  {
+   "Rank": 15,
+   "Team": "FSU",
+   "Lg": "ACC",
+   "Owner": "Yarby",
+   "Rec": "3-0",
+   "Pts": 465.24,
+   "Move": -1
+  },
+  {
+   "Rank": 16,
+   "Team": "South Carolina",
+   "Lg": "SEC",
+   "Owner": "Orphan",
+   "Rec": "3-0",
+   "Pts": 457.5,
+   "Move": 2
+  },
+  {
+   "Rank": 17,
+   "Team": "Southern Miss",
+   "Lg": "Sun Belt",
+   "Owner": "denvermanning",
+   "Rec": "3-0",
+   "Pts": 452.82,
+   "Move": 17
+  },
+  {
+   "Rank": 18,
+   "Team": "Georgia Tech",
+   "Lg": "ACC",
+   "Owner": "spendawg",
+   "Rec": "3-0",
+   "Pts": 443.66,
+   "Move": 13
+  },
+  {
+   "Rank": 19,
+   "Team": "Old Dominion",
+   "Lg": "Wild",
+   "Owner": "olddominion2020",
+   "Rec": "3-0",
+   "Pts": 442.74,
+   "Move": -3
+  },
+  {
+   "Rank": 20,
+   "Team": "Arkansas State",
+   "Lg": "CUSA",
+   "Owner": "krichknowsbest",
+   "Rec": "3-0",
+   "Pts": 434.18,
+   "Move": 15
+  },
+  {
+   "Rank": 21,
+   "Team": "North Carolina A&T",
+   "Lg": "HBCU",
+   "Owner": "PhantomXX",
+   "Rec": "3-0",
+   "Pts": 432.94,
+   "Move": 3
+  },
+  {
+   "Rank": 22,
+   "Team": "Pittsburgh",
+   "Lg": "Big East",
+   "Owner": "vinceA762",
+   "Rec": "3-0",
+   "Pts": 431.32,
+   "Move": 5
+  },
+  {
+   "Rank": 23,
+   "Team": "Delaware",
+   "Lg": "Ohio Valley",
+   "Owner": "charlielol",
+   "Rec": "3-0",
+   "Pts": 429.34,
+   "Move": 7
+  },
+  {
+   "Rank": 24,
+   "Team": "Purdue",
+   "Lg": "Big 10",
+   "Owner": "Mo00",
+   "Rec": "3-0",
+   "Pts": 425.84,
+   "Move": 1
+  },
+  {
+   "Rank": 25,
+   "Team": "Army",
+   "Lg": "Big East",
+   "Owner": "Claser",
+   "Rec": "3-0",
+   "Pts": 417.64,
+   "Move": 17
+  },
+  {
+   "Rank": 26,
+   "Team": "Campbell",
+   "Lg": "Pioneer",
+   "Owner": "CrownMeKing",
+   "Rec": "3-0",
+   "Pts": 417.6,
+   "Move": 3
+  },
+  {
+   "Rank": 27,
+   "Team": "Davidson",
+   "Lg": "Pioneer",
+   "Owner": "YikesOnBikes",
+   "Rec": "3-0",
+   "Pts": 407.1,
+   "Move": 9
+  },
+  {
+   "Rank": 28,
+   "Team": "Columbia",
+   "Lg": "Ivy",
+   "Owner": "alecgagnon2001",
+   "Rec": "3-0",
+   "Pts": 400.94,
+   "Move": 13
+  },
+  {
+   "Rank": 29,
+   "Team": "Kentucky",
+   "Lg": "SEC",
+   "Owner": "Stumpy44",
+   "Rec": "3-0",
+   "Pts": 397.2,
+   "Move": 17
+  },
+  {
+   "Rank": 30,
+   "Team": "South Dakota",
+   "Lg": "Wild",
+   "Owner": "TheScorer",
+   "Rec": "3-0",
+   "Pts": 353.0,
+   "Move": 18
+  },
+  {
+   "Rank": 31,
+   "Team": "Penn State",
+   "Lg": "Big 10",
+   "Owner": "Justahippo",
+   "Rec": "3-0",
+   "Pts": 352.64,
+   "Move": 13
+  },
+  {
+   "Rank": 32,
+   "Team": "Montana",
+   "Lg": "Wild",
+   "Owner": "LanceBoneau",
+   "Rec": "2-1",
+   "Pts": 529.54,
+   "Move": 26
+  }
+ ],
+ "top_scores": [
+  {
+   "Team": "Montana",
+   "Lg": "Wild",
+   "Owner": "LanceBoneau",
+   "P": 210.24,
+   "Opp": "Wichita State",
+   "PA": 101.6,
+   "Margin": 108.64
+  },
+  {
+   "Team": "South Alabama",
+   "Lg": "CUSA",
+   "Owner": "GRIDIRONGANG81",
+   "P": 205.38,
+   "Opp": "Louisiana",
+   "PA": 77.94,
+   "Margin": 127.44
+  },
+  {
+   "Team": "BYU",
+   "Lg": "Mountain West",
+   "Owner": "KlondikeBar",
+   "P": 195.26,
+   "Opp": "Boise State",
+   "PA": 137.44,
+   "Margin": 57.82
+  },
+  {
+   "Team": "Clemson",
+   "Lg": "ACC",
+   "Owner": "dilbennett",
+   "P": 186.44,
+   "Opp": "Boston College",
+   "PA": 113.36,
+   "Margin": 73.08
+  },
+  {
+   "Team": "Colorado",
+   "Lg": "Pac 12",
+   "Owner": "keppin",
+   "P": 183.96,
+   "Opp": "UCLA",
+   "PA": 122.18,
+   "Margin": 61.78
+  },
+  {
+   "Team": "Syracuse",
+   "Lg": "Big East",
+   "Owner": "CodeKhaos",
+   "P": 177.74,
+   "Opp": "Maryland",
+   "PA": 64.14,
+   "Margin": 113.6
+  },
+  {
+   "Team": "Southern Miss",
+   "Lg": "Sun Belt",
+   "Owner": "denvermanning",
+   "P": 175.74,
+   "Opp": "Louisiana Tech",
+   "PA": 120.36,
+   "Margin": 55.38
+  },
+  {
+   "Team": "William & Mary",
+   "Lg": "Big Sky",
+   "Owner": "Beastchewy15",
+   "P": 175.04,
+   "Opp": "Northern Iowa",
+   "PA": 67.8,
+   "Margin": 107.24
+  },
+  {
+   "Team": "Youngstown State",
+   "Lg": "Big Sky",
+   "Owner": "mssullivan2022",
+   "P": 174.3,
+   "Opp": "Portland State",
+   "PA": 156.56,
+   "Margin": 17.74
+  },
+  {
+   "Team": "Baylor",
+   "Lg": "Big 12",
+   "Owner": "robertlouis7",
+   "P": 174.18,
+   "Opp": "TCU",
+   "PA": 144.24,
+   "Margin": 29.94
+  }
+ ],
+ "leagues": [
+  {
+   "Lg": "Mountain West",
+   "Avg": 135.76
+  },
+  {
+   "Lg": "ACC",
+   "Avg": 132.86
+  },
+  {
+   "Lg": "Pioneer",
+   "Avg": 131.83
+  },
+  {
+   "Lg": "Ivy",
+   "Avg": 131.65
+  },
+  {
+   "Lg": "CUSA",
+   "Avg": 130.82
+  },
+  {
+   "Lg": "Pac 12",
+   "Avg": 130.6
+  },
+  {
+   "Lg": "Ohio Valley",
+   "Avg": 130.26
+  },
+  {
+   "Lg": "Big East",
+   "Avg": 129.96
+  },
+  {
+   "Lg": "Sun Belt",
+   "Avg": 128.66
+  },
+  {
+   "Lg": "Big 12",
+   "Avg": 126.61
+  },
+  {
+   "Lg": "Wild",
+   "Avg": 126.29
+  },
+  {
+   "Lg": "Big 10",
+   "Avg": 125.73
+  },
+  {
+   "Lg": "Big Sky",
+   "Avg": 123.5
+  },
+  {
+   "Lg": "HBCU",
+   "Avg": 123.43
+  },
+  {
+   "Lg": "SEC",
+   "Avg": 121.17
+  }
+ ],
+ "awards": {
+  "high": {
+   "Team": "Montana",
+   "Lg": "Wild",
+   "Owner": "LanceBoneau",
+   "P": 210.24,
+   "Opp": "Wichita State",
+   "PA": 101.6,
+   "Margin": 108.64
+  },
+  "blowout": {
+   "Team": "South Alabama",
+   "Lg": "CUSA",
+   "Owner": "GRIDIRONGANG81",
+   "P": 205.38,
+   "Opp": "Louisiana",
+   "PA": 77.94,
+   "Margin": 127.44
+  },
+  "closest": {
+   "Team": "Old Dominion",
+   "Lg": "Wild",
+   "Owner": "olddominion2020",
+   "P": 126.26,
+   "Opp": "UNC Charlotte",
+   "PA": 126.08,
+   "Margin": 0.18
+  },
+  "badbeat": {
+   "Team": "Portland State",
+   "Lg": "Big Sky",
+   "Owner": "Vitus",
+   "P": 156.56,
+   "Opp": "Youngstown State",
+   "PA": 174.3,
+   "Margin": -17.74
+  },
+  "lucky": {
+   "Team": "Vanderbilt",
+   "Lg": "SEC",
+   "Owner": "Neilsondug",
+   "P": 82.38,
+   "Opp": "Florida",
+   "PA": 73.32,
+   "Margin": 9.06
+  },
+  "low": {
+   "Team": "Weber State",
+   "Lg": "Big Sky",
+   "Owner": "Pinky7373",
+   "P": 37.58,
+   "Opp": "Montana State",
+   "PA": 152.14,
+   "Margin": -114.56
+  },
+  "ybs": {
+   "Team": "New Mexico",
+   "Lg": "Mountain West",
+   "Owner": "Mrhawke19",
+   "P": 100.18,
+   "Opp": "Wyoming",
+   "PA": 149.74,
+   "Margin": -49.56,
+   "Max": 182.34,
+   "Left": 82.16,
+   "Count": 65
+  }
+ },
+ "players": [
+  {
+   "Pos": "QB",
+   "Name": "Brock Purdy",
+   "NFL": "SF",
+   "Pts": 31.28,
+   "Started": 8
+  },
+  {
+   "Pos": "RB",
+   "Name": "Jahmyr Gibbs",
+   "NFL": "DET",
+   "Pts": 41.4,
+   "Started": 15
+  },
+  {
+   "Pos": "WR",
+   "Name": "Jaxon Smith-Njigba",
+   "NFL": "SEA",
+   "Pts": 35.36,
+   "Started": 15
+  },
+  {
+   "Pos": "TE",
+   "Name": "Brock Bowers",
+   "NFL": "LV",
+   "Pts": 27.6,
+   "Started": 12
+  },
+  {
+   "Pos": "K",
+   "Name": "Spencer Shrader",
+   "NFL": "IND",
+   "Pts": 17.0,
+   "Started": 8
+  },
+  {
+   "Pos": "DEF",
+   "Name": "Minnesota Vikings",
+   "NFL": "MIN",
+   "Pts": 19.0,
+   "Started": 6
+  }
+ ]
+}
