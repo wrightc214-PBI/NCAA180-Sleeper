@@ -38,7 +38,7 @@ td.mv{text-align:center;width:44px;font:600 13px var(--num)}
 .up{color:var(--up)}.dn{color:var(--dn)}.eq{color:var(--mute)}
 tr:nth-child(-n+4) td:first-child{color:var(--accent);font-weight:600}
 .awards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-.aw{background:var(--panel);padding:10px 12px;display:grid;gap:3px;align-content:start}
+.aw{background:var(--panel);padding:10px 12px;display:flex;flex-direction:column;gap:3px}
 .al{font:600 11px var(--num);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
 .av{font-size:28px;font-weight:600;line-height:1}.av small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .at{display:flex;align-items:center;flex-wrap:wrap;font-size:14px}.at small{margin-left:6px}
@@ -57,7 +57,8 @@ ol,ul{list-style:none;margin:0;padding:0}
 .note{font-size:12px;color:var(--mute);margin:8px 0 0}
 footer{font-size:12px;color:var(--mute)}
 .logo{width:56px;height:56px;object-fit:contain;flex:none;display:block;margin:4px 0 2px}
-.at:has(.logo){flex-direction:column;align-items:flex-start}
+.ls{margin-top:auto;padding-top:14px;height:98px;display:flex;align-items:flex-end;justify-content:center}
+.ls img{max-height:84px;max-width:100%;object-fit:contain}
 .weeks{display:flex;flex-wrap:wrap;gap:6px;font:600 13px var(--num)}.weeks a{color:var(--mute);text-decoration:none;padding:2px 8px;border:1px solid var(--line);border-radius:3px}.weeks a[aria-current]{color:var(--panel);background:var(--ink);border-color:var(--ink)}
 </style>
 </head><body>

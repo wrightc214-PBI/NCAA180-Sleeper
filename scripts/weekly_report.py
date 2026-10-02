@@ -182,11 +182,15 @@ def render(d, weeks, colors, tpl, updated):
         return '<span class="eq">–</span>'
 
     def card(label, g, val, unit, note):
+        f = os.path.join(LOGO_DIR, f"{g['Team']}.png")
+        has = os.path.exists(f)
+        strip = (f'<div class="ls"><img src="../{LOGO_DIR}/{quote(g["Team"])}.png" alt="{e(g["Team"])} logo"></div>'
+                 if has else "")
         return (f'<div class="aw"><div class="al">{label}</div>'
                 f'<div class="av n">{val}<small>{unit}</small></div>'
-                f'<div class="at">{mark(g["Team"])}<b>{e(g["Team"])}</b></div>'
+                f'<div class="at">{"" if has else chip(g["Team"])}<b>{e(g["Team"])}</b></div>'
                 f'<div class="ao">{e(g["Owner"])} · {e(g["Lg"])}</div>'
-                f'<div class="an">{note}</div></div>')
+                f'<div class="an">{note}</div>{strip}</div>')
 
     a = d["awards"]
     cards = [
