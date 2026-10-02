@@ -121,27 +121,49 @@ def pick_values(rec):
         latest[rd] = v
     next_season = int(fp["Season"].astype(int).min()) if len(fp) else None
     ords = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}
+    tm = pd.read_csv(TEAMS, dtype=str, encoding="utf-8-sig")
+    team_of = {(r.League, r._3): r.Team for r in tm.itertuples()}  # _3 = "Roster ID"
+    lname = dict(zip(fp["LeagueID"], fp["LeagueName"]))
+    seasons = sorted(fp["Season"].astype(int).unique())
+    span = f"{seasons[0]}" + (f"–{str(seasons[-1])[2:]}" if len(seasons) > 1 else "") if seasons else ""
+
+    def name(lid, rid):
+        return team_of.get((lname.get(lid), str(rid)), f"roster {rid}")
+
     out = {}
     for (lid, owner), g in fp.groupby(["LeagueID", "OwnerRosterID"]):
-        total, parts = 0.0, []
-        for se, gs in g.groupby("Season"):
-            se = int(se)
-            labels = []
-            for rd in sorted(gs["Round"].astype(int).unique()):
-                for orig in gs[gs["Round"].astype(int) == rd]["OriginalRosterID"]:
-                    base = val.get((se, rd), latest.get(rd, 0.0))
-                    v, tag = base, ""
-                    if se == next_season and (lid, orig) in rec:
-                        wv, games = rec[(lid, orig)]
-                        tier = pick_tier(wv, games)
-                        if tier and ((se, rd), tier) in tierv:
-                            f = min(1.0, (games - TIER_START_WEEK) / (TIER_FULL_WEEK - TIER_START_WEEK))
-                            v = base + (0.5 + 0.5 * f) * (tierv[((se, rd), tier)] - base)
-                            tag = f" ({tier})"
-                    total += v
-                    labels.append(f"{ords.get(rd, rd)}{tag}")
-            parts.append(f"{se}: " + ", ".join(labels))
-        out[(lid, owner)] = (round(total), " · ".join(parts))
+        total, added, own_tier = 0.0, [], ""
+        for r in g.itertuples():
+            se, rd, orig = int(r.Season), int(r.Round), r.OriginalRosterID
+            base = val.get((se, rd), latest.get(rd, 0.0))
+            v, tag = base, ""
+            if se == next_season and (lid, orig) in rec:
+                wv, games = rec[(lid, orig)]
+                tier = pick_tier(wv, games)
+                if tier and ((se, rd), tier) in tierv:
+                    f = min(1.0, (games - TIER_START_WEEK) / (TIER_FULL_WEEK - TIER_START_WEEK))
+                    v = base + (0.5 + 0.5 * f) * (tierv[((se, rd), tier)] - base)
+                    tag = f", {tier.lower()}"
+                    if orig == owner:
+                        own_tier = tier
+            total += v
+            if orig != owner:
+                added.append(f"{se} {ords.get(rd, rd)} ({name(lid, orig)}{tag})")
+        gone = fp[(fp["LeagueID"] == lid) & (fp["OriginalRosterID"] == owner) & (fp["OwnerRosterID"] != owner)]
+        traded = [f"{int(r.Season)} {ords.get(int(r.Round), r.Round)} (to {name(lid, r.OwnerRosterID)})"
+                  for r in gone.sort_values(["Season", "Round"]).itertuples()]
+        if not added and not traded:
+            text = f"Holds all its own picks, {span}."
+        else:
+            bits = []
+            if added:
+                bits.append("Acquired: " + ", ".join(sorted(added)))
+            if traded:
+                bits.append("Traded away: " + ", ".join(traded))
+            text = " · ".join(bits)
+        if own_tier:
+            text += f" Own {next_season} picks project {own_tier.lower()}."
+        out[(lid, owner)] = (round(total), text)
     return out
 
 
@@ -378,11 +400,11 @@ function show(t) {
   <div><h3>${esc(t.team)}</h3><div class="hint">${esc(t.owner)} · ${esc(t.lg)} · ${esc(t.rec)}</div>
   <div class="stats">
    <div><b>${fmt(t.dyn)}</b><span>Dynasty value · #${t.dynR}</span></div>
-   <div><b>${fmt(t.pv)}</b><span>Of which picks</span></div>
-   <div><b>${fmt(t.red)}</b><span>Best lineup (redraft) · #${t.redR}</span></div>
+   <div><b>${fmt(t.pv)}</b><span>Draft picks</span></div>
+   <div><b>${fmt(t.red)}</b><span>Lineup value · #${t.redR}</span></div>
    <div><b>${t.ppg}</b><span>Points per game · #${t.ppgR}</span></div>
    <div><b>#${t.conR}</b><span>Contender rank of 180</span></div>
-  </div>${t.picks ? `<p class="hint">Picks: ${esc(t.picks)}</p>` : ''}</div></div>`;
+  </div>${t.picks ? `<p class="hint">${esc(t.picks)}</p>` : ''}</div></div>`;
 }
 draw();
 </script>
