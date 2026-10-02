@@ -35,6 +35,9 @@ import math
 
 import pandas as pd
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from site_common import nav_html  # noqa: E402
+
 MATCHUPS = "data/Matchups_Season.csv"
 SCORES = "data/Scores_Season.csv"
 MAXPTS = "data/MaxPoints_Season.csv"
@@ -293,7 +296,7 @@ def render(d, weeks, colors, tpl, updated, lcolors):
         f'<small>{e(p["NFL"])} · started in {p["Started"]} of {N_LEAGUES} leagues</small></span>'
         f'<span class="n v">{p["Pts"]:.2f}</span></li>' for p in d["players"])
     cur = ' aria-current="page"'
-    nav = "".join(f'<a href="week-{x:02d}.html"{cur if x == W else ""}>Wk {x}</a>' for x in weeks)
+    nav = nav_html(W, weeks)
 
     out = tpl
     for k, v in {
