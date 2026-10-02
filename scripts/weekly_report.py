@@ -31,6 +31,8 @@ from urllib.parse import quote
 import sys
 from datetime import datetime, timezone
 
+import math
+
 import pandas as pd
 
 MATCHUPS = "data/Matchups_Season.csv"
@@ -43,6 +45,9 @@ TEMPLATE = "templates/weekly_report.html"
 OUT_DIR = "reports"
 LOGO_DIR = "assets/logos/teams"
 LAST_REGULAR_WEEK = 11
+LEAGUE_COLORS = "data/Colors - Leagues.csv"
+N_LEAGUES = 15
+SIM_MIN_GAMES = 3  # below this, a team's own std dev is replaced by the league-wide one
 
 LEAGUE_DISPLAY = {
     "NCAA BIG EAST & CO.": "Big East", "NCAA SEC": "SEC", "NCAA PAC 12": "Pac 12",
@@ -98,6 +103,34 @@ def game(r):
             "Opp": r.OppTeam, "PA": round(r.PA, 2), "Margin": round(r.P - r.PA, 2)}
 
 
+def upset(m, W):
+    """Biggest Upset: the winner with the lowest pregame win probability.
+    Pregame model (the commissioner's sim): each team's score ~ Normal(mean, sd) of its
+    regular-season scores BEFORE week W; P(A beats B) = Phi((muA - muB) / sqrt(sdA^2 + sdB^2)).
+    Teams with fewer than SIM_MIN_GAMES prior games use the league-wide sd. None for week 1."""
+    prior = m[(m["Week"] < W) & m["Outcome"].notna()]
+    if prior.empty:
+        return None
+    pooled = prior["P"].std()
+    st = prior.groupby(["LeagueID", "RosterID"])["P"].agg(["mean", "std", "count"])
+    st["sd"] = st["std"].where(st["count"] >= SIM_MIN_GAMES, pooled)
+    w = m[(m["Week"] == W) & (m["Outcome"] == "Win")]
+    best = None
+    for r in w.itertuples():
+        a = st.loc[(r.LeagueID, r.RosterID)] if (r.LeagueID, r.RosterID) in st.index else None
+        b = st.loc[(r.LeagueID, r.OpponentRosterID)] if (r.LeagueID, r.OpponentRosterID) in st.index else None
+        if a is None or b is None:
+            continue
+        z = (a["mean"] - b["mean"]) / math.sqrt(a["sd"] ** 2 + b["sd"] ** 2)
+        p = 0.5 * (1 + math.erf(z / math.sqrt(2)))
+        if best is None or p < best[0]:
+            best = (p, r)
+    if best is None:
+        return None
+    p, r = best
+    return {**game(r), "WinPct": round(p * 100, 1)}
+
+
 def week_data(m, sc, mx, pos_map, W):
     w = m[m["Week"] == W].copy()
     d = {"week": W, "avg": round(w["P"].mean(), 2), "median": round(w["P"].median(), 2)}
@@ -140,6 +173,18 @@ def week_data(m, sc, mx, pos_map, W):
             r = y.nlargest(1, "Left").iloc[0]
             aw["ybs"] = {**game(r), "Max": round(r.MaxPoints, 2), "Left": round(r.Left, 2),
                          "Count": int(len(y))}
+    if mx is not None:
+        g2 = wins.merge(mx[mx["Week"] == W][["LeagueID", "RosterID", "MaxPoints"]],
+                        on=["LeagueID", "RosterID"], how="inner")
+        g2 = g2[g2["MaxPoints"] > 0].copy()
+        if not g2.empty:
+            g2["Eff"] = (g2["P"] / g2["MaxPoints"]).round(4)
+            # Great Coaching: best lineup efficiency in a win; tie -> narrowest victory
+            r = g2.sort_values(["Eff", "Mg"], ascending=[False, True]).iloc[0]
+            aw["coach"] = {**game(r), "Max": round(r.MaxPoints, 2), "Eff": float(r.Eff)}
+    up = upset(m, W)
+    if up:
+        aw["upset"] = up
     d["awards"] = aw
 
     st = sc[(sc["wk"] == W) & sc["st"]].copy()
@@ -154,12 +199,20 @@ def week_data(m, sc, mx, pos_map, W):
             d["players"].append({"Pos": p, "Name": lab.split(",")[0],
                                  "NFL": lab.split("(")[-1].rstrip(")") if "(" in lab else "",
                                  "Pts": round(r["pts"], 2),
-                                 "Started": int((st["player_id"] == r["player_id"]).sum())})
+                                 "Started": int(st.loc[st["player_id"] == r["player_id"], "league_id"].nunique())})
     return d
 
 
 # ---------------------------------------------------------------- render
-def render(d, weeks, colors, tpl, updated):
+def award_cols(n):
+    """Desktop column count for n award cards: one row up to 7, else the 3-5 column
+    grid that leaves the fewest empty slots (ties -> fewer columns, i.e. wider cards)."""
+    if n <= 7:
+        return n
+    return min((3, 4, 5), key=lambda c: ((-n) % c, c))
+
+
+def render(d, weeks, colors, tpl, updated, lcolors):
     W = d["week"]
 
     def chip(team):
@@ -205,6 +258,14 @@ def render(d, weeks, colors, tpl, updated):
              f'Beat {e(a["lucky"]["Opp"])}, {a["lucky"]["PA"]:.2f}'),
         card("Low score", a["low"], f'{a["low"]["P"]:.2f}', "pts", f'vs. {e(a["low"]["Opp"])}'),
     ]
+    if "coach" in a:
+        c = a["coach"]
+        cards.append(card("Great coaching", c, f'{c["Eff"] * 100:.1f}%', "of max points",
+                          f'{c["P"]:.2f} of a possible {c["Max"]:.2f}; beat {e(c["Opp"])} by {c["Margin"]:.2f}'))
+    if "upset" in a:
+        u = a["upset"]
+        cards.append(card("Biggest upset", u, f'{u["WinPct"]:.0f}%', "pregame win chance",
+                          f'Beat {e(u["Opp"])} {u["P"]:.2f}–{u["PA"]:.2f}'))
     if "ybs" in a:
         y = a["ybs"]
         cards.append(card("You beat yourself", y, f'{y["Left"]:.2f}', "pts left",
@@ -222,11 +283,11 @@ def render(d, weeks, colors, tpl, updated):
     lo, hi = 115, max(l["Avg"] for l in d["leagues"])
     lo = min(lo, min(l["Avg"] for l in d["leagues"]) - 5)
     lg = "".join(
-        f'<li><span class="ln">{e(l["Lg"])}</span><span class="bar"><i style="width:{(l["Avg"] - lo) / (hi - lo) * 100:.1f}%"></i></span>'
+        f'<li><span class="ln">{e(l["Lg"])}</span><span class="bar"><i style="width:{(l["Avg"] - lo) / (hi - lo) * 100:.1f}%;background:{lcolors.get(l["Lg"], "var(--gold)")}"></i></span>'
         f'<span class="n">{l["Avg"]:.1f}</span></li>' for l in d["leagues"])
     pl = "".join(
         f'<li><span class="pos">{p["Pos"]}</span><span class="nm"><b>{e(p["Name"])}</b>'
-        f'<small>{e(p["NFL"])} · started by {p["Started"]} of 180</small></span>'
+        f'<small>{e(p["NFL"])} · started in {p["Started"]} of {N_LEAGUES} leagues</small></span>'
         f'<span class="n v">{p["Pts"]:.2f}</span></li>' for p in d["players"])
     cur = ' aria-current="page"'
     nav = "".join(f'<a href="week-{x:02d}.html"{cur if x == W else ""}>Wk {x}</a>' for x in weeks)
@@ -238,7 +299,7 @@ def render(d, weeks, colors, tpl, updated):
         "UPDATED": updated, "NAV": nav,
         "AVG": f'{d["avg"]:.2f}', "MED": f'{d["median"]:.2f}',
         "UND": str(d["unbeaten"]), "WL": str(d["winless"]),
-        "AW": "".join(cards), "ROWS": rows, "TS": ts, "LG": lg, "PL": pl,
+        "AW": "".join(cards), "AWCOLS": str(award_cols(len(cards))), "ROWS": rows, "TS": ts, "LG": lg, "PL": pl,
     }.items():
         out = out.replace("{{" + k + "}}", v)
     out = out.replace("Bars start at 115 points.", f"Bars start at {lo:.0f} points.")
@@ -276,6 +337,14 @@ def main():
 
     c = pd.read_csv(COLORS, dtype=str, encoding="utf-8-sig")
     colors = {r.Team: (r.Background, r.Font) for r in c.itertuples()}
+    lc = pd.read_csv(LEAGUE_COLORS, dtype=str, encoding="utf-8-sig")
+    full_to_short = {k.upper(): v for k, v in LEAGUE_DISPLAY.items()}
+    lcolors = {}
+    for r in lc.itertuples():
+        short = full_to_short.get(str(r.League).upper())
+        bg = str(r.Background).strip()
+        if short and bg:
+            lcolors[short] = bg if bg.startswith("#") else "#" + bg
     tpl = open(TEMPLATE, encoding="utf-8").read()
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -284,7 +353,7 @@ def main():
         if only and W != only:
             continue
         d = week_data(m, sc, mx, pos_map, W)
-        page = render(d, weeks, colors, tpl, updated)
+        page = render(d, weeks, colors, tpl, updated, lcolors)
         with open(os.path.join(OUT_DIR, f"week-{W:02d}.html"), "w", encoding="utf-8") as f:
             f.write(page)
         with open(os.path.join(OUT_DIR, "data", f"week-{W:02d}.json"), "w", encoding="utf-8") as f:

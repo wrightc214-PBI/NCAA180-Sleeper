@@ -40,7 +40,7 @@ tr:nth-child(-n+4) td:first-child{color:var(--accent);font-weight:600}
 .awards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
 .aw{background:var(--panel);padding:10px 12px;display:flex;flex-direction:column;gap:3px;text-align:center;align-items:center}
 .aw:last-child:nth-child(odd){grid-column:1/-1}
-@media (min-width:1000px){.awards{grid-template-columns:repeat(7,minmax(0,1fr))}.aw:last-child:nth-child(odd){grid-column:auto}}
+@media (min-width:1000px){.awards{grid-template-columns:repeat(var(--cols),minmax(0,1fr))}.aw:last-child:nth-child(odd){grid-column:auto}}
 .al{font:600 11px var(--num);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
 .av{font-size:28px;font-weight:600;line-height:1}.av small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .at{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;font-size:14px}.at small{margin-left:6px}
@@ -75,7 +75,7 @@ footer{font-size:12px;color:var(--mute)}
     <div class="kpi"><b>{{WL}}</b><span>Winless</span></div>
   </div>
 </header>
-<section><h2>Week {{WEEK}} awards <small>One winner across all 180</small></h2><div class="awards">{{AW}}</div></section>
+<section><h2>Week {{WEEK}} awards <small>One winner across all 180</small></h2><div class="awards" style="--cols:{{AWCOLS}}">{{AW}}</div></section>
 <div class="grid">
   <section><h2>Playoff Rank: Top 32 <small>Wins, then points</small></h2>
     <div class="tbl"><table><thead><tr><th class="r">#</th><th>{{PREVHDR}}</th><th>Team</th><th class="r">W-L</th><th class="r">PF</th></tr></thead><tbody>{{ROWS}}</tbody></table></div>
