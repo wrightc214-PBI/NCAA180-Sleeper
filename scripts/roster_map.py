@@ -39,6 +39,7 @@ ROSTERS = "data/Rosters_Current.csv"
 VALUES = "data/PlayerValues_Current.csv"
 PICKS = "data/FuturePicks_Current.csv"
 PICK_VALUES = "data/PickValues_Current.csv"
+MAXPTS = "data/MaxPoints_Season.csv"
 MATCHUPS = "data/Matchups_Season.csv"
 TEAMS = "data/Teams.csv"
 LEAGUE_COLORS = "data/Colors - Leagues.csv"
@@ -224,6 +225,17 @@ def main():
     w = min(games, FADE_GAMES) / FADE_GAMES
     t["PPG"] = t["PPG"].fillna(t["PPG"].mean() if games else 0)
     t["Contender"] = (1 - w) * zscore(t["LineupRedraft"]) + (w * zscore(t["PPG"]) if games else 0)
+    # Lineup efficiency: season points / season max possible, finished regular-season weeks
+    t["Eff"] = float("nan")
+    if os.path.exists(MAXPTS):
+        mxp = pd.read_csv(MAXPTS, dtype={"LeagueID": str, "RosterID": str})
+        fin = [w for w in finished_weeks(year) if w <= LAST_REGULAR_WEEK]
+        mxp = mxp[mxp["Week"].astype(int).isin(fin)]
+        e = mxp.groupby(["LeagueID", "RosterID"]).agg(pf=("PointsFor", "sum"), mx=("MaxPoints", "sum"))
+        e = (e["pf"] / e["mx"]).rename("Eff").reset_index()
+        t = t.drop(columns="Eff").merge(e, on=["LeagueID", "RosterID"], how="left")
+    t["EffRank"] = t["Eff"].rank(ascending=False, method="min").fillna(0).astype(int)
+    t["PickValueRank"] = t["PickValue"].rank(ascending=False, method="min").astype(int)
     for c in ("DynastyTotal", "LineupRedraft", "Contender", "PPG"):
         t[c + "Rank"] = t[c].rank(ascending=False, method="min").astype(int)
 
@@ -264,7 +276,8 @@ def main():
         teams.append({"team": r.Team, "owner": r.Owner, "lg": r.Lg,
                       "rec": f"{r.W}-{r.L}" + (f"-{r.T}" if r.T else ""),
                       "ppg": round(float(r.PPG), 1), "dyn": int(r.DynastyTotal),
-                      "red": int(r.LineupRedraft), "pv": int(r.PickValue), "picks": r.Picks, "con": round(float(r.Contender), 3),
+                      "red": int(r.LineupRedraft), "pv": int(r.PickValue), "pvR": int(r.PickValueRank),
+                      "eff": None if pd.isna(r.Eff) else round(float(r.Eff) * 100, 1), "effR": int(r.EffRank), "picks": r.Picks, "con": round(float(r.Contender), 3),
                       "dynR": int(r.DynastyTotalRank), "redR": int(r.LineupRedraftRank),
                       "conR": int(r.ContenderRank), "ppgR": int(r.PPGRank),
                       "logo": f"../{LOGO_DIR}/{r.Team}.png" if logo else None})
@@ -400,10 +413,11 @@ function show(t) {
   <div><h3>${esc(t.team)}</h3><div class="hint">${esc(t.owner)} · ${esc(t.lg)} · ${esc(t.rec)}</div>
   <div class="stats">
    <div><b>${fmt(t.dyn)}</b><span>Dynasty value · #${t.dynR}</span></div>
-   <div><b>${fmt(t.pv)}</b><span>Draft picks</span></div>
+   <div><b>${fmt(t.pv)}</b><span>Draft picks · #${t.pvR}</span></div>
    <div><b>${fmt(t.red)}</b><span>Lineup value · #${t.redR}</span></div>
    <div><b>${t.ppg}</b><span>Points per game · #${t.ppgR}</span></div>
    <div><b>#${t.conR}</b><span>Contender rank of 180</span></div>
+   ${t.eff == null ? '' : `<div><b>${t.eff}%</b><span>Lineup efficiency · #${t.effR}</span></div>`}
   </div>${t.picks ? `<p class="hint">${esc(t.picks)}</p>` : ''}</div></div>`;
 }
 draw();
