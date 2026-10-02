@@ -10,9 +10,9 @@ Writes:
                                  so the snapshot is the start-of-week market). This is the
                                  only history: past values cannot be fetched later.
 Columns: Date, Week, SleeperID, Name, Position, NFLTeam, DynastyValue, RedraftValue
-  data/PickValues_Current.csv    future rookie-pick values: Season, Round, Value, Name.
-                                 FantasyCalc lists picks either by round ("2027 1st") or by
-                                 slot ("2027 Pick 1.05"); slot values are averaged per round.
+  data/PickValues_Current.csv    future rookie-pick values: Season, Round, Value, Early, Mid,
+                                 Late. Value is FantasyCalc's plain round entry ("2027 1st");
+                                 the tiered entries ("2027 1st (Early)") fill Early/Mid/Late.
 
 On a failed request, existing files are left untouched (exit 1 so the run flags it).
 CWD must be repo root.
@@ -60,13 +60,14 @@ def main():
         sid = p.get("sleeperId")
         name = p.get("name", "") or ""
         if str(p.get("position", "")).upper() == "PICK" or (not sid and re.match(r"^\d{4} ", name)):
-            m1 = re.match(r"^(\d{4})\s+(?:Round\s+)?(1st|2nd|3rd|4th|5th)", name)
+            m1 = re.match(r"^(\d{4})\s+(?:Round\s+)?(1st|2nd|3rd|4th|5th)\s*(?:\((Early|Mid|Late)\))?\s*$", name)
             m2 = re.match(r"^(\d{4})\s+Pick\s+(\d+)\.(\d+)", name)
             if m1:
-                picks.append({"Season": int(m1.group(1)), "Round": ROUND_WORD[m1.group(2)],
-                              "Value": d.get("value", 0) or 0, "Name": name, "Generic": 1})
+                tier = m1.group(3) or ""
+                picks.append({"Season": int(m1.group(1)), "Round": ROUND_WORD[m1.group(2)], "Tier": tier,
+                              "Value": d.get("value", 0) or 0, "Name": name, "Generic": 0 if tier else 1})
             elif m2:
-                picks.append({"Season": int(m2.group(1)), "Round": int(m2.group(2)),
+                picks.append({"Season": int(m2.group(1)), "Round": int(m2.group(2)), "Tier": "",
                               "Value": d.get("value", 0) or 0, "Name": name, "Generic": 0})
             continue
         if not sid:
@@ -81,11 +82,19 @@ def main():
         sys.exit(1)
     if picks:
         pk = pd.DataFrame(picks)
-        # Prefer the generic round value; fall back to the average of slot values.
+        # Round value: the plain "2027 1st" entry. Only if a season has no plain entry,
+        # fall back to the average of its Early/Mid/Late or slot entries.
         gen = pk[pk["Generic"] == 1].groupby(["Season", "Round"])["Value"].mean()
-        slot = pk[pk["Generic"] == 0].groupby(["Season", "Round"])["Value"].mean()
-        val = slot.combine_first(gen) if gen.empty else gen.combine_first(slot)
+        other = pk[pk["Generic"] == 0].groupby(["Season", "Round"])["Value"].mean()
+        val = gen.combine_first(other) if not gen.empty else other
         out = val.round().astype(int).reset_index()
+        # Early/Mid/Late kept as extra columns (blank when FantasyCalc doesn't tier
+        # that season) for a later early/late-pick adjustment.
+        tiers = pk[pk["Tier"] != ""].pivot_table(index=["Season", "Round"], columns="Tier",
+                                                  values="Value", aggfunc="mean")
+        for t in ("Early", "Mid", "Late"):
+            out[t] = [round(tiers[t].get((a, b))) if t in tiers and pd.notna(tiers[t].get((a, b)))
+                      else "" for a, b in zip(out["Season"], out["Round"])]
         out.to_csv(PICKS, index=False)
         print(f"Wrote {PICKS}: {len(out)} season/round values from {len(pk)} pick entries")
     else:
