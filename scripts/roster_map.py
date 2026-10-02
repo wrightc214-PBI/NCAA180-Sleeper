@@ -227,6 +227,9 @@ def main():
 
     lc = pd.read_csv(LEAGUE_COLORS, dtype=str, encoding="utf-8-sig")
     up = {k.upper(): v for k, v in LEAGUE_DISPLAY.items()}
+    tc = pd.read_csv("data/Colors - Teams.csv", dtype=str, encoding="utf-8-sig")
+    team_colors = {r.Team: [r.Background, r.Font] for r in tc.itertuples()
+                   if isinstance(r.Background, str) and isinstance(r.Font, str)}
     colors = {}
     for r in lc.itertuples():
         s = up.get(str(r.League).upper())
@@ -243,7 +246,7 @@ def main():
                       "dynR": int(r.DynastyTotalRank), "redR": int(r.LineupRedraftRank),
                       "conR": int(r.ContenderRank), "ppgR": int(r.PPGRank),
                       "logo": f"../{LOGO_DIR}/{r.Team}.png" if logo else None})
-    payload = {"teams": teams, "colors": colors, "week": week, "w": round(w, 2),
+    payload = {"teams": teams, "colors": colors, "tcolors": team_colors, "week": week, "w": round(w, 2),
                "leagues": sorted(set(t["Lg"]))}
     page = page_head("NCAA 180 Roster Map", MAP_CSS) + MAP_BODY.replace(
         "{{NAV}}", nav_html("map")).replace("{{WEEK}}", str(week)).replace(
@@ -266,8 +269,8 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .ax{stroke:var(--ink);stroke-width:1.5}.mid{stroke:var(--line);stroke-dasharray:4 4}
 .qlab{fill:var(--mute);font:600 11px var(--num);letter-spacing:.12em;text-transform:uppercase}
 .axlab{fill:var(--mute);font:600 12px var(--num);letter-spacing:.12em;text-transform:uppercase}
-.dot{cursor:pointer}.dot circle{stroke:var(--panel);stroke-width:1.5}
-.dot.sel circle,.dot.sel .ring{stroke:var(--accent);stroke-width:3}
+.dot{cursor:pointer}
+.dot.sel .pt,.dot.sel .ring{stroke:var(--accent)!important;stroke-width:3.5}
 .ring{fill:var(--panel);stroke:var(--line);stroke-width:1}
 .lsel{display:none;font:600 14px var(--num)}.lsel select{font:600 15px var(--num);padding:6px 8px;margin-left:6px;border:1px solid var(--line);border-radius:3px;background:var(--panel);color:var(--ink)}
 @media (max-width:640px){.picker{display:none}.lsel{display:block}}
@@ -349,7 +352,9 @@ function draw() {
       el('circle', {cx, cy, r: r + 3, class: 'ring'}, g);
       el('image', {href: encodeURI(t.logo), x: cx - r, y: cy - r, width: r * 2, height: r * 2, preserveAspectRatio: 'xMidYMid meet'}, g);
     } else {
-      el('circle', {cx, cy, r: all ? r : 10, fill: D.colors[t.lg] || '#888'}, g);
+      const tc = D.tcolors[t.team];  // two-tone: school primary fill, secondary ring
+      el('circle', {cx, cy, r: all ? r : 10, fill: tc ? tc[0] : (D.colors[t.lg] || '#888'),
+                    stroke: tc ? tc[1] : 'var(--panel)', 'stroke-width': all ? 2.2 : 3, class: 'pt'}, g);
     }
     if (!all) { const lb = el('text', {x: cx, y: cy + r + (narrow ? 12 : 15), class: 'tlab', 'font-size': narrow ? 9 : 11}, g); lb.textContent = t.team; }
     const pick = () => { sel = t; show(t); draw(); };

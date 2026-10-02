@@ -91,12 +91,15 @@ def completed_weeks(m):
 def standings(m, upto):
     r = m[m["Week"] <= upto].copy()
     r["Wv"] = (r["Outcome"] == "Win") * 1.0 + (r["Outcome"] == "Tie") * 0.5
+    # Expected wins: share of the other 179 teams outscored each week (ties = half)
+    r["ExpW"] = r.groupby("Week")["P"].transform(lambda p: (p.rank(method="average") - 1) / (len(p) - 1))
     s = r.groupby(["LeagueName", "RosterID"], as_index=False).agg(
         Team=("Team", "last"), Lg=("Lg", "last"), Owner=("OwnerName", "last"),
-        Wv=("Wv", "sum"), Pts=("P", "sum"),
+        Wv=("Wv", "sum"), Pts=("P", "sum"), ExpW=("ExpW", "sum"),
         W=("Outcome", lambda x: int((x == "Win").sum())),
         L=("Outcome", lambda x: int((x == "Loss").sum())),
         T=("Outcome", lambda x: int((x == "Tie").sum())))
+    s["Luck"] = s["Wv"] - s["ExpW"]
     s["key"] = list(zip(s["Wv"], s["Pts"].round(2)))
     s["Rank"] = s["key"].rank(method="min", ascending=False).astype(int)
     return s.sort_values("Rank")
@@ -152,7 +155,7 @@ def week_data(m, sc, mx, pos_map, W):
         s["Move"] = None
     top = s[s["Rank"] <= 32]
     d["top32"] = [{"Rank": int(r.Rank), "Team": r.Team, "Lg": r.Lg, "Owner": r.Owner,
-                   "Rec": f"{r.W}-{r.L}" + (f"-{r.T}" if r.T else ""), "Pts": round(r.Pts, 2),
+                   "Rec": f"{r.W}-{r.L}" + (f"-{r.T}" if r.T else ""), "Pts": round(r.Pts, 2), "Luck": round(r.Luck, 2),
                    "Move": None if pd.isna(r.Move) else int(r.Move)} for r in top.itertuples()]
 
     d["top_scores"] = [game(r) for r in w.nlargest(10, "P").itertuples()]
@@ -281,7 +284,9 @@ def render(d, weeks, colors, tpl, updated, lcolors):
     rows = "".join(
         f'<tr><td class="n">{r["Rank"]}</td><td class="mv">{mv(r["Move"])}</td>'
         f'<td class="tm">{chip(r["Team"])}<b>{e(r["Team"])}</b><small>{e(r["Owner"])} · {e(r["Lg"])}</small></td>'
-        f'<td class="n">{r["Rec"]}</td><td class="n">{r["Pts"]:.2f}</td></tr>' for r in d["top32"])
+        f'<td class="n">{r["Rec"]}</td><td class="n">{r["Pts"]:.2f}</td>'
+        f'<td class="n {"up" if r["Luck"] > 0.005 else "dn" if r["Luck"] < -0.005 else "eq"}">{r["Luck"]:+.2f}</td></tr>'
+        for r in d["top32"])
     ts = "".join(
         f'<li><span class="n rk">{i + 1}</span>{chip(g["Team"])}<span class="nm"><b>{e(g["Team"])}</b>'
         f'<small>{e(g["Owner"])} · {e(g["Lg"])} · {"def." if g["Margin"] > 0 else "vs."} {e(str(g["Opp"]))}</small></span>'
@@ -301,7 +306,8 @@ def render(d, weeks, colors, tpl, updated, lcolors):
     out = tpl
     for k, v in {
         "WEEK": str(W), "PREVHDR": f"Wk {W - 1}" if W > 1 else "Wk",
-        "MOVENOTE": f"Movement is change in overall standings rank from Week {W - 1}. " if W > 1 else "",
+        "MOVENOTE": (f"Movement is change in overall standings rank from Week {W - 1}. " if W > 1 else "")
+        + "Luck is wins minus expected wins (share of all 179 other teams outscored each week). ",
         "UPDATED": updated, "NAV": nav,
         "AVG": f'{d["avg"]:.2f}', "MED": f'{d["median"]:.2f}',
         "UND": str(d["unbeaten"]), "WL": str(d["winless"]),

@@ -33,8 +33,9 @@ th{white-space:nowrap;font:600 11px var(--num);letter-spacing:.12em;text-transfo
 th.r,td.n{text-align:right}
 td{padding:5px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
 td.tm{display:flex;align-items:center;gap:0}
+@media (max-width:640px){table{font-size:13px}td.tm{flex-wrap:wrap;white-space:normal}td.tm b{flex:1;min-width:0}td.tm small{flex-basis:100%;margin-left:18px!important;font-size:11px!important}td,th{padding:5px 3px}td.mv{width:26px;font-size:12px}th{letter-spacing:.06em}}
 td.tm b{font-weight:700}td.tm small{margin-left:8px;font-size:12px}
-td.mv{text-align:center;width:44px;font:600 13px var(--num)}
+td.mv{text-align:center;width:34px;font:600 13px var(--num)}
 .up{color:var(--up)}.dn{color:var(--dn)}.eq{color:var(--mute)}
 tr:nth-child(-n+4) td:first-child{color:var(--accent);font-weight:600}
 .awards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
@@ -78,7 +79,7 @@ footer{font-size:12px;color:var(--mute)}
 <section><h2>Week {{WEEK}} awards <small>One winner across all 180</small></h2><div class="awards" style="--cols:{{AWCOLS}}">{{AW}}</div></section>
 <div class="grid">
   <section><h2>Playoff Rank: Top 32 <small>Wins, then points</small></h2>
-    <div class="tbl"><table><thead><tr><th class="r">#</th><th>{{PREVHDR}}</th><th>Team</th><th class="r">W-L</th><th class="r">PF</th></tr></thead><tbody>{{ROWS}}</tbody></table></div>
+    <div class="tbl"><table><thead><tr><th class="r">#</th><th>{{PREVHDR}}</th><th>Team</th><th class="r">W-L</th><th class="r">PF</th><th class="r" title="Wins minus expected wins">Luck</th></tr></thead><tbody>{{ROWS}}</tbody></table></div>
     <p class="note">{{MOVENOTE}}Ranked across all 180 teams by wins, then total points. This is not the NCAA 180 poll.</p>
   </section>
   <div class="col">
