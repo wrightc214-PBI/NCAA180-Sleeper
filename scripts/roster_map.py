@@ -15,8 +15,11 @@ Axes
                      Contender = (1 - w) * z(market) + w * z(results)     (z across all 180)
                    With FADE_GAMES = 6 the market is fully phased out by week 6, matching the
                    commissioner's old preseason-KTC fade.
-Draft picks are not valued yet (FantasyCalc values picks, but our pick-ownership file
-would need mapping) -- noted as a known gap.
+  Dynasty value includes future rookie picks: ownership from FuturePicks_Current.csv
+  (draft_picks.py), each pick valued at FantasyCalc's round value for that season
+  (PickValues_Current.csv). A season FantasyCalc doesn't list uses its latest listed
+  season for that round; a round it doesn't list counts 0. All picks in a round are
+  valued the same (no early/late adjustment yet).
 
 Needs data/PlayerValues_Current.csv (player_values.py); exits cleanly without it.
 CWD must be repo root.
@@ -32,6 +35,8 @@ from site_common import nav_html, page_head  # noqa: E402
 
 ROSTERS = "data/Rosters_Current.csv"
 VALUES = "data/PlayerValues_Current.csv"
+PICKS = "data/FuturePicks_Current.csv"
+PICK_VALUES = "data/PickValues_Current.csv"
 MATCHUPS = "data/Matchups_Season.csv"
 TEAMS = "data/Teams.csv"
 LEAGUE_COLORS = "data/Colors - Leagues.csv"
@@ -71,6 +76,31 @@ def best_lineup(players, slots):
     return total
 
 
+def pick_values():
+    """Per (LeagueID, RosterID): total pick value and a short holdings summary."""
+    if not (os.path.exists(PICKS) and os.path.exists(PICK_VALUES)):
+        print("Pick files missing; dynasty value excludes picks this run.")
+        return {}
+    fp = pd.read_csv(PICKS, dtype=str)
+    pv = pd.read_csv(PICK_VALUES)
+    val = {(int(r.Season), int(r.Round)): float(r.Value) for r in pv.itertuples()}
+    latest = {}
+    for (se, rd), v in sorted(val.items()):
+        latest[rd] = v  # last (highest) season seen per round
+    ords = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}
+    out = {}
+    for (lid, owner), g in fp.groupby(["LeagueID", "OwnerRosterID"]):
+        total, parts = 0.0, []
+        for se, gs in g.groupby("Season"):
+            cnt = gs["Round"].astype(int).value_counts().sort_index()
+            for rd, n in cnt.items():
+                total += n * val.get((int(se), rd), latest.get(rd, 0.0))
+            parts.append(f"{se}: " + ", ".join(f"{ords.get(rd, rd)}" + (f"×{n}" if n > 1 else "")
+                                              for rd, n in cnt.items()))
+        out[(lid, owner)] = (round(total), " · ".join(parts))
+    return out
+
+
 def zscore(s):
     sd = s.std(ddof=0)
     return (s - s.mean()) / sd if sd else s * 0
@@ -105,6 +135,11 @@ def main():
                      "LineupRedraft": round(best_lineup(list(zip(g["RedraftValue"], g["Pos"])),
                                                         slots.get(lid, DEFAULT_SLOTS)))})
     t = pd.DataFrame(rows)
+    pk = pick_values()
+    t["PlayerDynasty"] = t["DynastyTotal"]
+    t["PickValue"] = [pk.get((a, b), (0, ""))[0] for a, b in zip(t.LeagueID, t.RosterID)]
+    t["Picks"] = [pk.get((a, b), (0, ""))[1] for a, b in zip(t.LeagueID, t.RosterID)]
+    t["DynastyTotal"] = t["PlayerDynasty"] + t["PickValue"]
 
     m = pd.read_csv(MATCHUPS, dtype=str)
     m["Week"] = m["Week"].astype(int)
@@ -135,7 +170,7 @@ def main():
     week = games
     t["Year"], t["Week"], t["ResultsWeight"] = year, week, round(w, 3)
     keep = ["Year", "Week", "LeagueID", "LeagueName", "RosterID", "Team", "Owner", "W", "L", "T",
-            "PPG", "DynastyTotal", "LineupRedraft", "Contender", "ResultsWeight"]
+            "PPG", "DynastyTotal", "PlayerDynasty", "PickValue", "Picks", "LineupRedraft", "Contender", "ResultsWeight"]
     out = t[keep].copy()
     out["PPG"] = out["PPG"].round(2)
     out["Contender"] = out["Contender"].round(3)
@@ -160,7 +195,7 @@ def main():
         teams.append({"team": r.Team, "owner": r.Owner, "lg": r.Lg,
                       "rec": f"{r.W}-{r.L}" + (f"-{r.T}" if r.T else ""),
                       "ppg": round(float(r.PPG), 1), "dyn": int(r.DynastyTotal),
-                      "red": int(r.LineupRedraft), "con": round(float(r.Contender), 3),
+                      "red": int(r.LineupRedraft), "pv": int(r.PickValue), "picks": r.Picks, "con": round(float(r.Contender), 3),
                       "dynR": int(r.DynastyTotalRank), "redR": int(r.LineupRedraftRank),
                       "conR": int(r.ContenderRank), "ppgR": int(r.PPGRank),
                       "logo": f"../{LOGO_DIR}/{r.Team}.png" if logo else None})
@@ -213,9 +248,9 @@ MAP_BODY = """
   <div class="picker" id="picker" role="group" aria-label="Conference"></div>
   <label class="lsel">Conference <select id="lsel"></select></label>
   <div class="chartwrap"><svg class="map" id="map" viewBox="0 0 800 560" role="img" aria-label="Scatter of dynasty value against contender score"></svg></div>
-  <p class="note">Right = more total dynasty value (FantasyCalc, whole roster). Up = stronger contender:
+  <p class="note">Right = more total dynasty value (FantasyCalc: whole roster plus future rookie picks). Up = stronger contender:
   a blend of the best lineup's redraft value and actual points per game. Results count {{WPCT}}% this week
-  and take over fully by week 6. Dashed lines are the NCAA 180 medians. Draft picks aren't counted yet.</p>
+  and take over fully by week 6. Dashed lines are the NCAA 180 medians. All picks in a round count the same.</p>
 </section>
 <section id="card" aria-live="polite"><p class="hint">Hover or tap a team to see its numbers.</p></section>
 <footer>Values: FantasyCalc (1 QB, 12 teams, PPR). Results: Sleeper, via the NCAA180-Sleeper pipeline.</footer>
@@ -286,10 +321,11 @@ function show(t) {
   <div><h3>${esc(t.team)}</h3><div class="hint">${esc(t.owner)} · ${esc(t.lg)} · ${esc(t.rec)}</div>
   <div class="stats">
    <div><b>${fmt(t.dyn)}</b><span>Dynasty value · #${t.dynR}</span></div>
+   <div><b>${fmt(t.pv)}</b><span>Of which picks</span></div>
    <div><b>${fmt(t.red)}</b><span>Best lineup (redraft) · #${t.redR}</span></div>
    <div><b>${t.ppg}</b><span>Points per game · #${t.ppgR}</span></div>
    <div><b>#${t.conR}</b><span>Contender rank of 180</span></div>
-  </div></div></div>`;
+  </div>${t.picks ? `<p class="hint">Picks: ${esc(t.picks)}</p>` : ''}</div></div>`;
 }
 draw();
 </script>
