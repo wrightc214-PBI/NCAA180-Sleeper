@@ -133,7 +133,6 @@ IND,Indianapolis,Colts,DEF,,IND
 11592,Erick,All,TE,Active,CIN
 7496,Nick,Westbrook-Ikhine,WR,Active,IND
 3634,Kalif,Raymond,WR,Active,CHI
-5773,KhaDarel,Hodge,WR,Active,SF
 11520,Lucky,Jackson,WR,Active,DET
 13833,Dominic,Zvada,K,Active,NYG
 4574,Cooper,Rush,QB,Active,ATL
@@ -242,7 +241,7 @@ NYJ,New York,Jets,DEF,,NYJ
 13582,Anthony,Smith,WR,Active,DAL
 6659,Craig,Reynolds,RB,Active,WAS
 9228,Bryce,Young,QB,Active,CAR
-12487,Terrance,Ferguson,TE,Active,LAR
+12487,Terrance,Ferguson,TE,Inactive,LAR
 DAL,Dallas,Cowboys,DEF,,DAL
 5973,Josh,Oliver,TE,Inactive,MIN
 8408,Jordan,Mason,RB,Inactive,MIN
@@ -285,7 +284,7 @@ WAS,Washington,Commanders,DEF,,WAS
 11644,Cody,Schrader,RB,Active,DEN
 6465,Thomas,Ives,WR,Inactive,CHI
 8206,Skylar,Thompson,QB,Inactive,BAL
-12171,British,Brooks,RB,Active,HOU
+12171,British,Brooks,RB,Inactive,HOU
 8013,Tim,Jones,WR,Active,JAX
 13074,Isaiah,Neyor,WR,Active,GB
 13415,Haynes,King,QB,Active,CAR
